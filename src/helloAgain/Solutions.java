@@ -5,18 +5,17 @@ import java.util.*;
 
 
 public class Solutions {
-    public int sumOfUnique(int[] nums) {
+    public int repeatedNTimes(int[] nums) {
+        int n = nums.length;
         HashMap<Integer, Integer> map = new HashMap<>();
-        int sum = 0;
         for(int i:nums){
-            map.put(i ,map.getOrDefault(i, 0)+1);
+            map.put(i, map.getOrDefault(i, 0)+1);
         }
-        for(int i = 0;i< nums.length;i++){
-            if(map.get(nums[i])==1)
-                sum += nums[i];
+        for(int i:nums){
+            if(map.get(i)==n/2)
+                index = i;
         }
-        return sum;
-
+        return index;
 
     }
 
