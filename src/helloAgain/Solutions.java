@@ -7,35 +7,23 @@ import java.util.*;
 public class Solutions {
 
 
-    public int minEatingSpeed(int[] piles, int h) {
-        return bc(piles, h);
-
-
-    }
-
-    public static int bc(int[] piles, int h){
-        int start = 1;
-        int end = Integer.MAX_VALUE;
-        while(start<=end){
-            int mid = start + (end-start)/2;
-            int hr = findHours(piles, mid, h);
-            if(hr>h){
-                start = mid+1;
+    public int maximumCount(int[] nums) {
+        int start = 0;
+        int end = nums.length - 1;
+        int zeroes = 0;
+        while(start<end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == 0){
+                zeroes++;
+                start = mid = 1;
+            }
+            if(nums[mid]>0){
+                end = mid;
             }else{
-                end = mid - 1;
+                start = mid+1;
             }
         }
-        return start;
-    }
-    public static int findHours(int[] piles, int k, int h){
-        int hours = 0;
-        for(int i = 0;i< piles.length;i++){
-            int dic = piles[i]/k;
-            hours += dic;
-            if(piles[i]%k!=0)
-                hours++;
-        }
-        return hours;
+        return Math.max(start - zeroes, nums.length - start);
     }
 
 
