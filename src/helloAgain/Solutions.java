@@ -7,31 +7,19 @@ import java.util.*;
 public class Solutions {
 
 
-    public int specialArray(int[] nums) {
-        int start = 0;
-        int end = nums.length;
-        int ans = -1;
-        while(start<=end){
-            int mid = start + (end - start/2);
-            int count = count(mid, nums);
-            if(count==mid)
-                return ans = mid;
-            else if(count>mid){
-                start = mid+1;
-            }else{
-                end = mid - 1;
-            }
+    public int getCommon(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        HashSet<Integer> set = new HashSet<>();
+        for(int i:nums1){
+            set.add(i);
         }
-        return ans;
-    }
+        for(int i:nums2){
+            if(set.contains(i))
+                return i;
+        }
 
-    public int count(int x, int[] nums){
-        int count = 0;
-        for(int i:nums){
-            if(i>=x)
-                count++;
-        }
-        return count;
+        return -1;
     }
 
 
