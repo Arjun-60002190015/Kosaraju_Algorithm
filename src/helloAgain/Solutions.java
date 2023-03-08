@@ -5,18 +5,37 @@ import java.util.*;
 
 
 public class Solutions {
-    public int repeatedNTimes(int[] nums) {
-        int n = nums.length;
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for(int i:nums){
-            map.put(i, map.getOrDefault(i, 0)+1);
-        }
-        for(int i:nums){
-            if(map.get(i)==n/2)
-                index = i;
-        }
-        return index;
 
+
+    public int minEatingSpeed(int[] piles, int h) {
+        return bc(piles, h);
+
+
+    }
+
+    public static int bc(int[] piles, int h){
+        int start = 1;
+        int end = Integer.MAX_VALUE;
+        while(start<=end){
+            int mid = start + (end-start)/2;
+            int hr = findHours(piles, mid, h);
+            if(hr>h){
+                start = mid+1;
+            }else{
+                end = mid - 1;
+            }
+        }
+        return start;
+    }
+    public static int findHours(int[] piles, int k, int h){
+        int hours = 0;
+        for(int i = 0;i< piles.length;i++){
+            int dic = piles[i]/k;
+            hours += dic;
+            if(piles[i]%k!=0)
+                hours++;
+        }
+        return hours;
     }
 
 
