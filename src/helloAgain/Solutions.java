@@ -7,23 +7,26 @@ import java.util.*;
 public class Solutions {
 
 
-    public int maximumCount(int[] nums) {
-        int start = 0;
-        int end = nums.length - 1;
-        int zeroes = 0;
-        while(start<end) {
-            int mid = start + (end - start) / 2;
-            if (nums[mid] == 0){
-                zeroes++;
-                start = mid = 1;
+    public int[] kWeakestRows(int[][] mat, int k) {
+        PriorityQueue<int[]> q = new PriorityQueue<>((a,b) -> a[0]!=b[0]? a[0] - b[0]:a[1] - b[1]);
+        int index= 0 ;
+        for(int[] row:mat){
+            int start = 0, end = row.length;
+            while(start<end){
+                int mid = start + (end - start)/2;
+                if(row[mid]!=0)
+                    start = mid+1;
+                else end = mid;
             }
-            if(nums[mid]>0){
-                end = mid;
-            }else{
-                start = mid+1;
-            }
+            q.add(new int[]{start, index});
+            index++;
         }
-        return Math.max(start - zeroes, nums.length - start);
+        int[] res = new int[k];
+        for(int i = 0;i<k;i++){
+            res[i] = q.remove()[1];
+        }
+        return res;
+
     }
 
 
