@@ -7,26 +7,31 @@ import java.util.*;
 public class Solutions {
 
 
-    public int[] kWeakestRows(int[][] mat, int k) {
-        PriorityQueue<int[]> q = new PriorityQueue<>((a,b) -> a[0]!=b[0]? a[0] - b[0]:a[1] - b[1]);
-        int index= 0 ;
-        for(int[] row:mat){
-            int start = 0, end = row.length;
-            while(start<end){
-                int mid = start + (end - start)/2;
-                if(row[mid]!=0)
-                    start = mid+1;
-                else end = mid;
+    public int specialArray(int[] nums) {
+        int start = 0;
+        int end = nums.length;
+        int ans = -1;
+        while(start<=end){
+            int mid = start + (end - start/2);
+            int count = count(mid, nums);
+            if(count==mid)
+                return ans = mid;
+            else if(count>mid){
+                start = mid+1;
+            }else{
+                end = mid - 1;
             }
-            q.add(new int[]{start, index});
-            index++;
         }
-        int[] res = new int[k];
-        for(int i = 0;i<k;i++){
-            res[i] = q.remove()[1];
-        }
-        return res;
+        return ans;
+    }
 
+    public int count(int x, int[] nums){
+        int count = 0;
+        for(int i:nums){
+            if(i>=x)
+                count++;
+        }
+        return count;
     }
 
 
