@@ -27,40 +27,19 @@ public class treeees {
           next = null;
       }
     }
-    HashSet<ListNode> set = new HashSet<>();
+    public ListNode removeElements(ListNode head, int val) {
 
-    public boolean isPalindrome(ListNode head) {
-        ListNode slow = head;
-        ListNode fast = head;
-        while(fast!=null && fast.next!=null && fast.next.next!=null){
-            slow = slow.next;
-            fast = fast.next.next;
+        if(head==null)
+            return null;
+        ListNode pointer = head;
+        while(pointer.next!=null){
+            if(pointer.next.val==val)pointer.next = pointer.next.next;
+            else pointer = pointer.next;
         }
-
-        ListNode curr = slow.next;
-        ListNode prev = null;
-        while(curr!=null){
-            ListNode temp = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = temp;
-        }
-
-        fast = prev;
-        slow = head;
-        while(slow!=null && fast!=null){
-            if(slow.val!=fast.val)
-                return false;
-            else{
-                slow = slow.next;
-                fast = fast.next;
-            }
-        }
-        return true;
+        return head.val==val?head.next:head;
 
 
     }
-
 
 
 
