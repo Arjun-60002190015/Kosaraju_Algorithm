@@ -29,16 +29,39 @@ public class treeees {
     }
     HashSet<ListNode> set = new HashSet<>();
 
-    public ListNode deleteDuplicates(ListNode head) {
-        ListNode curr = head;
-        while(curr!=null && curr.next!=null){
-            if(curr.val==curr.next.val)
-                curr.next = curr.next.next;
-            else curr = curr.next;
+    public boolean isPalindrome(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast!=null && fast.next!=null && fast.next.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
         }
-        return head;
+
+        ListNode curr = slow.next;
+        ListNode prev = null;
+        while(curr!=null){
+            ListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
+
+        fast = prev;
+        slow = head;
+        while(slow!=null && fast!=null){
+            if(slow.val!=fast.val)
+                return false;
+            else{
+                slow = slow.next;
+                fast = fast.next;
+            }
+        }
+        return true;
+
 
     }
+
+
 
 
 
