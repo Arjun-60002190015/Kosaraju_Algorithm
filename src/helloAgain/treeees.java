@@ -1,6 +1,7 @@
 package helloAgain;
 
 import java.util.HashSet;
+import java.util.List;
 
 public class treeees {
 
@@ -26,18 +27,17 @@ public class treeees {
           next = null;
       }
     }
+    HashSet<ListNode> set = new HashSet<>();
 
-    public boolean hasCycle(ListNode head) {
-        HashSet<ListNode> set = new HashSet<>();
-        if(head==null || head.next==null)
-            return false;
-        while(head!=null){
-            if(set.contains(head))
-                return true;
-            set.add(head);
-            head=  head.next;
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode curr = head;
+        while(curr!=null && curr.next!=null){
+            if(curr.val==curr.next.val)
+                curr.next = curr.next.next;
+            else curr = curr.next;
         }
-        return false;
+        return head;
+
     }
 
 
