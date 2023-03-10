@@ -31,50 +31,22 @@ public class treeees {
           next = null;
       }
     }
-    public boolean isEvenOddTree(TreeNode root) {
-        LinkedList<TreeNode> q = new LinkedList<>();
-        q.addLast(root);
-        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
-        int level = 0;
-        while(!q.isEmpty()){
-            ArrayList<Integer> temp = new ArrayList<>();
-            int size = temp.size();
-            while(size-- >0){
-                TreeNode curr = q.removeFirst();
-                if(level%2==0){
-                    if(curr.val%2==0)
-                        return false;
-                }
-                if(level%2!=0){
-                    if(curr.val%2!=0)
-                        return false;
-                }
-                temp.add(curr.val);
-                if(curr.left!=null)
-                    q.addLast(curr.left);
-                if(curr.right!=null)
-                    q.addLast(curr.right);
+    public ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
+        ListNode first = list1;
+        for(int i = 0;i<a;i++){
+            first = first.next;
+        }
+        ListNode second = first;
+        for(int i = a;i<=b;i++){
+            second = second.next;
+        }
+        first.next = list2;
+        while(list2.next!=null){
+            list2 = list2.next;
+        }
+        list2.next = second.next;
+        return list1;
 
-            }
-            res.add(temp);
-            level++;
-        }
-        int l = 0;
-        for(ArrayList<Integer> list:res){
-            if(l%2==0){
-                for(int i = 1;i< list.size();i++){
-                    if(list.get(i-1)>=list.get(i))
-                        return false;
-                }
-            }else{
-                for(int i = 1;i< list.size();i++){
-                    if(list.get(i-1)<=list.get(i))
-                        return false;
-                }
-            }
-            l++;
-        }
-        return true;
 
     }
 
