@@ -6,22 +6,18 @@ import java.util.*;
 
 public class Solutions {
 
-    public static char nextGreatestLetter(char[] letters, char target) {
-        char res = letters[0];
-        int start = 0;
-        int end = letters.length-1;
-        while(start<=end){
-            int mid = start + (end - start)/2;
-            if(letters[mid]==target)
-                start = mid +1;
-            if(letters[mid]<target){
-                start = mid+1;
-            }else if(letters[mid]>target){
-                res = letters[mid];
-                end = mid - 1;
-            }
+    public int maximumGroups(int[] grades) {
+        int count = 1;
+        int i = 1;
+        int helper = 2;
+        while(i<grades.length){
+            i += helper;
+            helper++;
+            if(i<=grades.length)
+                count++;
         }
-        return res;
+        return count;
+
     }
 
 
@@ -33,7 +29,7 @@ public class Solutions {
     public static void main(String[] args){
         char[] c = {'c', 'f', 'j'};
         int n = 5;
-        System.out.println(nextGreatestLetter(c, 'a'));
+        //System.out.println(nextGreatestLetter(c, 'a'));
 
     }
 
