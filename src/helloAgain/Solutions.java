@@ -6,18 +6,13 @@ import java.util.*;
 
 public class Solutions {
 
-    public boolean canConstruct(String ransomNote, String magazine) {
-        HashMap<Character, Integer> map = new HashMap<>();
-        for(int i = 0;i<magazine.length();i++){
-            map.put(magazine.charAt(i), map.getOrDefault(magazine.charAt(i), 0)+1);
-
+    public static int arrangeCoins(int n) {
+        int count = 1;
+        while(n>0){
+            count++;
+            n -= count;
         }
-        for(char c:ransomNote.toCharArray()){
-            if(!map.containsKey(c) || map.get(c)<=0)
-                return false;
-            map.put(c, map.get(c) - 1);
-        }
-        return true;
+        return count-1;
 
     }
 
@@ -26,7 +21,8 @@ public class Solutions {
 
     public static void main(String[] args){
         int[] arr = {1,5,2, 4, 1};
-        //System.out.println((arr));
+        int n = 5;
+        System.out.println(arrangeCoins(n));
 
     }
 
