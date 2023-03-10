@@ -6,21 +6,22 @@ import java.util.*;
 
 public class Solutions {
 
+    public boolean canConstruct(String ransomNote, String magazine) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        for(int i = 0;i<magazine.length();i++){
+            map.put(magazine.charAt(i), map.getOrDefault(magazine.charAt(i), 0)+1);
 
-    public int getCommon(int[] nums1, int[] nums2) {
-        Arrays.sort(nums1);
-        Arrays.sort(nums2);
-        HashSet<Integer> set = new HashSet<>();
-        for(int i:nums1){
-            set.add(i);
         }
-        for(int i:nums2){
-            if(set.contains(i))
-                return i;
+        for(char c:ransomNote.toCharArray()){
+            if(!map.containsKey(c) || map.get(c)<=0)
+                return false;
+            map.put(c, map.get(c) - 1);
         }
+        return true;
 
-        return -1;
     }
+
+
 
 
     public static void main(String[] args){
