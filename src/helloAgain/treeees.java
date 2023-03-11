@@ -31,24 +31,53 @@ public class treeees {
           next = null;
       }
     }
-    public ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
-        ListNode first = list1;
-        for(int i = 0;i<a;i++){
-            first = first.next;
-        }
-        ListNode second = first;
-        for(int i = a;i<=b;i++){
-            second = second.next;
-        }
-        first.next = list2;
-        while(list2.next!=null){
-            list2 = list2.next;
-        }
-        list2.next = second.next;
-        return list1;
+
+    public boolean isBalancedUnoptimized(TreeNode root) {
+        if(root==null)
+            return true;
+        int left = helper(root.left);
+        int right = helper(root.right);
+        if(Math.abs(right - left)>1)
+            return false;
+
+        boolean leftB = isBalancedUnoptimized(root.right);
+        boolean rib  = isBalancedUnoptimized(root.left);
+        return leftB && rib;
 
 
     }
+
+    public int helper(TreeNode root){
+        if(root==null)
+            return 0;
+        int l = helper(root.left);
+        int r = helper(root.right);
+        return 1 + Math.max(l, r);
+    }
+
+    public boolean isBalanced(TreeNode root) {
+        if(root==null)
+            return true;
+        return helpers(root)==-1;
+
+
+    }
+
+    public int helpers(TreeNode root){
+        if(root==null)
+            return 0;
+        int r = helpers(root.right);
+        if(r==-1)
+            return -1;
+        int l = helpers(root.left);
+        if(l==-1)
+            return -1;
+        if(Math.abs(l-r)>1)
+            return -1;
+        return 1 + Math.max(l, r);
+    }
+
+
 
 
 
@@ -59,4 +88,4 @@ public class treeees {
 
 
 
-    }
+}
