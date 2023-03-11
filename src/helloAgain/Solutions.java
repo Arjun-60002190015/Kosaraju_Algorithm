@@ -7,51 +7,33 @@ import java.util.*;
 
 public class Solutions {
 
-    public int kthSmallestBruteForce(int[][] matrix, int k) {
-        int n = matrix.length;
-        int index = 0;
-        int[] arr = new int[n*n];
-        for(int i = 0;i<n;i++){
-            for(int j = 0;j<n;j++){
-                arr[index] = matrix[i][j];
-                index++;
-            }
+    public int minimumSize(int[] nums, int maxOperations) {
+        int min = 1;
+        int max = Integer.MIN_VALUE;
+        for(int i:nums){
+            max = Math.max(max, i);
         }
-        Arrays.sort(arr);
-        return arr[k-1];
-    }
-
-    public int kthSmallest(int[][] matrix, int k) {
-        int n = matrix.length;
-        int min = matrix[0][0];
-        int max = matrix[n-1][n-1];
-        while(min!=max){
-            int mid = min - (max - min)/2;
-            int count = helper(matrix, min);
-            if(count<k){
-                min = mid + 1;
-            }else{
+        while(min<max){
+            int mid = min + (max - min)/2;
+            if(helper(nums, mid, maxOperations)){
                 max = mid;
+            }else{
+                min = mid+1;
             }
         }
         return min;
 
+
     }
 
-    public int helper(int[][] matrix, int mid){
+    public boolean helper(int[] nums, int mid, int max){
         int count = 0;
-        int row = 0;
-        int col = matrix.length-1;
-
-        while(row<matrix.length && col>=0){
-            if(matrix[row][col]<=mid){
-                count += col +1;
-                row++;
-            }else{
-                col--;
-            }
+        for(int i:nums){
+            count += (i-1)/mid;
+            if(count>max)
+                return false;
         }
-        return count;
+        return true;
     }
 
 
