@@ -7,33 +7,26 @@ import java.util.*;
 
 public class Solutions {
 
-    public int minimumSize(int[] nums, int maxOperations) {
-        int min = 1;
-        int max = Integer.MIN_VALUE;
-        for(int i:nums){
-            max = Math.max(max, i);
-        }
-        while(min<max){
-            int mid = min + (max - min)/2;
-            if(helper(nums, mid, maxOperations)){
-                max = mid;
-            }else{
-                min = mid+1;
-            }
-        }
-        return min;
+    public static int pivotInteger(int n) {
+        int[] front = new int[n];
+        int sum = 0;
+        front[0] = 1;
+        int[] back = new int[n];
+        for(int i = 1;i<n;i++){
+            front[i] = front[i-1] + i +1;
 
-
-    }
-
-    public boolean helper(int[] nums, int mid, int max){
-        int count = 0;
-        for(int i:nums){
-            count += (i-1)/mid;
-            if(count>max)
-                return false;
         }
-        return true;
+        back[n-1] = n;
+        for(int i = n-2;i>=0;i--){
+            back[i] = back[i+1] +1 +i;
+
+        }
+        for(int i = 0;i<n;i++){
+            if(front[i]==back[i])
+                return i;
+        }
+        return -1;
+
     }
 
 
@@ -45,9 +38,9 @@ public class Solutions {
 
 
         public static void main(String[] args){
-        char[] c = {'c', 'f', 'j'};
-        int n = 5;
-        //System.out.println(nextGreatestLetter(c, 'a'));
+
+        int n = 8;
+        System.out.println(pivotInteger(n));
 
     }
 
