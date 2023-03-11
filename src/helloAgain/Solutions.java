@@ -23,7 +23,7 @@ public class Solutions {
         }
         for(int i = 0;i<n;i++){
             if(front[i]==back[i])
-                return i;
+                return i+1;
         }
         return -1;
 
