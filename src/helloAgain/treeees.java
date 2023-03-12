@@ -50,17 +50,12 @@ public class treeees {
 
     }
 
-    public ListNode mergeKLists(ListNode[] lists) {
-        int n  = lists.length;
-        if(lists==null || n==0)
-            return null;
-        PriorityQueue<ListNode> pq = new PriorityQueue<>((a,b) -> a.val - b.val);
-        for(ListNode i:lists){
-            pq.add(i);
-        }
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((a,b)-> a.val - b.val);
+        pq.add(list1);
+        pq.add(list2);
         ListNode temp = new ListNode(-1);
         ListNode head = temp;
-
         while(!pq.isEmpty()){
             ListNode curr = pq.poll();
             temp.next = new ListNode(curr.val);
@@ -69,6 +64,7 @@ public class treeees {
                 pq.offer(curr.next);
         }
         return head.next;
+
     }
 
 
