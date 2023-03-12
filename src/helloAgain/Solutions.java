@@ -7,18 +7,14 @@ import java.util.*;
 
 public class Solutions {
 
-    public static int maxScore(int[] nums) {
+    public int busyStudent(int[] startTime, int[] endTime, int queryTime) {
         int count = 0;
-        long sum = 0;
-        Arrays.sort(nums);
-
-        for(int i = nums.length-1;i>=0;i--){
-            sum += nums[i];
-            if(sum>0)
+        for(int i = 0;i<startTime.length;i++){
+            if(endTime[i] - startTime[i]==queryTime)
                 count++;
-            else break;
         }
         return count;
+
     }
 
 
@@ -27,7 +23,7 @@ public class Solutions {
     public static void main(String[] args){
 
         int[] nums = {-2, -3, 0};
-        System.out.println(maxScore(nums));
+        //System.out.println(maxScore(nums));
 
     }
 
