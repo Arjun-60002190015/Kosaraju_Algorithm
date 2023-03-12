@@ -7,40 +7,27 @@ import java.util.*;
 
 public class Solutions {
 
-    public static int pivotInteger(int n) {
-        int[] front = new int[n];
-        int sum = 0;
-        front[0] = 1;
-        int[] back = new int[n];
-        for(int i = 1;i<n;i++){
-            front[i] = front[i-1] + i +1;
+    public static int maxScore(int[] nums) {
+        int count = 0;
+        long sum = 0;
+        Arrays.sort(nums);
 
+        for(int i = nums.length-1;i>=0;i--){
+            sum += nums[i];
+            if(sum>0)
+                count++;
+            else break;
         }
-        back[n-1] = n;
-        for(int i = n-2;i>=0;i--){
-            back[i] = back[i+1] +1 +i;
-
-        }
-        for(int i = 0;i<n;i++){
-            if(front[i]==back[i])
-                return i+1;
-        }
-        return -1;
-
+        return count;
     }
 
 
 
 
+    public static void main(String[] args){
 
-
-
-
-
-        public static void main(String[] args){
-
-        int n = 8;
-        System.out.println(pivotInteger(n));
+        int[] nums = {-2, -3, 0};
+        System.out.println(maxScore(nums));
 
     }
 
