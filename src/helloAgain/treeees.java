@@ -2,10 +2,7 @@ package helloAgain;
 
 import sun.reflect.generics.tree.Tree;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class treeees {
 
@@ -32,56 +29,54 @@ public class treeees {
       }
     }
 
-    public boolean isBalancedUnoptimized(TreeNode root) {
-        if(root==null)
-            return true;
-        int left = helper(root.left);
-        int right = helper(root.right);
-        if(Math.abs(right - left)>1)
-            return false;
-
-        boolean leftB = isBalancedUnoptimized(root.right);
-        boolean rib  = isBalancedUnoptimized(root.left);
-        return leftB && rib;
 
 
-    }
-
-    public int helper(TreeNode root){
-        if(root==null)
-            return 0;
-        int l = helper(root.left);
-        int r = helper(root.right);
-        return 1 + Math.max(l, r);
-    }
-
-    public boolean isBalanced(TreeNode root) {
-        if(root==null)
-            return true;
-        return helpers(root)==-1;
-
+    public ListNode mergeKListsNotOptimal(ListNode[] lists) {
+        PriorityQueue<ListNode> q = new PriorityQueue<>((a, b) -> a.val - b.val);
+        ListNode dummy = new ListNode(-1);
+        ListNode head = dummy;
+        for(ListNode list:lists){
+            while(list!=null){
+                q.add(list);
+                list = list.next;
+            }
+        }
+        while(!q.isEmpty()){
+            dummy.next = q.poll();
+            dummy = dummy.next;
+            dummy.next = null;
+        }
+        return head.next;
 
     }
 
-    public int helpers(TreeNode root){
-        if(root==null)
-            return 0;
-        int r = helpers(root.right);
-        if(r==-1)
-            return -1;
-        int l = helpers(root.left);
-        if(l==-1)
-            return -1;
-        if(Math.abs(l-r)>1)
-            return -1;
-        return 1 + Math.max(l, r);
+    public ListNode mergeKLists(ListNode[] lists) {
+        int n  = lists.length;
+        if(lists==null || n==0)
+            return null;
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((a,b) -> a.val - b.val);
+        for(ListNode i:lists){
+            pq.add(i);
+        }
+        ListNode temp = new ListNode(-1);
+        ListNode head = temp;
+
+        while(!pq.isEmpty()){
+            ListNode curr = pq.poll();
+            temp.next = new ListNode(curr.val);
+            temp = temp.next;
+            if(curr.next!=null)
+                pq.offer(curr.next);
+        }
+        return head.next;
     }
 
 
 
 
 
-    public static void main(String[] args){
+
+        public static void main(String[] args){
 
     }
 
