@@ -7,11 +7,11 @@ import java.util.*;
 
 public class Solutions {
 
-    public int busyStudent(int[] startTime, int[] endTime, int queryTime) {
+    public static int minOperations(int n) {
         int count = 0;
-        for(int i = 0;i<startTime.length;i++){
-            if(endTime[i] - startTime[i]==queryTime)
-                count++;
+
+        for(int i = 1;i<n;i+=2){
+            count += n - i;
         }
         return count;
 
@@ -22,8 +22,8 @@ public class Solutions {
 
     public static void main(String[] args){
 
-        int[] nums = {-2, -3, 0};
-        //System.out.println(maxScore(nums));
+        int[] nums = {-2};
+        System.out.println(minOperations(3));
 
     }
 
