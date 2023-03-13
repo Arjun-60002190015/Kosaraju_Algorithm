@@ -7,13 +7,13 @@ import java.util.*;
 
 public class Solutions {
 
-    public int[] searchRange(int[] nums, int target) {
-        return new int[]{first(nums, target), last(nums, target)};
+    public static int findCount(int[] nums, int target) {
+        return last(nums, target) - first(nums, target) +1;
 
 
     }
 
-    public int first(int[] nums, int target){
+    public static int first(int[] nums, int target){
         int index = -1;
         int start = 0;
         int end = nums.length - 1;
@@ -32,7 +32,7 @@ public class Solutions {
         return index;
     }
 
-    public int last(int[] nums, int target){
+    public static int last(int[] nums, int target){
         int index = -1;
         int start = 0;
         int end = nums.length - 1;
@@ -56,8 +56,8 @@ public class Solutions {
 
     public static void main(String[] args){
 
-        int[] nums = {20, 17, 15, 13, 11, 8, 7, 4, 3};
-        //System.out.println(BinarySearch(nums, 3));
+        int[] nums = {2, 4, 10, 10, 10, 18, 20};
+        System.out.println(findCount(nums, 10));
 
     }
 
