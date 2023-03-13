@@ -1,5 +1,6 @@
 package helloAgain;
 
+import javafx.scene.layout.Priority;
 import sun.reflect.generics.tree.Tree;
 
 import java.util.*;
@@ -31,41 +32,23 @@ public class treeees {
 
 
 
-    public ListNode mergeKListsNotOptimal(ListNode[] lists) {
-        PriorityQueue<ListNode> q = new PriorityQueue<>((a, b) -> a.val - b.val);
-        ListNode dummy = new ListNode(-1);
-        ListNode head = dummy;
-        for(ListNode list:lists){
-            while(list!=null){
-                q.add(list);
-                list = list.next;
-            }
-        }
-        while(!q.isEmpty()){
-            dummy.next = q.poll();
-            dummy = dummy.next;
-            dummy.next = null;
-        }
-        return head.next;
+
+
+    public boolean isSymmetricRecursive(TreeNode root) {
+        return helper(root.left, root.right);
 
     }
 
-    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        PriorityQueue<ListNode> pq = new PriorityQueue<>((a,b)-> a.val - b.val);
-        pq.add(list1);
-        pq.add(list2);
-        ListNode temp = new ListNode(-1);
-        ListNode head = temp;
-        while(!pq.isEmpty()){
-            ListNode curr = pq.poll();
-            temp.next = new ListNode(curr.val);
-            temp = temp.next;
-            if(curr.next!=null)
-                pq.offer(curr.next);
-        }
-        return head.next;
+    public boolean helper(TreeNode left, TreeNode right){
 
+        if(left==null || right==null)
+            return left==right;
+        if(left.val!=right.val)
+            return false;
+        return helper(left.left, right.right) && helper(left.right, right.left);
     }
+
+
 
 
 
