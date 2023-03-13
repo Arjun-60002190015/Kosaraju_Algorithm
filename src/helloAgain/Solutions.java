@@ -7,48 +7,38 @@ import java.util.*;
 
 public class Solutions {
 
-    public static int findCount(int[] nums, int target) {
-        return last(nums, target) - first(nums, target) +1;
+    public int search(int[] nums, int target) {
+        int index = findMin(nums);
+        return bs(nums, 0, index, target) + bs(nums, index+1, nums.length - 1, target);
 
 
     }
 
-    public static int first(int[] nums, int target){
-        int index = -1;
+    public int findMin(int[] nums){
         int start = 0;
         int end = nums.length - 1;
-        while(start<=end){
+        while(start<end - 1){
             int mid = start + (end - start)/2;
-            if(nums[mid]==target){
-                index = mid;
-                end = mid - 1;
-            }
-            else if(nums[mid]<target){
-                start = mid +1;
-            }else if(nums[mid]>target){
-                end = mid - 1;
-            }
+            if(nums[start]<nums[mid] && nums[end] < nums[mid])
+                start = mid;
+            else end = mid;
         }
-        return index;
+        return start;
     }
 
-    public static int last(int[] nums, int target){
-        int index = -1;
-        int start = 0;
-        int end = nums.length - 1;
-        while(start<=end){
-            int mid = start + (end - start)/2;
-            if(nums[mid]==target){
-                index = mid;
-                start = mid +1;
+    public int bs(int[] nums, int start, int end, int target){
+        int i = start, j = end;
+        while(i <= j){
+            int mid = i + (j - i) / 2;
+            if(nums[mid] > target){
+                j = mid - 1;
+            }else if(nums[mid] < target){
+                i = mid + 1;
             }
-            else if(nums[mid]<target){
-                start = mid +1;
-            }else if(nums[mid]>target){
-                end = mid - 1;
-            }
+            else return mid;
         }
-        return index;
+        return -1;
+
     }
 
 
@@ -56,8 +46,8 @@ public class Solutions {
 
     public static void main(String[] args){
 
-        int[] nums = {2, 4, 10, 10, 10, 18, 20};
-        System.out.println(findCount(nums, 10));
+        int[] nums = {3, 4, 5, 1, 2};
+        //System.out.println(findMin(nums));
 
     }
 
