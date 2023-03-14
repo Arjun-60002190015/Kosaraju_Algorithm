@@ -7,38 +7,29 @@ import java.util.*;
 
 public class Solutions {
 
-    public int search(int[] nums, int target) {
-        int index = findMin(nums);
-        return bs(nums, 0, index, target) + bs(nums, index+1, nums.length - 1, target);
-
-
-    }
-
-    public int findMin(int[] nums){
+    public static int bsNearlySorted(int[] nums, int target){
         int start = 0;
+        int index = -1;
         int end = nums.length - 1;
-        while(start<end - 1){
+        while(start<=end){
             int mid = start + (end - start)/2;
-            if(nums[start]<nums[mid] && nums[end] < nums[mid])
-                start = mid;
-            else end = mid;
-        }
-        return start;
-    }
-
-    public int bs(int[] nums, int start, int end, int target){
-        int i = start, j = end;
-        while(i <= j){
-            int mid = i + (j - i) / 2;
-            if(nums[mid] > target){
-                j = mid - 1;
-            }else if(nums[mid] < target){
-                i = mid + 1;
+            if(nums[mid]==target){
+                return mid;
             }
-            else return mid;
+            else if(mid - 1>start && nums[mid-1]==target){
+                return mid - 1;
+            }
+            else if(mid + 1<= end && nums[mid+1]==target){
+                return mid + 1;
+            }
+            else if(nums[mid]<target){
+                start = mid+2;
+            }
+            else if(nums[mid]>target){
+                end = mid - 2;
+            }
         }
         return -1;
-
     }
 
 
@@ -46,8 +37,8 @@ public class Solutions {
 
     public static void main(String[] args){
 
-        int[] nums = {3, 4, 5, 1, 2};
-        //System.out.println(findMin(nums));
+        int[] nums = {5, 10, 30, 20, 40};
+        System.out.println(bsNearlySorted(nums, 40));
 
     }
 
