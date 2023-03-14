@@ -29,33 +29,35 @@ public class treeees {
           next = null;
       }
     }
+    int sum = 0;
 
 
+    public int sumNumbers(TreeNode root) {
+        StringBuilder res = new StringBuilder();
+        helper(root, res);
+        return sum;
 
 
-
-    public boolean isSymmetricRecursive(TreeNode root) {
-        return helper(root.left, root.right);
 
     }
 
-    public boolean helper(TreeNode left, TreeNode right){
+    public void helper(TreeNode root, StringBuilder res){
+        if(root==null){
+            return;
+        }
+        res.append(root.val);
+        if(root.left==null && root.right==null){
+            sum += Integer.parseInt(res.toString());
+            return;
+        }
+        helper(root.left, res);
+        helper(root.right, res);
 
-        if(left==null || right==null)
-            return left==right;
-        if(left.val!=right.val)
-            return false;
-        return helper(left.left, right.right) && helper(left.right, right.left);
     }
 
 
 
-
-
-
-
-
-        public static void main(String[] args){
+    public static void main(String[] args){
 
     }
 
