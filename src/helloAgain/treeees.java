@@ -32,27 +32,29 @@ public class treeees {
     int sum = 0;
 
 
-    public int sumNumbers(TreeNode root) {
-        StringBuilder res = new StringBuilder();
-        helper(root, res);
-        return sum;
-
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        int len = inorder.length;
+        return helper(inorder, postorder, 0, len - 1, 0, len - 1);
 
 
     }
 
-    public void helper(TreeNode root, StringBuilder res){
-        if(root==null){
-            return;
+    public TreeNode helper(int[] inorder, int[] postorder, int inS, int inE, int poS, int poE){
+        if(inS>inE)
+            return null;
+        int rootVal = postorder[poE];
+        TreeNode root = new TreeNode(rootVal);
+        int index = inS;
+        for(;index<=inE;index++){
+            if(inorder[index]==index)
+                break;
         }
-        res.append(root.val);
-        if(root.left==null && root.right==null){
-            sum += Integer.parseInt(res.toString());
-            return;
-        }
-        helper(root.left, res);
-        helper(root.right, res);
+        int left = index - inS;
+        int right = inE - index;
 
+        root.left = helper(inorder, postorder, inS, index - 1, poS, poS + index-1);
+        root.right = helper(inorder, postorder, index + 1, inE, poE - right, poE - 1);
+        return root;
     }
 
 
