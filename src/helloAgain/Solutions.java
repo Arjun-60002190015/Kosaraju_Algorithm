@@ -6,45 +6,26 @@ import java.util.*;
 
 
 public class Solutions {
-    int m;
-    int n;
-
-
-    public int numIslands(char[][] grid) {
-        int count = 0;
-        m = grid.length;
-        n = grid[0].length;
-        for(int i = 0;i<m;i++){
-            for(int j = 0;j<n;j++){
-                if(grid[i][j]=='1'){
-                    helper(grid, i, j);
-                    count++;
-                }
-            }
+    public static int minimum(int[] nums, int target) {
+        int start = 0;
+        int end = nums.length - 1;
+        while(start<=end){
+            int mid = start + (end - start)/2;
+            if(nums[mid]>target){
+                end = mid - 1;
+            }else if(nums[mid]<target){
+                start = mid + 1;
+            }else return 0;
         }
-        return count;
-
+        return Math.min(Math.abs(nums[start] - target), Math.abs(nums[end] - target));
 
     }
-
-    public void  helper(char[][] grid, int i, int j){
-        if(i<0 || i>=m || j<0 || j>=n || grid[i][j]!='1')
-            return;
-        grid[i][j] = '0';
-        helper(grid, i+1, j);
-        helper(grid, i, j+1);
-        helper(grid, i, j - 1);
-        helper(grid, i-1, j);
-    }
-
-
-
 
 
     public static void main(String[] args){
 
-        int[] nums = {5, 10, 30, 20, 40};
-        //System.out.println(nthUglyNumber(7));
+        int[] nums = {1, 3, 8, 10, 15};
+        System.out.println(minimum(nums, 12));
 
     }
 
