@@ -6,29 +6,28 @@ import java.util.*;
 
 
 public class Solutions {
-    public int minSubArrayLen(int target, int[] nums) {
+    public static int maxSub(int[] nums, int target){
         int start = 0;
         int end = 0;
-        int min = Integer.MAX_VALUE;
         int sum = 0;
+        int max = Integer.MIN_VALUE;
         while(end< nums.length){
-            sum += nums[end];
-            end++;
-            while(sum>=target){
-                min = Math.min(min, end - start);
-                sum -= nums[start];
-                start++;
+            sum += nums[end++];
+            while(sum==target){
+                max = Math.max(max, end - start);
+                sum -= nums[start++];
+
             }
         }
-        return min==Integer.MAX_VALUE?0:min;
+        return max;
     }
 
 
 
-        public static void main(String[] args){
+    public static void main(String[] args){
 
-        int[] nums = {1, 3, 8, 10, 15};
-        //System.out.println(minimum(nums, 12));
+        int[] nums = {-5, 8, -14, 2, 4, 12};
+        System.out.println(maxSub(nums, -5));
 
     }
 
