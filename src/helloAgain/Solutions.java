@@ -1,25 +1,30 @@
 package helloAgain;
 
+import javafx.scene.layout.Priority;
+
 import java.lang.reflect.Array;
 import java.util.*;
 
 
 
 public class Solutions {
-    public static int maxSub(int[] nums, int target){
-        int start = 0;
-        int end = 0;
-        int sum = 0;
-        int max = Integer.MIN_VALUE;
-        while(end< nums.length){
-            sum += nums[end++];
-            while(sum==target){
-                max = Math.max(max, end - start);
-                sum -= nums[start++];
-
-            }
+    public int largestSumAfterKNegations(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for(int i:nums){
+            pq.add(i);
         }
-        return max;
+        while(k>0){
+            int val = pq.poll();
+            pq.add(-val);
+            k--;
+        }
+        int sum = 0;
+        while (!pq.isEmpty()){
+            sum += pq.poll();
+
+        }
+        return sum;
+
     }
 
 
@@ -27,7 +32,7 @@ public class Solutions {
     public static void main(String[] args){
 
         int[] nums = {-5, 8, -14, 2, 4, 12};
-        System.out.println(maxSub(nums, -5));
+        //System.out.println(maxSub(nums, -5));
 
     }
 
