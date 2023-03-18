@@ -8,34 +8,46 @@ import java.util.*;
 
 
 public class Solutions {
-    public long maximumSubarraySum(int[] nums, int k) {
-        HashSet<Integer> set  = new HashSet<>();
+    public static int findMaxConsecutiveOnesTLE(int[] nums) {
         int start = 0;
         int end = 0;
-        long sum = 0;
-        long max = 0;
-        while(end<nums.length){
-            if(!set.contains(nums[end])){
-                set.add(nums[end]);
-                sum += nums[end];
-                if(end - start+1==k){
-                    max = Math.max(max, sum);
-                    sum -= nums[start];
-                    set.remove(nums[start]);
-                    start++;
-                }
+        int count = 0;
+        int max = 0;
+        while(end< nums.length){
+            if(nums[end]==0){
+                count = end - start +1;
+                max = Math.max(max, count);
+                start = end;
             }
             else{
-                start = end;
-                sum = nums[start];
-                set = new HashSet<>();
-                set.add(nums[end]);
+                count++;
+                end++;
             }
-            end++;
         }
         return max;
 
     }
+
+
+    public int findMaxConsecutiveOnes(int[] nums) {
+            if(nums.length==1)
+                return nums[0];
+            if(nums.length==2 && nums[0]==0 && nums[1]==0)
+                return 0;
+            int max = Integer.MIN_VALUE;
+            int curr = 0;
+            for(int i = 0;i<nums.length;i++){
+                if(nums[i]==0){
+                    curr = 0;
+                }else{
+                    curr = Math.max(curr + nums[i], nums[i]);
+                    max = Math.max(max, curr);
+                }
+            }
+            return max;
+
+        }
+
 
 
 
