@@ -8,22 +8,32 @@ import java.util.*;
 
 
 public class Solutions {
-    public int largestSumAfterKNegations(int[] nums, int k) {
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-        for(int i:nums){
-            pq.add(i);
+    public long maximumSubarraySum(int[] nums, int k) {
+        HashSet<Integer> set  = new HashSet<>();
+        int start = 0;
+        int end = 0;
+        long sum = 0;
+        long max = 0;
+        while(end<nums.length){
+            if(!set.contains(nums[end])){
+                set.add(nums[end]);
+                sum += nums[end];
+                if(end - start+1==k){
+                    max = Math.max(max, sum);
+                    sum -= nums[start];
+                    set.remove(nums[start]);
+                    start++;
+                }
+            }
+            else{
+                start = end;
+                sum = nums[start];
+                set = new HashSet<>();
+                set.add(nums[end]);
+            }
+            end++;
         }
-        while(k>0){
-            int val = pq.poll();
-            pq.add(-val);
-            k--;
-        }
-        int sum = 0;
-        while (!pq.isEmpty()){
-            sum += pq.poll();
-
-        }
-        return sum;
+        return max;
 
     }
 
