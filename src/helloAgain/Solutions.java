@@ -8,17 +8,16 @@ import java.util.*;
 
 
 public class Solutions {
-    public int minimumDifference(int[] nums, int k) {
-        Arrays.sort(nums);
-        int start = 0;
-        int end = k-1;
-        int min = Integer.MAX_VALUE;
-        while(end<nums.length){
-            min = Math.min(min, nums[end] - nums[start]);
-            start++;
-            end++;
-        }
-        return min;
+    public String kthLargestNumber(String[] nums, int k) {
+        Arrays.sort(nums, (String a, String b) -> {
+            if(a.length()==b.length()){
+                return b.compareTo(a);
+            }
+            return b.length() - a.length();
+        });
+        return nums[k-1];
+
+
 
     }
 
