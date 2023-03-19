@@ -8,21 +8,19 @@ import java.util.*;
 
 
 public class Solutions {
-    public int subarraySum(int[] nums, int k) {
-        int count = 0;
-        for(int i = 0;i< nums.length;i++){
-            int sum = 0;
-            for(int j = i;j< nums.length;j++){
-                sum += nums[j];
-                if(sum==k)
-                    count++;
-            }
+    public int minimumDifference(int[] nums, int k) {
+        Arrays.sort(nums);
+        int start = 0;
+        int end = k-1;
+        int min = Integer.MAX_VALUE;
+        while(end<nums.length){
+            min = Math.min(min, nums[end] - nums[start]);
+            start++;
+            end++;
         }
-        return count;
+        return min;
 
     }
-
-
 
 
     public static void main(String[] args){
