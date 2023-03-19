@@ -8,23 +8,17 @@ import java.util.*;
 
 
 public class Solutions {
-    public int longestOnes(int[] nums, int k) {
-        int ans = 0;
-        int j = -1;
+    public int subarraySum(int[] nums, int k) {
         int count = 0;
-        for(int i = 0;i<nums.length;i++){
-            if(nums[i]==0)
-                count++;
-            while(count>k){
-                j++;
-                if(nums[j]==0)
-                    count--;
+        for(int i = 0;i< nums.length;i++){
+            int sum = 0;
+            for(int j = i;j< nums.length;j++){
+                sum += nums[j];
+                if(sum==k)
+                    count++;
             }
-            int len = i-j;
-            if(len>ans)
-                ans = len;
         }
-        return ans;
+        return count;
 
     }
 
