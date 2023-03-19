@@ -8,45 +8,24 @@ import java.util.*;
 
 
 public class Solutions {
-    public static int findMaxConsecutiveOnesTLE(int[] nums) {
-        int start = 0;
-        int end = 0;
+    public static int maxflipOne(int[] nums){
+        int ans = 0;
+        int j = -1;
         int count = 0;
-        int max = 0;
-        while(end< nums.length){
-            if(nums[end]==0){
-                count = end - start +1;
-                max = Math.max(max, count);
-                start = end;
-            }
-            else{
+        for(int i = 0;i<nums.length;i++){
+            if(nums[i]==0)
                 count++;
-                end++;
+            while(count>1){
+                j++;
+                if(nums[j]==0)
+                    count--;
             }
+            int len = i-j;
+            if(len>ans)
+                ans = len;
         }
-        return max;
-
+        return ans;
     }
-
-
-    public int findMaxConsecutiveOnes(int[] nums) {
-            if(nums.length==1)
-                return nums[0];
-            if(nums.length==2 && nums[0]==0 && nums[1]==0)
-                return 0;
-            int max = Integer.MIN_VALUE;
-            int curr = 0;
-            for(int i = 0;i<nums.length;i++){
-                if(nums[i]==0){
-                    curr = 0;
-                }else{
-                    curr = Math.max(curr + nums[i], nums[i]);
-                    max = Math.max(max, curr);
-                }
-            }
-            return max;
-
-        }
 
 
 
