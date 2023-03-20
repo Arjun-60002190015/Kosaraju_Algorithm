@@ -8,26 +8,25 @@ import java.util.*;
 
 
 public class Solutions {
-    public int[] numberOfLines(int[] widths, String s) {
-        int count = 0;
-        char[] ch = s.toCharArray();
-        int[] res = new int[2];
-        for(int i = 0;i< ch.length;i++){
-            if(count + widths[s.charAt(i) - 'a']>100){
-                count = 0;
-                res[0]++;
-            }
-            count += widths[s.charAt(i) - 'a'];
+    public int findPairs(int[] nums, int k) {
+        int res = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i:nums){
+            map.put(i, map.getOrDefault(i, 0)+1);
         }
-        res[0]++;
-        res[1] = count;
+        for(int i:map.keySet()){
+            if((k>0 && map.containsKey(i+k) || (k==0 && map.get(i)>1))){
+                res++;
+            }
+        }
         return res;
+
     }
 
 
 
 
-        public static void main(String[] args){
+    public static void main(String[] args){
 
         int[] nums = {-5, 8, -14, 2, 4, 12};
         //System.out.println(maxSub(nums, -5));
