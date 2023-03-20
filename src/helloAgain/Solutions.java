@@ -8,16 +8,37 @@ import java.util.*;
 
 
 public class Solutions {
-    public String kthLargestNumber(String[] nums, int k) {
-        Arrays.sort(nums, (String a, String b) -> {
-            if(a.length()==b.length()){
-                return b.compareTo(a);
+    public int[] asteroidCollision(int[] asteroids) {
+        Stack<Integer> arr = new Stack<>();
+        for(int i = 0;i<asteroids.length;i++){
+            if(arr.isEmpty() || asteroids[i]>0){
+                arr.push(asteroids[i]);
+            }else{
+                while(true){
+                    int peek = arr.peek();
+                    if(peek<0){
+                        arr.push(asteroids[i]);
+                        break;
+                    }else if(peek==-asteroids[i]){
+                        arr.pop();
+                        break;
+                    }else if(peek> -asteroids[i]){
+                        break;
+                    }else{
+                        arr.pop();
+                        if(arr.isEmpty()){
+                            arr.push(asteroids[i]);
+                            break;
+                        }
+                    }
+                }
             }
-            return b.length() - a.length();
-        });
-        return nums[k-1];
-
-
+        }
+        int[] res = new int[arr.size()];
+        for(int i = arr.size() - 1;i>=0;i--){
+            res[i] = arr.pop();
+        }
+        return res;
 
     }
 
