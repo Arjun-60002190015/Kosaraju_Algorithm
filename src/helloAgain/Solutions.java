@@ -8,22 +8,29 @@ import java.util.*;
 
 
 public class Solutions {
-    public long zeroFilledSubarray(int[] nums) {
-        long sum = 0;
-        long count = 0;
-        for(int i:nums){
-            if(i==0)
+    public long getDescentPeriods(int[] prices) {
+        long count = 1;
+        long ans = 1;
+        int n = prices.length;
+
+        for(int i = 1;i< prices.length;i++){
+            if(prices[i] - prices[i+1]==1){
                 count++;
-            else count = 0;
-            sum += count;
+
+            }else{
+                count = 1;
+            }
+            ans += count;
         }
-        return sum ;
+        return ans;
+
+
     }
 
 
 
 
-        public static void main(String[] args){
+    public static void main(String[] args){
 
         int[] nums = {-5, 8, -14, 2, 4, 12};
         //System.out.println(maxSub(nums, -5));
