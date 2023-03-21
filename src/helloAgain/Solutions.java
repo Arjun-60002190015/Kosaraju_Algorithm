@@ -8,33 +8,22 @@ import java.util.*;
 
 
 public class Solutions {
-    public int maxIncreaseKeepingSkyline(int[][] grid) {
-        int n = grid.length;
-        int m = grid[0].length;
-        int[] row = new int[n];
-        int[] col = new int[m];
-        for(int i = 0;i<n;i++){
-            for(int j = 0;j<m;j++){
-                if(grid[i][j]>row[i])
-                    row[i] = grid[i][j];
-                if(grid[i][j]>col[j])
-                    col[j] = grid[i][j];
-            }
+    public long zeroFilledSubarray(int[] nums) {
+        long sum = 0;
+        long count = 0;
+        for(int i:nums){
+            if(i==0)
+                count++;
+            else count = 0;
+            sum += count;
         }
-        int ans = 0;
-        for(int i = 0;i<n;i++){
-            for(int j = 0;j<m;j++){
-                int min = row[i]>col[j]?row[i]:col[j];
-                ans += min - grid[i][j];
-            }
-        }
-        return ans;
-
+        return sum ;
     }
 
 
 
-    public static void main(String[] args){
+
+        public static void main(String[] args){
 
         int[] nums = {-5, 8, -14, 2, 4, 12};
         //System.out.println(maxSub(nums, -5));
