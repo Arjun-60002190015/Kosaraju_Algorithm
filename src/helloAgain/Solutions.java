@@ -8,21 +8,29 @@ import java.util.*;
 
 
 public class Solutions {
-    public int findPairs(int[] nums, int k) {
-        int res = 0;
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for(int i:nums){
-            map.put(i, map.getOrDefault(i, 0)+1);
-        }
-        for(int i:map.keySet()){
-            if((k>0 && map.containsKey(i+k) || (k==0 && map.get(i)>1))){
-                res++;
+    public int maxIncreaseKeepingSkyline(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        int[] row = new int[n];
+        int[] col = new int[m];
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++){
+                if(grid[i][j]>row[i])
+                    row[i] = grid[i][j];
+                if(grid[i][j]>col[j])
+                    col[j] = grid[i][j];
             }
         }
-        return res;
+        int ans = 0;
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++){
+                int min = row[i]>col[j]?row[i]:col[j];
+                ans += min - grid[i][j];
+            }
+        }
+        return ans;
 
     }
-
 
 
 
