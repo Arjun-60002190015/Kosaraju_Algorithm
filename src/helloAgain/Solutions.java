@@ -8,24 +8,37 @@ import java.util.*;
 
 
 public class Solutions {
-    public long getDescentPeriods(int[] prices) {
-        long count = 1;
-        long ans = 1;
-        int n = prices.length;
 
-        for(int i = 1;i< prices.length;i++){
-            if(prices[i] - prices[i+1]==1){
-                count++;
 
-            }else{
-                count = 1;
-            }
-            ans += count;
+    public int minScore(int n, int[][] roads) {
+        List<int[]>[] graph = new List[n+1];
+        for(int i = 0;i< graph.length;i++){
+            graph[i] = new ArrayList<>();
         }
-        return ans;
-
+        for(int[] road:roads){
+            graph[road[0]].add(new int[]{road[1], road[2]});
+            graph[road[1]].add(new int[]{road[0], road[2]});
+        }
+        int res = Integer.MAX_VALUE;
+        Set<Integer> set = new HashSet<>();
+        Queue<Integer> queue = new ArrayDeque<>();
+        set.add(1);
+        queue.add(1);
+        while(!queue.isEmpty()){
+            int node = queue.poll();
+            for(int[] i:graph[node]){
+                res = Math.min(res, i[1]);
+                if(set.add(i[0])) {
+                    queue.add(i[0]);
+                }
+            }
+        }
+        return res;
 
     }
+
+
+
 
 
 
