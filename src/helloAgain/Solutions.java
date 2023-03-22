@@ -9,34 +9,49 @@ import java.util.*;
 
 public class Solutions {
 
+    public int countSubIslands(int[][] grid1, int[][] grid2) {
+        int m = grid1.length;
+        int n = grid2[0].length;
+        for(int i = 0;i<m;i++){
+            for(int j = 0;j<n;j++){
+                if(grid1[i][j]==0 && grid2[i][j]==1){
+                    dfs(grid2, i, j);
+                }
+            }
+        }
 
-    public int minScore(int n, int[][] roads) {
-        List<int[]>[] graph = new List[n+1];
-        for(int i = 0;i< graph.length;i++){
-            graph[i] = new ArrayList<>();
-        }
-        for(int[] road:roads){
-            graph[road[0]].add(new int[]{road[1], road[2]});
-            graph[road[1]].add(new int[]{road[0], road[2]});
-        }
-        int res = Integer.MAX_VALUE;
-        Set<Integer> set = new HashSet<>();
-        Queue<Integer> queue = new ArrayDeque<>();
-        set.add(1);
-        queue.add(1);
-        while(!queue.isEmpty()){
-            int node = queue.poll();
-            for(int[] i:graph[node]){
-                res = Math.min(res, i[1]);
-                if(set.add(i[0])) {
-                    queue.add(i[0]);
+        int res = 0;
+        for(int i = 0;i<m;i++){
+            for(int j = 0;j<n;j++){
+                if(grid2[i][j]==1){
+                    res++;
+                    dfs(grid2, i, j);
                 }
             }
         }
         return res;
-
     }
 
+    public void dfs(int[][] grid, int i, int j){
+        int m = grid.length;
+        int n = grid[0].length;
+        if(i<0 || j<0 || i>=m || j>=n){
+            return;
+        }
+        if(grid[i][j]==0)
+            return;
+
+        grid[i][j] = 0;
+
+        dfs(grid, i+1, j);
+        dfs(grid, i-1, j);
+        dfs(grid, i, j+1);
+        dfs(grid, i, j - 1);
+
+
+
+
+    }
 
 
 
