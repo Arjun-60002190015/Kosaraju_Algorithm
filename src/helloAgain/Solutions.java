@@ -9,52 +9,38 @@ import java.util.*;
 
 public class Solutions {
 
-    public int countSubIslands(int[][] grid1, int[][] grid2) {
-        int m = grid1.length;
-        int n = grid2[0].length;
-        for(int i = 0;i<m;i++){
-            for(int j = 0;j<n;j++){
-                if(grid1[i][j]==0 && grid2[i][j]==1){
-                    dfs(grid2, i, j);
-                }
+    public int makeConnected(int n, int[][] connections) {
+        if(connections.length<n-1){
+            return -1;
+        }
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for(int[] con:connections){
+            map.computeIfAbsent(con[0], k -> new ArrayList<>()).add(con[1]);
+            map.computeIfAbsent(con[1], k -> new ArrayList<>()).add(con[0]);
+        }
+        int count = 0;
+        boolean[] visited = new boolean[n];
+        for(int i = 0;i<n;i++){
+            if(!visited[i]){
+                count++;
+                dfs(i, map, visited);
             }
         }
-
-        int res = 0;
-        for(int i = 0;i<m;i++){
-            for(int j = 0;j<n;j++){
-                if(grid2[i][j]==1){
-                    res++;
-                    dfs(grid2, i, j);
-                }
-            }
-        }
-        return res;
-    }
-
-    public void dfs(int[][] grid, int i, int j){
-        int m = grid.length;
-        int n = grid[0].length;
-        if(i<0 || j<0 || i>=m || j>=n){
-            return;
-        }
-        if(grid[i][j]==0)
-            return;
-
-        grid[i][j] = 0;
-
-        dfs(grid, i+1, j);
-        dfs(grid, i-1, j);
-        dfs(grid, i, j+1);
-        dfs(grid, i, j - 1);
-
-
-
+        return count - 1;
 
     }
 
-
-
+    public void dfs(int i, Map<Integer, List<Integer>> map, boolean[] visted){
+        visted[i]  = true;
+        if(!map.containsKey(i))
+            return;
+        for(int neighbour:map.get(i)){
+            if(!visted[neighbour]){
+                visted[neighbour] = true;
+                dfs(neighbour, map, visted);
+            }
+        }
+    }
 
 
 
