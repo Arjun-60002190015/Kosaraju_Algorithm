@@ -9,17 +9,21 @@ import java.util.*;
 
 public class Solutions {
 
-    public List<Integer> findSmallestSetOfVertices(int n, List<List<Integer>> edges) {
-        List<Integer> res = new ArrayList<>();
-        HashSet<Integer> set = new HashSet<>();
-        for(List<Integer> edge:edges){
-            set.add(edge.get(1));
+    public int findJudge(int n, int[][] trust) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        //Set<Integer> set = new HashSet<>();
+
+        for(int[] tr:trust){
+            map.put(tr[1], map.getOrDefault(tr[1], 0)+1);
+            //set.add(tr[0]);
         }
+        if(map.size()==0 && n==1)
+            return 1;
         for(int i = 0;i<n;i++){
-            if(!set.contains(i))
-                res.add(i);
+            if(map.get(i)==n-1)
+                return i;
         }
-        return  res;
+        return -1;
 
     }
 
