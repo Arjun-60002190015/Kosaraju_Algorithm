@@ -9,30 +9,37 @@ import java.util.*;
 
 public class Solutions {
 
-    public int findJudge(int n, int[][] trust) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        //Set<Integer> set = new HashSet<>();
-
-        for(int[] tr:trust){
-            map.put(tr[1], map.getOrDefault(tr[1], 0)+1);
-            //set.add(tr[0]);
-        }
-        if(map.size()==0 && n==1)
-            return 1;
+    public static int minReorder(int n, int[][] connections) {
+        List<List<Integer>> graph = new ArrayList<>();
         for(int i = 0;i<n;i++){
-            if(map.get(i)==n-1)
-                return i;
+            graph.add(new ArrayList<>());
         }
-        return -1;
+        for(int[] con:connections){
+            graph.get(con[0]).add(con[1]);
+            graph.get(con[1]).add(-con[0]);
+        }
+        return dfs(graph, new boolean[n], 0);
 
+    }
+
+    public static int dfs(List<List<Integer>> graph, boolean[] visited, int root){
+        int count = 0;
+        visited[root] = true;
+        for(int i: graph.get(root)){
+            if(!visited[Math.abs(i)]){
+                count += dfs(graph, visited, Math.abs(i)) + ((i>0)?1:0);
+            }
+        }
+        return count;
     }
 
 
 
     public static void main(String[] args){
 
-        int[] nums = {-5, 8, -14, 2, 4, 12};
-        //System.out.println(maxSub(nums, -5));
+        int n = 6;
+        int[][] connections = {{0,1},{1,3},{2,3},{4,0},{4,5}};
+        //System.out.println(minReorder(n, connections));
 
     }
 
