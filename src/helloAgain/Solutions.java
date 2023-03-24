@@ -9,26 +9,24 @@ import java.util.*;
 
 public class Solutions {
 
-    public int findCircleNum(int[][] isConnected) {
-        int[] visited  =new int[isConnected.length];
-        int count = 0;
-        for(int i = 0;i< isConnected.length;i++){
-            if(visited[i]==0){
-                helper(isConnected, visited, i);
-                count++;
+    public char findTheDifference(String s, String t) {
+
+        HashMap<Character, Integer> map = new HashMap<>();
+        for(int i = 0;i<s.length();i++){
+            map.put(s.charAt(i), map.getOrDefault(s.charAt(i), 0)+1);
+        }
+        for(int i = 0;i<t.length();i++){
+            char key  = t.charAt(i);
+            if(!map.containsKey(key))
+                return key;
+            else if(map.get(key)==0)
+                return key;
+            else{
+                map.put(key, map.get(key)-1);
             }
         }
-        return count;
+        return 'n';
 
-    }
-
-    public void helper(int[][] connected, int[] visited, int i){
-        for(int j = 0;j< connected.length;j++){
-            if(connected[i][j] ==1 && visited[j]==0){
-                visited[j] = 1;
-                helper(connected, visited, j);
-            }
-        }
     }
 
 
