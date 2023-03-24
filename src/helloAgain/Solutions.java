@@ -9,28 +9,26 @@ import java.util.*;
 
 public class Solutions {
 
-    public static int minReorder(int n, int[][] connections) {
-        List<List<Integer>> graph = new ArrayList<>();
-        for(int i = 0;i<n;i++){
-            graph.add(new ArrayList<>());
-        }
-        for(int[] con:connections){
-            graph.get(con[0]).add(con[1]);
-            graph.get(con[1]).add(-con[0]);
-        }
-        return dfs(graph, new boolean[n], 0);
-
-    }
-
-    public static int dfs(List<List<Integer>> graph, boolean[] visited, int root){
+    public int findCircleNum(int[][] isConnected) {
+        int[] visited  =new int[isConnected.length];
         int count = 0;
-        visited[root] = true;
-        for(int i: graph.get(root)){
-            if(!visited[Math.abs(i)]){
-                count += dfs(graph, visited, Math.abs(i)) + ((i>0)?1:0);
+        for(int i = 0;i< isConnected.length;i++){
+            if(visited[i]==0){
+                helper(isConnected, visited, i);
+                count++;
             }
         }
         return count;
+
+    }
+
+    public void helper(int[][] connected, int[] visited, int i){
+        for(int j = 0;j< connected.length;j++){
+            if(connected[i][j] ==1 && visited[j]==0){
+                visited[j] = 1;
+                helper(connected, visited, j);
+            }
+        }
     }
 
 
