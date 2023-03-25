@@ -8,37 +8,34 @@ import java.util.*;
 
 
 public class Solutions {
-    List<List<Integer>> graph = new ArrayList<>();
+    public int findSpecialIntegerExtraSpace(int[] arr) {
+        int[] freq = new int[100001];
+        for(int i:arr){
+            freq[i]++;
+        }
+        for(int i = 0;i< freq.length;i++){
+            if(freq[i]>arr.length/4)
+                return i;
+        }
+        return -1;
 
-    public long countPairs(int n, int[][] edges) {
-        long sum = n;
-        long totalSum = 0;
-
-        boolean[] visited = new boolean[n];
-        for(int i =0;i<n;i++){
-            graph.add(new ArrayList<>());
-        }
-        for(int[] edge:edges){
-            graph.get(edge[0]).add(edge[1]);
-            graph.get(edge[1]).add(edge[0]);
-        }
-        for(int i = 0;i<n;i++){
-            if(!visited[i]){
-                int ans = dfs(visited, i, new int[1]);
-                sum -= ans;
-                totalSum += sum*ans;
-            }
-        }
-        return totalSum;
     }
-
-    public int dfs(boolean[] visited, int i, int[] count){
-        visited[i] = true;
-        count[0]++;
-        for(int curr: graph.get(i)){
-            dfs(visited, curr, count);
+    public int findSpecialInteger(int[] arr) {
+        int count = 0;
+        int prev = -1;
+        int req = arr.length/4;
+        for(int i:arr){
+            if(i==prev)
+                count++;
+            else{
+                count = 1;
+                prev = i;
+            }
+            if(count>req)
+                return i;
         }
-        return count[0];
+        return -1;
+
     }
 
 
