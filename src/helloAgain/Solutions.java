@@ -8,41 +8,33 @@ import java.util.*;
 
 
 public class Solutions {
-    public int findSpecialIntegerExtraSpace(int[] arr) {
-        int[] freq = new int[100001];
-        for(int i:arr){
-            freq[i]++;
-        }
-        for(int i = 0;i< freq.length;i++){
-            if(freq[i]>arr.length/4)
-                return i;
-        }
-        return -1;
-
-    }
-    public int findSpecialInteger(int[] arr) {
-        int count = 0;
-        int prev = -1;
-        int req = arr.length/4;
-        for(int i:arr){
-            if(i==prev)
-                count++;
-            else{
-                count = 1;
-                prev = i;
+    public int longestCycle(int[] edges) {
+        int res = -1;
+        boolean[] vis = new boolean[edges.length];
+        for(int i = 0;i< edges.length;i++){
+            if(vis[i])
+                continue;
+            HashMap<Integer, Integer> map = new HashMap<>();
+            for(int j = 0, dist = 0;j!=-1;j=edges[j]){
+                if(map.containsKey(j)){
+                    res = Math.max(res, dist - map.get(j));
+                    break;
+                }
+                if(vis[j])
+                    break;
+                vis[j] = true;
+                map.put(j, dist++);
             }
-            if(count>req)
-                return i;
         }
-        return -1;
-
+        return res;
     }
 
 
 
 
 
-    public static void main(String[] args){
+
+        public static void main(String[] args){
 
         int n = 6;
         int[][] connections = {{0,1},{1,3},{2,3},{4,0},{4,5}};
