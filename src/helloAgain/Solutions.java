@@ -10,23 +10,26 @@ import java.util.*;
 public class Solutions {
 
 
-    public boolean isMonotonic(int[] nums) {
-        int forw = 0;
-        int back = 0;
-        for(int i = 1;i< nums.length;i++){
-            if(nums[i]>=nums[i-1])
-                forw++;
-            if(nums[i]<=nums[i-1])
-                back++;
+    public static int maxSatisfaction(int[] satisfaction) {
+        Arrays.sort(satisfaction);
+        int sum = 0;
+        for(int i = 0;i<satisfaction.length;i++){
+            int index = 1;
+            int temp = 0;
+            for(int j = i;j<satisfaction.length;j++){
+                temp += satisfaction[j] * index;
+                index++;
+            }
+            sum = Math.max(temp, sum);
         }
-        return forw== nums.length-1 || back== nums.length-1;
+        return sum;
 
     }
 
 
     public static void main(String[] args){
-        int[][] grid = {{1, 3, 1}, {1, 5, 1}, {4, 2, 1}};
-        //System.out.println(minPathSum(grid));
+        int[] nums = {-1, -8, 0, 5, -9};
+        System.out.println(maxSatisfaction(nums));
 
     }
 
