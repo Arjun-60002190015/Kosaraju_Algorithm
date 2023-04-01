@@ -8,33 +8,38 @@ import java.util.*;
 
 
 public class Solutions {
-
-
-    public int maxSatisfaction(int[] satisfaction) {
-        Arrays.sort(satisfaction);
-        int n = satisfaction.length;
-        int[][] dp = new int[n+1][n+1];
-        for(int[] row:dp){
-            Arrays.fill(row, Integer.MIN_VALUE);
+    public static boolean isScramble(String s1, String s2) {
+        if(s1.length()!=s2.length())
+            return false;
+        int n = s1.length();
+        for(int i = 1;i<n;i++){
+            if(solve(s1.substring(0, i), s2.substring(0, i)) && solve(s1.substring(i, n), s2.substring(i, n))
+             ||
+                solve(s1.substring(0, i), s2.substring(n-i, n)) && solve(s1.substring(i, n), s2.substring(0, n-i))) ;
+            return true;
         }
-        return helper(satisfaction, 0, 1, dp);
+        return false;
+
+
     }
 
-    public int helper(int[] nums, int index, int time, int[][] dp){
-        if(index==nums.length)
-            return 0;
-        if(dp[index][time]!=Integer.MIN_VALUE){
-            return dp[index][time];
-        }
-        int dont = helper(nums, index+1, time, dp);
-        int take = helper(nums, index+1, time+1, dp) + nums[index] * time;
-        return dp[index][time] = Math.max(dont, take);
+    public static boolean solve(String a, String b){
+        if(a.compareTo(b)==0)
+            return true;
+        if(a.length()<=1)
+            return false;
+        return false;
     }
+
+
+
+
 
 
     public static void main(String[] args){
-        int[] nums = {-1, -8, 0, 5, -9};
-        //System.out.println(maxSatisfaction(nums));
+        int[] nums = {1, 2, 3, 0, 0, 0};
+        int[] nums2 = {2, 5, 6};
+        System.out.println(isScramble("abcd", "caebd"));
 
     }
 
