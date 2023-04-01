@@ -8,27 +8,36 @@ import java.util.*;
 
 
 public class Solutions {
+    static Map<String, Boolean> map = new HashMap<>();
     public static boolean isScramble(String s1, String s2) {
         if(s1.length()!=s2.length())
-            return false;
-        int n = s1.length();
-        for(int i = 1;i<n;i++){
-            if(solve(s1.substring(0, i), s2.substring(0, i)) && solve(s1.substring(i, n), s2.substring(i, n))
-             ||
-                solve(s1.substring(0, i), s2.substring(n-i, n)) && solve(s1.substring(i, n), s2.substring(0, n-i))) ;
             return true;
-        }
-        return false;
-
+        return solve(s1, s2);
 
     }
 
     public static boolean solve(String a, String b){
-        if(a.compareTo(b)==0)
+        int n = a.length();
+        if(a.equals(b))
             return true;
-        if(a.length()<=1)
-            return false;
-        return false;
+        String key = a +" "+b;
+        if(map.containsKey(key))
+            return map.get(key);
+        boolean flag = false;
+        for(int i = 1;i<=n-1;i++){
+            boolean Noswap = solve(a.substring(0, i), b.substring(0, i))
+                            &&
+                           solve(a.substring(i), b.substring(i));
+            boolean swap = solve(a.substring(0, i), b.substring(n-i))
+                            &&
+                           solve(a.substring(i), b.substring(0, n -i));
+            if(swap|| Noswap) {
+                flag = true;
+                break;
+            }
+        }
+        map.put(key, flag);
+        return flag;
     }
 
 
