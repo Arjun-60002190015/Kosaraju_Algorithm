@@ -5,17 +5,30 @@ package helloAgain;
 import java.util.Arrays;
 
 public class mcm {
-    public int superEggDrop(int k, int n) {
-        if(n==0 || n==1)
-            return n;
-        if(k==1)
-            return n;
-        int min = Integer.MAX_VALUE;
-        for(int i = 1;i<=k;i++){
-            int temp = 1+ Math.max(superEggDrop(k - 1, i-1), superEggDrop(k, n-i));
+    static int[][] memo ;
+    public static int superEggDrop(int k, int n) {
+        memo = new int[k+1][n+1];
+        for(int[] d:memo){
+            Arrays.fill(d, (int)1e9);
+        }
+        return memoize(k, n);
+
+
+    }
+
+    public static int memoize(int eggs, int floors){
+        if(eggs==1)
+            return floors;
+        if(floors==0 || floors==1)
+            return floors;
+        if(memo[eggs][floors]!=(int)1e9)
+            return memo[eggs][floors];
+        int min = (int)1e9;
+        for(int floor = 1;floor<=floors;floor++){
+            int temp = 1 + Math.max(memoize(eggs - 1, floor-1), memoize(eggs, floors - floor));
             min = Math.min(min, temp);
         }
-        return min;
+        return memo[eggs][floors]= min;
 
     }
 
