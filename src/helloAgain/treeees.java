@@ -29,32 +29,25 @@ public class treeees {
           next = null;
       }
     }
-    int sum = 0;
 
+    int min = Integer.MAX_VALUE;
+    TreeNode prev = null;
+    public int getMinimumDifference(TreeNode root) {
+        helper(root);
+        return min;
 
-    public TreeNode buildTree(int[] inorder, int[] postorder) {
-        int len = inorder.length;
-        return helper(inorder, postorder, 0, len - 1, 0, len - 1);
 
 
     }
-
-    public TreeNode helper(int[] inorder, int[] postorder, int inS, int inE, int poS, int poE){
-        if(inS>inE)
-            return null;
-        int rootVal = postorder[poE];
-        TreeNode root = new TreeNode(rootVal);
-        int index = inS;
-        for(;index<=inE;index++){
-            if(inorder[index]==index)
-                break;
+    public void helper(TreeNode node){
+        if(node==null)
+            return;
+        helper(node.left);
+        if(prev!=null){
+            min = Math.min(min, node.val - prev.val);
         }
-        int left = index - inS;
-        int right = inE - index;
-
-        root.left = helper(inorder, postorder, inS, index - 1, poS, poS + index-1);
-        root.right = helper(inorder, postorder, index + 1, inE, poE - right, poE - 1);
-        return root;
+        prev = node;
+        helper(node.right);
     }
 
 
