@@ -8,39 +8,25 @@ import java.util.*;
 
 
 public class Solutions {
-    public int miceAndCheese(int[] reward1, int[] reward2, int k) {
-        int res = 0;
-        int[] rev = new int[reward1.length];
-        for(int i = 0;i< rev.length;i++){
-            rev[i] = reward1[i] - reward2[i];
-            res += reward2[i];
+    public int peakIndexInMountainArray(int[] arr) {
+        int low = 0;
+        int high = arr.length-1;
+        while(low<high){
+            int mid = low + (high - low)/2;
+            if(arr[mid]<arr[mid+1]){
+                low = mid+1;
+            }else if(arr[mid]>arr[mid+1]){
+                high  = mid;
+            }
         }
-        Arrays.sort(rev);
-        reverse(rev);
+        return low;
 
-        for(int i = 0;i<k;i++){
-            res += rev[i];
-        }
-        return res;
     }
-    public void reverse(int[] a){
-        int i = 0;
-        int j = a.length-1;
-        while(i<j){
-            int t = a[i];
-            a[i] = a[j];
-            a[j] = t;
-            i++;
-            j--;
-        }
-    }
-
 
 
     public static void main(String[] args){
-        int[] people = {3, 5, 3, 4};
-        int[] potions = {1, 2, 3, 4, 5};
-        //System.out.println(numRescueBoats(people, 5));
+        String num = "52";
+        //System.out.println(largestOddNumber(num));
 
     }
 
