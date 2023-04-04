@@ -3,32 +3,23 @@ package helloAgain;
 //Palindrome Partitioning memoized
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class mcm {
-    static int[][] memo ;
-    public static int superEggDrop(int k, int n) {
-        memo = new int[k+1][n+1];
-        for(int[] d:memo){
-            Arrays.fill(d, (int)1e9);
+    public int partitionString(String s) {
+        int count = 0;
+        HashSet<Character> set = new HashSet<>();
+        for(int i  =0;i<s.length();i++) {
+            if (set.contains(s.charAt(i))){
+                count++;
+                set.clear();
+                set.add(s.charAt(i));
+            }
+            else set.add(s.charAt(i));
         }
-        return memoize(k, n);
+        return count;
 
-
-    }
-
-    public static int memoize(int eggs, int floors){
-        if(eggs==1)
-            return floors;
-        if(floors==0 || floors==1)
-            return floors;
-        if(memo[eggs][floors]!=(int)1e9)
-            return memo[eggs][floors];
-        int min = (int)1e9;
-        for(int floor = 1;floor<=floors;floor++){
-            int temp = 1 + Math.max(memoize(eggs - 1, floor-1), memoize(eggs, floors - floor));
-            min = Math.min(min, temp);
-        }
-        return memo[eggs][floors]= min;
 
     }
 
