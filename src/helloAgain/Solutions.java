@@ -8,33 +8,23 @@ import java.util.*;
 
 
 public class Solutions {
-    public static int maximumCandies(int[] candies, long k) {
-        int start = 1;
-        int end = 1;
-        for(int i:candies){
-            end = Math.max(end, i);
-        }
-        while(start<end){
-            int mid = start + (end - start)/2;
-            if(getSum(candies, k, mid)){
-                start = mid+1;
-            }else{
-                end = mid - 1;
+    public static boolean searchMatrix(int[][] matrix, int target) {
+
+        int i = 0;
+        int j = matrix[0].length-1;
+        while(i< matrix.length && j>=0){
+            if(matrix[i][j]==target)
+                return true;
+            if(matrix[i][j]<target){
+                i++;
             }
+            else {
+                j--;
+            }
+
         }
-        return getSum(candies, k, start)?start:start - 1;
-
-
-    }
-
-    public static boolean getSum(int[] candies, long k, int mid){
-        int total = 0;
-        for(int i:candies){
-            total += i/mid;
-        }
-        if(total>=k)
-            return true;
         return false;
+
 
     }
 
@@ -45,7 +35,7 @@ public class Solutions {
         int[] nums = {5, 8, 6};
         int target = 4;
 
-        System.out.println(maximumCandies(nums, 3));
+        //System.out.println(maximumCandies(nums, 3));
 
     }
 
