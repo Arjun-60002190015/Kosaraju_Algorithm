@@ -8,17 +8,28 @@ import java.util.*;
 
 
 public class Solutions {
-    public List<Integer> majorityElement(int[] nums) {
-        List<Integer> res = new ArrayList<>();
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for(int i:nums){
-            map.put(i, map.getOrDefault(i, 0)+1);
+    public static int[] sortColors(int[] nums) {
+        int zeroes = 0;
+        int ones = 0;
+        int twos = 2;
+        for(int i = 0;i< nums.length;i++){
+            if(nums[i]==0)
+                zeroes++;
+            if(nums[i]==1)
+                ones++;
+            if(nums[i]==2)
+                twos++;
         }
-        for(int i: map.keySet()){
-            if(nums.length/map.get(i)>(nums.length)/3)
-                res.add(i);
+        for(int i = 0;i<zeroes;i++){
+            nums[i] = 0;
         }
-        return res;
+        for(int i = zeroes;i<zeroes+ones;i++){
+            nums[i] = 1;
+        }
+        for(int i = zeroes+ones;i< nums.length;i++){
+            nums[i] = 2;
+        }
+        return nums;
 
     }
 
@@ -26,10 +37,9 @@ public class Solutions {
 
 
     public static void main(String[] args){
-        int[] nums = {5, 8, 6};
-        int target = 4;
+        int[] nums = {2, 0, 2, 1, 1, 0};
 
-        //System.out.println(maximumCandies(nums, 3));
+        System.out.println(sortColors(nums));
 
     }
 
