@@ -2,44 +2,51 @@ package helloAgain;
 
 import javafx.scene.layout.Priority;
 
-import java.lang.reflect.Array;
+import java.sql.Array;
 import java.util.*;
 
 
 
 public class Solutions {
-    public static int[] sortColors(int[] nums) {
-        int zeroes = 0;
+
+    public static int numEnclaves(int[][] grid) {
         int ones = 0;
-        int twos = 2;
-        for(int i = 0;i< nums.length;i++){
-            if(nums[i]==0)
-                zeroes++;
-            if(nums[i]==1)
-                ones++;
-            if(nums[i]==2)
-                twos++;
+        for(int i = 0;i< grid.length;i++){
+            for(int j = 0;j<grid[0].length;j++){
+                if(i*j==0 || i==grid.length-1 || j==grid[0].length - 1){
+                    if(grid[i][j]==1)
+                        dfs(grid, i, j);
+                }
+            }
         }
-        for(int i = 0;i<zeroes;i++){
-            nums[i] = 0;
+        for(int i = 0;i< grid.length;i++){
+            for(int j = 0;j<grid[0].length;j++){
+                ones += grid[i][j];
+            }
         }
-        for(int i = zeroes;i<zeroes+ones;i++){
-            nums[i] = 1;
-        }
-        for(int i = zeroes+ones;i< nums.length;i++){
-            nums[i] = 2;
-        }
-        return nums;
+        return ones;
+    }
+
+    public static void dfs(int[][] grid, int i, int j){
+        if(i<0 || i>=grid.length || j<0 || j>= grid[0].length || grid[i][j]==0)
+            return;
+        grid[i][j] = 0;
+        dfs(grid, i, j);
+        dfs(grid, i, j-1);
+        dfs(grid, i, j+1);
+        dfs(grid, i+1, j);
 
     }
 
 
 
 
-    public static void main(String[] args){
-        int[] nums = {2, 0, 2, 1, 1, 0};
 
-        System.out.println(sortColors(nums));
+
+    public static void main(String[] args){
+        int[][] nums = {{0,1,1,0},{0,0,1,0},{0,0,1,0},{0,0,0,0}};
+
+        System.out.println(numEnclaves(nums));
 
     }
 
