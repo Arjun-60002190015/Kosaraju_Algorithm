@@ -3,6 +3,7 @@ package helloAgain;
 import javafx.scene.layout.Priority;
 import sun.reflect.generics.tree.Tree;
 
+import javax.transaction.TransactionRequiredException;
 import java.util.*;
 
 public class treeees {
@@ -29,25 +30,26 @@ public class treeees {
           next = null;
       }
     }
+    ArrayList<Integer> s = new ArrayList<>();
 
-    int min = Integer.MAX_VALUE;
-    TreeNode prev = null;
-    public int getMinimumDifference(TreeNode root) {
-        helper(root);
-        return min;
+    public int kthSmallest(TreeNode root, int k) {
+        dfs(root, k);
 
+        Collections.sort(s);
+        return s.get(k-1);
 
 
     }
-    public void helper(TreeNode node){
-        if(node==null)
+
+    public void dfs(TreeNode root, int k){
+        if(root.left!=null)
+            dfs(root.left, k);
+        s.add(root.val);
+
+        if(s.size()>=k)
             return;
-        helper(node.left);
-        if(prev!=null){
-            min = Math.min(min, node.val - prev.val);
-        }
-        prev = node;
-        helper(node.right);
+        if(root.right!=null)
+            dfs(root.right, k);
     }
 
 
