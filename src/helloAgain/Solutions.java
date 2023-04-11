@@ -9,48 +9,22 @@ import java.util.*;
 
 public class Solutions {
 
-    public static boolean isValid(String s) {
-        Stack<Character> stack = new Stack<>();
-        int index=  0;
-        while(index<s.length()){
-            char ch = s.charAt(index);
-            if(ch=='{' || ch=='(' || ch=='[')
-                stack.push(ch);
-            else {
-                if(!stack.isEmpty() && ch==')' && stack.peek()=='(')
-                    stack.pop();
-                else if (!stack.isEmpty() && ch=='}' && stack.peek()=='{')
-                    stack.pop();
-                else if(!stack.isEmpty() && ch==']' && stack.peek()=='[')
-                    stack.pop();
-                else return false;
+    public String removeStars(String s) {
+        StringBuilder sb = new StringBuilder();
+        for(int i = s.length()-1;i>=0;i--){
+            int stars = 0;
+            if(s.charAt(i)!='*' && stars==0) {
+                sb.append(s.charAt(i));
             }
-            index++;
-
+            else if(s.charAt(i)=='*') {
+                stars++;
+            }
+            else if(s.charAt(i)!='*' && stars!=0) {
+                    stars--;
+            }
         }
-        return stack.isEmpty();
-
-    }
-    // Below solution is wrong because it doesn't take care of order of the brackets.
-    public static boolean isValidWrong(String s) {
-        int curly = 0;
-        int square = 0;
-        int braces = 0;
-        for(int i = 0;i<s.length();i++){
-            if(s.charAt(i)=='(')
-                curly++;
-            else if(s.charAt(i)=='{')
-                braces++;
-            else if(s.charAt(i)=='[')
-                square++;
-            else if(s.charAt(i)==')')
-                curly--;
-            else if(s.charAt(i)=='}')
-                braces--;
-            else if(s.charAt(i)==']')
-                square--;
-        }
-        return curly==0 &&braces==0 && square==0;
+        sb.reverse();
+        return sb.toString();
 
     }
 
@@ -58,7 +32,7 @@ public class Solutions {
     public static void main(String[] args){
         String s = "(]";
 
-        System.out.println(isValid(s));
+        //System.out.println(isValid(s));
 
     }
 
