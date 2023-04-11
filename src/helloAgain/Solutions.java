@@ -8,30 +8,27 @@ import java.util.*;
 
 
 public class Solutions {
-    int[][][] dp;
-    public int numberOfPaths(int[][] grid, int k) {
-        int m = grid.length;
-        int n = grid[0].length;
-        dp = new int[m][n][51];
-        for(int[][] g:dp){
-            for(int[] gf:g){
-                Arrays.fill(gf, -1);
-            }
+    int[][] memo;
+    public int calculateMinimumHP(int[][] dungeon) {
+        int m = dungeon.length;
+        int n = dungeon[0].length;
+        memo = new int[m][n];
+        for(int[] i:memo){
+            Arrays.fill(i, Integer.MAX_VALUE);
         }
-        return helper(0, 0, grid, k, 0);
+        return helper(dungeon, 0, 0);
 
     }
 
-    public int helper(int i, int j, int[][] grid, int k, int sum){
+    public int helper(int[][] grid, int i, int j){
         if(i<0 || i>= grid.length || j<0 || j>=grid[0].length)
-            return 0;
-        sum+= grid[i][j];
-        if(i==grid.length-1 && j==grid[0].length)
-            return sum%k==0?1:0;
-        if(dp[i][j][sum%k]!=-1)
-            return dp[i][j][sum%k];
-        dp[i][j][sum%k] = (helper(i+1, j, grid, k, sum) + helper(i, j+1, grid, k, sum))%1000000007;
-        return dp[i][j][sum%k];
+            return Integer.MAX_VALUE;
+        if(i==grid.length-1 && j==grid[0].length-1)
+            return grid[i][j]>=0? 1:-grid[i][j] +1;
+        if(memo[i][j]!=Integer.MAX_VALUE)
+            return memo[i][j];
+        int res = Math.min(helper(grid, i+1, j), helper(grid, i, j+1)) - grid[i][j];
+        return memo[i][j] = res<=0?1:res;
 
     }
 
