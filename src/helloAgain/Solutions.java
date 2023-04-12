@@ -8,35 +8,32 @@ import java.util.*;
 
 
 public class Solutions {
-    int[][] memo;
-    public int calculateMinimumHP(int[][] dungeon) {
-        int m = dungeon.length;
-        int n = dungeon[0].length;
-        memo = new int[m][n];
-        for(int[] i:memo){
-            Arrays.fill(i, Integer.MAX_VALUE);
+    public String simplifyPath(String path) {
+        StringBuilder sb = new StringBuilder();
+        Stack<String> s = new Stack<>();
+        String[] arr = path.split("/");
+
+        for(int i = 0;i<arr.length;i++){
+            if(!s.isEmpty() && arr[i].equals(".."))
+                s.pop();
+            else if(!arr[i].equals("") && !arr[i].equals(".") && !arr[i].equals(".."))
+                s.push(arr[i]);
         }
-        return helper(dungeon, 0, 0);
 
-    }
-
-    public int helper(int[][] grid, int i, int j){
-        if(i<0 || i>= grid.length || j<0 || j>=grid[0].length)
-            return Integer.MAX_VALUE;
-        if(i==grid.length-1 && j==grid[0].length-1)
-            return grid[i][j]>=0? 1:-grid[i][j] +1;
-        if(memo[i][j]!=Integer.MAX_VALUE)
-            return memo[i][j];
-        int res = Math.min(helper(grid, i+1, j), helper(grid, i, j+1)) - grid[i][j];
-        return memo[i][j] = res<=0?1:res;
+        if(s.isEmpty())
+            return "/";
+        while(!s.isEmpty()){
+            sb.insert(0, s.pop()).insert(0, "/");
+        }
+        return sb.toString();
 
     }
 
 
     public static void main(String[] args){
-        String s = "(]";
+        int[] nums = {10, 2};
 
-        //System.out.println(isValid(s));
+        //System.out.println(largestNumber(nums));
 
     }
 
