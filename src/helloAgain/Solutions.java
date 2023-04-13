@@ -8,30 +8,20 @@ import java.util.*;
 
 
 public class Solutions {
-    public int diagonalPrime(int[][] nums) {
-        int max = 0;
-        for(int i = 0;i< nums.length;i++){
-            if(prime(nums[i][i]))
-                max = Math.max(max, nums[i][i]);
-            if(prime(nums[nums.length-1-i][i]))
-                max = Math.max(max, nums[nums.length-1-i][i]);
-        }
-        return max;
 
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        Stack<Integer> stack = new Stack<>();
+        int index = 0;
+        for(int i:pushed){
+            stack.push(i);
+            while(!stack.isEmpty() && stack.peek()==popped[index]) {
+                stack.pop();
+                index++;
+            }
+        }
+        return stack.isEmpty();
 
     }
-
-    public boolean prime(int n){
-        if(n<2)
-            return false;
-        for(int i = 2;i<=Math.sqrt(n);i++){
-            if(n%i==0)
-                return false;
-        }
-        return true;
-    }
-
-
 
 
     public static void main(String[] args){
