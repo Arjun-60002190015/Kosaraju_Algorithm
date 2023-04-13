@@ -8,23 +8,30 @@ import java.util.*;
 
 
 public class Solutions {
-    public int maxSubArray(int[] nums) {
-        int start = 0;
-        int end = 0;
-        int sum = 0;
-        int max = Integer.MIN_VALUE;
-        while(end< nums.length){
-            if(sum<0 && nums[end]>=sum){
-                start = end;
-                sum = 0;
-            }
-            sum += nums[end];
-            max = Math.max(sum, max);
-            end++;
+    public int diagonalPrime(int[][] nums) {
+        int max = 0;
+        for(int i = 0;i< nums.length;i++){
+            if(prime(nums[i][i]))
+                max = Math.max(max, nums[i][i]);
+            if(prime(nums[nums.length-1-i][i]))
+                max = Math.max(max, nums[nums.length-1-i][i]);
         }
         return max;
 
+
     }
+
+    public boolean prime(int n){
+        if(n<2)
+            return false;
+        for(int i = 2;i<=Math.sqrt(n);i++){
+            if(n%i==0)
+                return false;
+        }
+        return true;
+    }
+
+
 
 
     public static void main(String[] args){
