@@ -9,32 +9,26 @@ import java.util.*;
 
 public class Solutions {
 
-    public int longestPalindromeSubseq(String s) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(s);
-        sb.reverse();
-        return lcs(s, sb.toString());
-
-
-    }
-
-    public int lcs(String s1, String s2){
-        int[][] dp = new int[s1.length()+1][s2.length()+1];
-        for(int i = 0;i<s1.length();i++){
-            for(int j = 0;j<s2.length();j++){
-                if(i==0 || j==0)
-                    dp[i][j] = 0;
+    public int change(int amount, int[] coins) {
+        int n = coins.length;
+        int[][] dp = new int[n+1][amount+1];
+        for(int i = 0;i<=n;i++){
+            dp[i][0] = 1;
+        }
+        for(int j = 0;j<=amount;j++){
+            dp[0][j] = 0;
+        }
+        for(int i= 1;i<=n;i++){
+            for(int j = 1;j<=amount;j++){
+                if(coins[i-1]>j){
+                    dp[i][j] = dp[i-1][j];
+                }else{
+                    dp[i][j] = dp[i-1][j] + dp[i][j - coins[i-1]];
+                }
             }
         }
+        return dp[n][amount];
 
-        for(int i = 1;i<s1.length();i++){
-            for(int j = 1;j<s2.length();j++){
-                if(s1.charAt(i-1)==s2.charAt(j-1))
-                    dp[i][j] = 1 + dp[i-1][j-1];
-                else dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
-            }
-        }
-        return dp[s1.length()][s2.length()];
     }
 
 
