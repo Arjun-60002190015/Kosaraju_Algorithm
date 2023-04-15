@@ -8,38 +8,22 @@ import java.util.*;
 
 
 public class Solutions {
-    Integer[][] dp;
-
-    public int maxValueOfCoins(List<List<Integer>> piles, int k) {
-        int n = piles.size();
-        dp = new Integer[n+1][k+1];
-        return helper(piles, n-1, k);
-
-    }
-
-    public int helper(List<List<Integer>> piles, int curr, int left){
-        if(curr<0 || left==0)
-            return 0;
-        if(dp[curr][left]!=null)
-            return dp[curr][left];
-        int limit = Math.max(left, piles.get(curr).size());
-
-        int dontTake = helper(piles, curr - 1, left);
-
-        int Take = 0;
-        for(int j = 0, sum = 0;j<limit;j++){
-            sum += piles.get(curr).get(j);
-            Take = Math.max(sum + helper(piles, curr-1, left - (j+1)), Take);
+    public static long[] findPrefixScore(int[] nums) {
+        long res[] = new long[nums.length];
+        res[0] = nums[0] *2;
+        int max = nums[0];
+        for(int i = 1;i< nums.length;i++){
+            if(nums[i]>max)
+                max = nums[i];
+            res[i] = res[i-1] + (max+nums[i]);
         }
-
-        int res = Math.max(Take, dontTake);
-        dp[curr][left] = res;
         return res;
+
     }
 
 
     public static void main(String[] args){
-        int[] nums = {10, 2};
+        int[] nums = {2, 3, 7, 5, 10};
 
         //System.out.println(largestNumber(nums));
 
