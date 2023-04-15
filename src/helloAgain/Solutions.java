@@ -18,7 +18,7 @@ public class Solutions {
     }
 
     public int helper(List<List<Integer>> piles, int curr, int left){
-        if(curr==0 || left==0)
+        if(curr<0 || left==0)
             return 0;
         if(dp[curr][left]!=null)
             return dp[curr][left];
