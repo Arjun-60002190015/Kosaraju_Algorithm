@@ -8,28 +8,29 @@ import java.util.*;
 
 
 public class Solutions {
-    public int countSquares(int[][] matrix) {
-        int[][] dp = new int[matrix.length][matrix[0].length];
-        for(int i = 0;i< matrix.length;i++){
-            dp[i][0] = matrix[i][0];
-        }
-        for(int i = 0;i<matrix[0].length;i++){
-            dp[0][i] = matrix[0][i];
-        }
-        for(int i = 1;i< matrix.length;i++){
-            for(int j = 1;j<matrix[0].length;j++){
-                if(matrix[i][j]==1){
-                    dp[i][j] = 1 + Math.min(dp[i-1][j], Math.min(dp[i-1][j-1], dp[i][j-1]));
+    public int[] rowAndMaximumOnes(int[][] mat) {
+        int[] res = new int[2];
+        int index = -1;
+        int ones = 0;
+        int max = Integer.MIN_VALUE;
+        for(int i = mat.length-1;i>=0;i--){
+            for(int j = 0;j<mat[0].length;j++){
+                if(mat[i][j]==1){
+                    ones++;
+
                 }
             }
+            max = Math.max(ones, max);
+
+
+            ones = 0;
+
         }
-        int sum = 0;
-        for(int i = 0;i< matrix.length;i++){
-            for(int j = 0;j<matrix[0].length;j++){
-                sum += dp[i][j];
-            }
-        }
-        return sum;
+        res[0] = index;
+        res[1] = max;
+        return res;
+
+
 
     }
 
