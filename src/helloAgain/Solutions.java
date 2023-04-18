@@ -8,25 +8,21 @@ import java.util.*;
 
 
 public class Solutions {
-    public String mergeAlternately(String word1, String word2) {
-        int first = 0;
-        int second = 0;
-        StringBuilder res = new StringBuilder();
-        while(first<word1.length() || second<word2.length()){
-            if(first<word1.length()){
-                res.append(word1.charAt(first));
-                first++;
+    public int countPairs(int[] deliciousness) {
+            int result = 0;
+            int MOD=1000000007;
+            Map<Integer, Integer> map = new HashMap<>();
+            for(int i=0; i<deliciousness.length; i++){
+                for(int j=0; j<32; j++){
+                    int key = (int)Math.pow(2, j);
+                    int value = key - deliciousness[i];
+                    result = (result + map.getOrDefault(value, 0))%MOD;
+                }
+                map.put(deliciousness[i], map.getOrDefault(deliciousness[i], 0)+1);
             }
-            if(second<word2.length()){
-                res.append(word2.charAt(second));
-                second++;
-            }
-        }
-
-        return res.toString();
-
-
+            return result;
     }
+
 
 
     public static void main(String[] args){
