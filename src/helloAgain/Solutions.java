@@ -8,40 +8,33 @@ import java.util.*;
 
 
 public class Solutions {
-    public int[] twoSumButWrongSolution(int[] numbers, int target) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        int[] res = new int[2];
-        for(int i = 0;i< numbers.length;i++){
-            if(map.containsKey(target - numbers[i])){
-                res[0] = i+1;
-                res[1] = map.get(target - numbers[i]) +1;
-            }else map.put(numbers[i], i);
-        }
-        Arrays.sort(res);
-        return res;
-
-    }
-
-    public int[] twoSum(int[] numbers, int target) {
-        int left = 0;
-        int right = numbers.length-1;
-        while(numbers[left] + numbers[right]!=target){
-            if((numbers[left] + numbers[right])>target){
-                right--;
-            }else{
-                left++;
+    public String mergeAlternately(String word1, String word2) {
+        int first = 0;
+        int second = 0;
+        StringBuilder res = new StringBuilder();
+        while(first<word1.length() || second<word2.length()){
+            if(first<word1.length()){
+                res.append(word1.charAt(first));
+                first++;
+            }
+            if(second<word2.length()){
+                res.append(word2.charAt(second));
+                second++;
             }
         }
-        return new int[] {left+1, right+1};
+
+        return res.toString();
+
+
     }
 
 
-
-
-        public static void main(String[] args){
+    public static void main(String[] args){
         int[] nums = {2, 3, 5, 1, 3};
+        String ne = "ab";
+        String we = "pqrs";
 
-        //System.out.println(kidsWithCandies(nums, 3));
+        //System.out.println(mergeAlternately(ne, we));
 
     }
 
