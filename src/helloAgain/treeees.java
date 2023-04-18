@@ -30,31 +30,34 @@ public class treeees {
           next = null;
       }
     }
-    ArrayList<Integer> s = new ArrayList<>();
-
-    public int kthSmallest(TreeNode root, int k) {
-        dfs(root, k);
-
-        Collections.sort(s);
-        return s.get(k-1);
-
-
-    }
-
-    public void dfs(TreeNode root, int k){
-        if(root.left!=null)
-            dfs(root.left, k);
-        s.add(root.val);
-
-        if(s.size()>=k)
-            return;
-        if(root.right!=null)
-            dfs(root.right, k);
+    HashSet<Integer> set = new HashSet<>();
+    public boolean findTargetUsingHashSet(TreeNode root, int k) {
+        if(root==null)
+            return false;
+        if(set.contains(k - root.val))
+            return true;
+        set.add(root.val);
+        findTargetUsingHashSet(root.left, k);
+        findTargetUsingHashSet(root.right, k);
+        return false;
     }
 
 
 
-    public static void main(String[] args){
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public static void main(String[] args){
 
     }
 
