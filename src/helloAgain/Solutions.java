@@ -8,23 +8,16 @@ import java.util.*;
 
 
 public class Solutions {
-    public long dividePlayers(int[] skill) {
-        Arrays.sort(skill);
-        if(skill.length==2)
-            return skill[0]*skill[1];
-
-        long res = 0;
-        int k = skill[0]+skill[skill.length-1];
-        int index = 0;
-        while(index< skill.length/2){
-            if(skill[index] + skill[skill.length - index]==k){
-                res += (skill[index]*skill[skill.length - index]);
-                index++;
-
-            }else return -1;
+    public int minMoves(int[] nums) {
+        int min = nums[0];
+        for(int i:nums){
+            min = Math.min(min, i);
         }
-        return res;
-
+        int sum = 0;
+        for(int i:nums){
+            sum += i - min;
+        }
+        return sum;
 
     }
 
