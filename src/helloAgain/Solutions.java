@@ -8,29 +8,29 @@ import java.util.*;
 
 
 public class Solutions {
-    public int countPairs(int[] deliciousness) {
-            int result = 0;
-            int MOD=1000000007;
-            Map<Integer, Integer> map = new HashMap<>();
-            for(int i=0; i<deliciousness.length; i++){
-                for(int j=0; j<32; j++){
-                    int key = (int)Math.pow(2, j);
-                    int value = key - deliciousness[i];
-                    result = (result + map.getOrDefault(value, 0))%MOD;
-                }
-                map.put(deliciousness[i], map.getOrDefault(deliciousness[i], 0)+1);
+    public static int maxOperations(int[] nums, int k) {
+        //HashSet<Integer> set = new HashSet<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int count = 0;
+        for(int i = 0;i< nums.length;i++){
+            if(map.containsKey(k - nums[i]) && map.get(k - nums[i])>0){
+                count++;
+                map.put(k - nums[i], map.get(k - nums[i])-1);
+
             }
-            return result;
+            map.put(nums[i], map.getOrDefault(nums[i], 0)+1);
+        }
+        return count;
+
     }
 
 
 
     public static void main(String[] args){
-        int[] nums = {2, 3, 5, 1, 3};
-        String ne = "ab";
-        String we = "pqrs";
+        int[] nums = {1, 2, 3, 4,};
 
-        //System.out.println(mergeAlternately(ne, we));
+
+        System.out.println(maxOperations(nums, 5));
 
     }
 
