@@ -30,16 +30,32 @@ public class treeees {
           next = null;
       }
     }
-    HashSet<Integer> set = new HashSet<>();
-    public boolean findTargetUsingHashSet(TreeNode root, int k) {
-        if(root==null)
-            return false;
-        if(set.contains(k - root.val))
-            return true;
-        set.add(root.val);
-        findTargetUsingHashSet(root.left, k);
-        findTargetUsingHashSet(root.right, k);
-        return false;
+
+    int count = 0;
+    public int longestZigZag(TreeNode root) {
+        if(root==null | (root.left==null && root.right==null))
+            return 0;
+        dfs(root.left, 1, "left");
+        dfs(root.right, 1, "right");
+        return count-1;
+
+
+    }
+
+    public void dfs(TreeNode node, int temp, String res){
+        count = Math.max(count, temp);
+        if(node==null)
+            return;
+
+        if(res=="left"){
+            dfs(node.right, temp+1, "right");
+            dfs(node.left, 1, "left");
+        }
+        if(res=="right"){
+            dfs(node.left, temp+1, "left");
+            dfs(node.right, 1, "right");
+        }
+
     }
 
 
