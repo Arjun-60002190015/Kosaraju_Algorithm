@@ -8,35 +8,43 @@ import java.util.*;
 
 
 public class Solutions {
-    public int minInsertions(String s) {
-        StringBuilder sb = new StringBuilder(s);
-        sb.reverse();
-        int sub = lcs(s, sb.toString());
-        return s.length() - sub;
-
+    public int lastStoneWeightUsingPriorityQueue(int[] stones) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        for(int st:stones){
+            pq.add(st);
+        }
+        while(pq.size()>1){
+            int p = pq.poll();
+            int q = pq.poll();
+            if(p!=q){
+                pq.add(p - q);
+            }
+        }
+        return pq.isEmpty()? 0:pq.peek();
     }
 
-    public int lcs(String s1, String s2){
-        int m = s1.length();
-        int n = s2.length();
-        int[][] dp = new int[m+1][n+1];
-        for(int i = 0;i<=m;i++){
-            for(int j = 0;j<=n;j++){
-                if(i==0 || j==0)
-                    dp[i][j] = 0;
+    public int lastStoneWeight(int[] stones) {
+        ArrayList<Integer> ar = new ArrayList<>();
+        for(int i=0;i<stones.length;i++){
+            ar.add(stones[i]);
+        }
+
+        while(ar.size()>1){
+            Collections.sort(ar);
+            int y = ar.get(ar.size()-1);
+            ar.remove(new Integer((y)));
+            int x = ar.get(ar.size()-1);
+            ar.remove(new Integer(x));
+            if(x!=y){
+                ar.add(y-x);
             }
         }
 
-        for(int i = 1;i<=m;i++){
-            for(int j = 1;j<=n;j++){
-                if(s1.charAt(i-1)==s2.charAt(j-1)){
-                    dp[i][j] = 1 + dp[i-1][j-1];
-                }else{
-                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
-                }
-            }
+        if(!ar.isEmpty()){
+            return ar.get(0);
         }
-        return dp[m][n];
+        return 0;
+
     }
 
 
