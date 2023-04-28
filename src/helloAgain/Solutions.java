@@ -8,38 +8,16 @@ import java.util.*;
 
 
 public class Solutions {
-    public int numSimilarGroups(String[] strs) {
-        int n = strs.length;
-        boolean[] visied = new boolean[n];
-        int count = 0;
-        for(int i = 0;i<n;i++){
-            if(!visied[i]){
-                dfs(strs, visied, i);
-                count++;
-            }
+    public int minMoves2(int[] nums) {
+        Arrays.sort(nums);
+        int res = 0;
+        int mid = nums[nums.length/2];
+        for(int i:nums){
+            res += Math.abs(i - mid);
         }
-        return count;
+        return res;
 
-    }
 
-    public void dfs(String[] strs, boolean[] visited, int i){
-        visited[i] = true;
-        for(int j = 0;j< strs.length;j++){
-            if(!visited[j] && isSimilar(strs[i],strs[j] ))
-                dfs(strs, visited, j);
-
-        }
-    }
-
-    public boolean isSimilar(String s1, String s2){
-        int diff = 0;
-        for(int i = 0;i<s1.length();i++){
-            if(s1.charAt(i)!=s2.charAt(i))
-                diff++;
-            if(diff>2)
-                return false;
-        }
-        return true;
     }
 
 
