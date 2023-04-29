@@ -8,16 +8,32 @@ import java.util.*;
 
 
 public class Solutions {
-    public int minMoves2(int[] nums) {
-        Arrays.sort(nums);
-        int res = 0;
-        int mid = nums[nums.length/2];
+    public int minOperations(int[] nums) {
+        int ones = 0;
         for(int i:nums){
-            res += Math.abs(i - mid);
+            if(i==1)
+                ones++;
         }
-        return res;
+        if(ones>0)
+            return nums.length - ones;
 
+        int ans = Integer.MAX_VALUE;
+        for(int i = 0;i< nums.length;i++){
+            int gcd = nums[i];
+            for(int j = i+1;j< nums.length;j++){
+                gcd = findGcd(gcd, nums[j]);
+                if(gcd==1)
+                    ans = Math.min(ans, j - i+ nums.length - 1);
+            }
+        }
+        return ans == Integer.MAX_VALUE?-1:ans;
 
+    }
+
+    public int findGcd(int a, int b){
+        if(a==0)
+            return 0;
+        return findGcd(b%a, a);
     }
 
 
