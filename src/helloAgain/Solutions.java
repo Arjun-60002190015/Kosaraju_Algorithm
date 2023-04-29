@@ -8,32 +8,34 @@ import java.util.*;
 
 
 public class Solutions {
-    public int minOperations(int[] nums) {
-        int ones = 0;
-        for(int i:nums){
-            if(i==1)
-                ones++;
-        }
-        if(ones>0)
-            return nums.length - ones;
+    int sum;
+    int max = 0;
+    public int findMaxFish(int[][] grid) {
+        for(int i = 0;i< grid.length;i++){
+            for(int j = 0;j< grid[0].length;j++){
 
-        int ans = Integer.MAX_VALUE;
-        for(int i = 0;i< nums.length;i++){
-            int gcd = nums[i];
-            for(int j = i+1;j< nums.length;j++){
-                gcd = findGcd(gcd, nums[j]);
-                if(gcd==1)
-                    ans = Math.min(ans, j - i+ nums.length - 1);
+                if(grid[i][j]>0) {
+                    sum = 0;
+                    helper(i, j, grid);
+                    max = Math.max(sum, max);
+                }
             }
         }
-        return ans == Integer.MAX_VALUE?-1:ans;
+        return max;
 
     }
 
-    public int findGcd(int a, int b){
-        if(a==0)
-            return 0;
-        return findGcd(b%a, a);
+    public void helper(int i, int j, int[][]grid){
+        if(i<0 || i>=grid.length || j<0 || j>=grid[0].length || grid[i][j] ==0)
+            return;
+
+        sum += grid[i][j];
+        grid[i][j] = 0;
+
+        helper(i-1, j, grid);
+        helper(i+1, j, grid);
+        helper(i, j-1, grid);
+        helper(i, j+1, grid);
     }
 
 
