@@ -8,34 +8,43 @@ import java.util.*;
 
 
 public class Solutions {
-    int sum;
-    int max = 0;
-    public int findMaxFish(int[][] grid) {
-        for(int i = 0;i< grid.length;i++){
-            for(int j = 0;j< grid[0].length;j++){
 
-                if(grid[i][j]>0) {
-                    sum = 0;
-                    helper(i, j, grid);
-                    max = Math.max(sum, max);
+    int endR = 0;
+    int endC = 0;
+    int row, col;
+    public int[][] findFarmland(int[][] land) {
+        row = land.length;
+        col = land[0].length;
+
+        ArrayList<int[]> list = new ArrayList<>();
+        for(int i = 0;i<row;i++){
+            for(int j = 0;j<col;j++){
+                if(land[i][j]==1){
+                    dfs(land, i, j);
+                    list.add(new int[]{ i, j, endR, endC});
+                    endR = 0;
+                    endC = 0;
                 }
             }
         }
-        return max;
+        int[][] res = new int[list.size()][4];
+        for(int i = 0;i<res.length;i++){
+            res[i] = list.get(i);
+        }
+        return res;
 
     }
 
-    public void helper(int i, int j, int[][]grid){
-        if(i<0 || i>=grid.length || j<0 || j>=grid[0].length || grid[i][j] ==0)
+    public void dfs(int[][] land, int i, int j){
+        if(i<0 || i>=row || j<0 || j>=col || land[i][j]==0)
             return;
 
-        sum += grid[i][j];
-        grid[i][j] = 0;
+        land[i][j] = 0;
+        dfs(land, i+1, j);
+        dfs(land, i, j+1);
 
-        helper(i-1, j, grid);
-        helper(i+1, j, grid);
-        helper(i, j-1, grid);
-        helper(i, j+1, grid);
+        endC = Math.max(endC, j);
+        endR = Math.max(endR, i);
     }
 
 
