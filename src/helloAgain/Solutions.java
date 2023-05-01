@@ -9,42 +9,28 @@ import java.util.*;
 
 public class Solutions {
 
-    int endR = 0;
-    int endC = 0;
-    int row, col;
-    public int[][] findFarmland(int[][] land) {
-        row = land.length;
-        col = land[0].length;
-
-        ArrayList<int[]> list = new ArrayList<>();
-        for(int i = 0;i<row;i++){
-            for(int j = 0;j<col;j++){
-                if(land[i][j]==1){
-                    dfs(land, i, j);
-                    list.add(new int[]{ i, j, endR, endC});
-                    endR = 0;
-                    endC = 0;
+    public int countBattleships(char[][] board) {
+        int count = 0;
+        for(int i = 0;i< board.length;i++){
+            for(int j = 0;j< board[0].length;j++) {
+                if (board[i][j] == 'X'){
+                    helper(i, j, board);
+                    count++;
                 }
             }
         }
-        int[][] res = new int[list.size()][4];
-        for(int i = 0;i<res.length;i++){
-            res[i] = list.get(i);
-        }
-        return res;
+        return count;
 
     }
 
-    public void dfs(int[][] land, int i, int j){
-        if(i<0 || i>=row || j<0 || j>=col || land[i][j]==0)
+    public void helper(int i, int j, char[][] board){
+        if(i<0 || i>= board.length || j<0 || j>= board[0].length || board[i][j]=='.')
             return;
-
-        land[i][j] = 0;
-        dfs(land, i+1, j);
-        dfs(land, i, j+1);
-
-        endC = Math.max(endC, j);
-        endR = Math.max(endR, i);
+        board[i][j] = '.';
+        helper(i+1, j, board);
+        helper(i-1, j, board);
+        helper(i, j+1, board);
+        helper(i, j-1, board);
     }
 
 
