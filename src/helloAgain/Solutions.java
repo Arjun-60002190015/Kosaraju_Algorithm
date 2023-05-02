@@ -9,29 +9,23 @@ import java.util.*;
 
 public class Solutions {
 
-    public int countBattleships(char[][] board) {
-        int count = 0;
-        for(int i = 0;i< board.length;i++){
-            for(int j = 0;j< board[0].length;j++) {
-                if (board[i][j] == 'X'){
-                    helper(i, j, board);
-                    count++;
-                }
-            }
+    public int waysToSplitArray(int[] nums) {
+        int sum = 0;
+        for(int i:nums){
+            sum+= i;
         }
-        return  count;
+        int count = 0;
+        int rightSum = 0;
+        for(int i = 0;i< nums.length;i++){
+            rightSum += nums[i];
+            if(rightSum>(sum - rightSum))
+                count++;
+        }
+        return count;
 
     }
 
-    public void helper(int i, int j, char[][] board){
-        if(i<0 || i>= board.length || j<0 || j>= board[0].length || board[i][j]=='.')
-            return;
-        board[i][j] = '.';
-        helper(i+1, j, board);
-        helper(i-1, j, board);
-        helper(i, j+1, board);
-        helper(i, j-1, board);
-    }
+
 
 
 
