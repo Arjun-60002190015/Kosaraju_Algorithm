@@ -9,19 +9,23 @@ import java.util.*;
 
 public class Solutions {
 
-    public int waysToSplitArray(int[] nums) {
-        int sum = 0;
-        for(int i:nums){
-            sum+= i;
+    public int numOfStrings(String[] patterns, String word) {
+        int ans = 0;
+        for(int i = 0;i< patterns.length;i++){
+            char ch = patterns[i].charAt(0);
+            int len = patterns[i].length();
+            for(int j = 0;j<word.length();j++){
+                if(word.charAt(j)==ch){
+                    if(j + len <= word.length()){
+                        if(patterns[i].equals(word.substring(j, j+len))){
+                            ans++;
+                            break;
+                        }
+                    }
+                }
+            }
         }
-        int count = 0;
-        int rightSum = 0;
-        for(int i = 0;i< nums.length;i++){
-            rightSum += nums[i];
-            if(rightSum>(sum - rightSum))
-                count++;
-        }
-        return count;
+        return ans;
 
     }
 
