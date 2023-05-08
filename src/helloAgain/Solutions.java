@@ -9,18 +9,27 @@ import java.util.*;
 
 public class Solutions {
 
-    public int diagonalSum(int[][] mat) {
-        int sum = 0;
-        int n = mat.length;
-        for(int i = 0;i<n;i++){
+    public boolean checkXMatrix(int[][] grid) {
+        boolean[][] grid1 = new boolean[grid.length][grid[0].length];
+        int n = grid.length;
+        for(int i = 0;i< grid.length;i++){
+            if(grid[i][i]==0 || grid[i][n-i-1]==0) {
+                return false;
+            }
 
-                sum += mat[i][i] + mat[i][n-i-1];
 
         }
-        if(n%2!=0)
-            sum = sum - mat[n/2][n/2];
 
-        return sum;
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<n;j++){
+                if(i==j || j==(n-i-1))
+                    continue;
+                else if(grid[i][j]!=0)
+                    return false;
+
+            }
+        }
+        return true;
 
     }
 
