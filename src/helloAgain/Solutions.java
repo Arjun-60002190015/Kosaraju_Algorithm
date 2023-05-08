@@ -9,34 +9,29 @@ import java.util.*;
 
 public class Solutions {
 
-    public boolean checkXMatrix(int[][] grid) {
-        boolean[][] grid1 = new boolean[grid.length][grid[0].length];
-        int n = grid.length;
-        for(int i = 0;i< grid.length;i++){
-            if(grid[i][i]==0 || grid[i][n-i-1]==0) {
-                return false;
-            }
+    public int minSteps(int n) {
+        dp = new Integer[n][n];
+        return helper1(n, 1, 0);
 
-
-        }
-
-        for(int i = 0;i<n;i++){
-            for(int j = 0;j<n;j++){
-                if(i==j || j==(n-i-1))
-                    continue;
-                else if(grid[i][j]!=0)
-                    return false;
-
-            }
-        }
-        return true;
 
     }
+    Integer[][] dp;
 
+    public int helper1(int n, int curr, int copy){
+        if(curr==n)
+            return 0;
+        if(dp[curr][copy]!=null)
+            return dp[curr][copy];
 
+        int min = Integer.MAX_VALUE-1;
+        if(curr+copy<=n && copy!=0)
+            min = Math.min(min, helper1(n, curr+copy, copy)+1) ;
+        if(curr>copy)
+            min = Math.min(min, helper1(n, curr, curr)+1);
 
-
-
+        dp[curr][copy] = min;
+        return min;
+    }
 
 
     public static void main(String[] args){
