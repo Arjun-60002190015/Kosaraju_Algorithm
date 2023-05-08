@@ -9,23 +9,18 @@ import java.util.*;
 
 public class Solutions {
 
-    public int numOfStrings(String[] patterns, String word) {
-        int ans = 0;
-        for(int i = 0;i< patterns.length;i++){
-            char ch = patterns[i].charAt(0);
-            int len = patterns[i].length();
-            for(int j = 0;j<word.length();j++){
-                if(word.charAt(j)==ch){
-                    if(j + len <= word.length()){
-                        if(patterns[i].equals(word.substring(j, j+len))){
-                            ans++;
-                            break;
-                        }
-                    }
-                }
-            }
+    public int diagonalSum(int[][] mat) {
+        int sum = 0;
+        int n = mat.length;
+        for(int i = 0;i<n;i++){
+
+                sum += mat[i][i] + mat[i][n-i-1];
+
         }
-        return ans;
+        if(n%2!=0)
+            sum = sum - mat[n/2][n/2];
+
+        return sum;
 
     }
 
