@@ -8,7 +8,6 @@ import java.util.*;
 
 
 public class Solutions {
-
     public int maximumElementAfterDecrementingAndRearranging(int[] arr) {
         Arrays.sort(arr);
         arr[0] = 1;
