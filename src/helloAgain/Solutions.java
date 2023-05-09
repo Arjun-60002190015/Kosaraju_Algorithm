@@ -9,14 +9,18 @@ import java.util.*;
 
 public class Solutions {
 
-    public int brokenCalc(int startValue, int target) {
-        if(startValue>=target)
-            return startValue - target;
-        if(target%2==0)
-            return brokenCalc(startValue, target/2);
-        return brokenCalc(startValue, target-1);
-    }
+    public int maximumElementAfterDecrementingAndRearranging(int[] arr) {
+        Arrays.sort(arr);
+        arr[0] = 1;
+        for(int i = 1;i<arr.length;i++){
+            if(Math.abs(arr[i-1] - arr[i])<=1)
+                continue;
+            else arr[i] = arr[i-1]+1;
+        }
+        return arr[arr.length-1];
 
+
+    }
 
     public static void main(String[] args){
         int[] nums = {1, 2, 3, 4,};
