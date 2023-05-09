@@ -9,28 +9,13 @@ import java.util.*;
 
 public class Solutions {
 
-    public int minSteps(int n) {
-        dp = new Integer[n][n];
-        return helper1(n, 1, 0);
+    public int brokenCalc(int startValue, int target) {
+        if(startValue>=target)
+            return startValue - target;
+        if(target%2==0)
+            return brokenCalc(startValue, target/2);
+        return brokenCalc(startValue, target-1);
 
-
-    }
-    Integer[][] dp;
-
-    public int helper1(int n, int curr, int copy){
-        if(curr==n)
-            return 0;
-        if(dp[curr][copy]!=null)
-            return dp[curr][copy];
-
-        int min = Integer.MAX_VALUE-1;
-        if(curr+copy<=n && copy!=0)
-            min = Math.min(min, helper1(n, curr+copy, copy)+1) ;
-        if(curr>copy)
-            min = Math.min(min, helper1(n, curr, curr)+1);
-
-        dp[curr][copy] = min;
-        return min;
     }
 
 
