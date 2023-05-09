@@ -15,7 +15,6 @@ public class Solutions {
         if(target%2==0)
             return brokenCalc(startValue, target/2);
         return brokenCalc(startValue, target-1);
-
     }
 
 
