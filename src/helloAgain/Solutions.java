@@ -8,50 +8,37 @@ import java.util.*;
 
 
 public class Solutions {
-    public List<Integer> spiralOrder(int[][] matrix) {
-        List<Integer> res=  new ArrayList<>();
-        if(matrix.length==0 || matrix[0].length==0)
-            return res;
-        int top = 0;
+    public int[][] generateMatrix(int n) {
+        int[][] res = new int[n][n];
         int left = 0;
-        int right = matrix.length;
-        int bottom = matrix[0].length;
-
-        while(true){
-            for(int i = left;i<=right;i++){
-                res.add(matrix[top][i]);
-                top++;
-
-                if(left>right || top>bottom)
-                    break;
+        int top =0;
+        int right = n-1;
+        int bottom = n-1;
+        int count=  0;
+        while(left<=right){
+            for(int j = left;j<=right;j++){
+                res[top][j] = count++;
             }
-
+            top++;
             for(int i = top;i<=bottom;i++){
-                res.add(matrix[i][right]);
-                right--;
-
-                if(left>right || top>bottom)
-                    break;
+                res[i][right] = count++;
             }
-
-            for(int i = right;i>=left;i--){
-                bottom--;
-                res.add(matrix[bottom][i]);
-                if(left>right || top>bottom)
-                    break;
+            right--;
+            for(int j = right;j>=left;j--){
+                res[bottom][j] = count++;
             }
+            bottom--;
 
             for(int i = bottom;i>=top;i--){
-                left++;
-                res.add(matrix[i][left]);
-                if(left>right || top>bottom)
-                    break;
+                res[i][left] = count++;
             }
-            return res;
+            left++;
         }
-
+        return res;
 
     }
+
+
     public static void main(String[] args){
         int[] nums = {1, 2, 3, 4,};
 
