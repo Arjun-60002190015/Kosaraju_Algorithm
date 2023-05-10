@@ -8,19 +8,22 @@ import java.util.*;
 
 
 public class Solutions {
-    public int findLongestChain(int[][] pairs) {
-        int count = 1;
-        int prev = pairs[0][1];
-        Arrays.sort(pairs, (a, b) -> {return a[0] - b[0];});
-        for(int i = 1;i< pairs.length;i++){
-            if(prev<pairs[i][0]) {
-                prev = pairs[i][1];
-                count++;
-            }else{
-                prev = Math.min(prev, pairs[i][1]);
-            }
+    public int trap(int[] height) {
+        int left[] = new int[height.length];
+        int right[] = new int[height.length];
+        left[0] = height[0];
+        for(int i = 1;i< height.length;i++){
+            left[i] = Math.max(left[i-1], height[i]);
         }
-        return count;
+        right[height.length-1] = height[height.length-1];
+        for(int i = height.length-2;i>=0;i--){
+            right[i] = Math.max(right[i+1], height[i]);
+        }
+        int sum = 0;
+        for(int i = 0;i< height.length;i++){
+            sum += Math.min(left[i], right[i]) - height[i];
+        }
+        return sum;
 
     }
 
