@@ -9,7 +9,6 @@ import java.util.*;
 
 public class Solutions {
     public int findLongestChain(int[][] pairs) {
-
         int count = 1;
         int prev = pairs[0][1];
         Arrays.sort(pairs, (a, b) -> {return a[0] - b[0];});
