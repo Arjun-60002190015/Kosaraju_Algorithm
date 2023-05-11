@@ -8,36 +8,24 @@ import java.util.*;
 
 
 public class Solutions {
-    public int maxAreaBruteForce(int[] height) {
-        int n = height.length;
-        int max = 0;
-        for(int i = 0;i<n;i++){
-            for(int j = i+1;j<n;j++){
-                int area = Math.min(height[i],height[j]) * (j-i);
-                max = Math.max(max, area);
+    public int maxUncrossedLines(int[] nums1, int[] nums2) {
+        int m = nums1.length;
+        int n = nums2.length;
+        int[][] dp = new int[m+1][n+1];
+        for(int i = 1;i<=m;i++){
+            for(int j = 1;j<=n;j++){
+                if(nums1[i-1]==nums2[j-1]){
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                }else{
+                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+                }
             }
         }
-        return max;
-    }
-
-    public int maxArea(int[] height) {
-        int n = height.length;
-        int left = 0;
-        int right = n-1;
-        int max = Math.min(height[left], height[right]) * (right - left);
-        while(left<right){
-            if(height[left]<=height[right])
-                left++;
-            else{
-                right--;
-            }
-
-            max = Math.max(max, Math.min(height[left], height[right])*(right-left));
-
-        }
-        return max;
+        return dp[m][n];
 
     }
+
+
 
 
     public static void main(String[] args){
