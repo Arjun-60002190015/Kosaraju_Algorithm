@@ -31,32 +31,27 @@ public class treeees {
       }
     }
 
-    int count = 0;
-    public int longestZigZag(TreeNode root) {
-        if(root==null | (root.left==null && root.right==null))
-            return 0;
-        dfs(root.left, 1, "left");
-        dfs(root.right, 1, "right");
-        return count-1;
+    public ListNode swapPairs(ListNode head) {
+        ListNode prev = new ListNode(0);
+        prev.next = head;
+        ListNode newH = prev;
 
+        while(prev.next!=null && prev.next.next!=null){
+            ListNode node1 = prev.next;
+            ListNode node2 = node1.next;
+            ListNode next = node2.next;
+
+            prev.next = node2;
+            node2.next = node1;
+            node1.next = next;
+
+            prev = node1;
+        }
+        return newH.next;
 
     }
 
-    public void dfs(TreeNode node, int temp, String res){
-        count = Math.max(count, temp);
-        if(node==null)
-            return;
 
-        if(res=="left"){
-            dfs(node.right, temp+1, "right");
-            dfs(node.left, 1, "left");
-        }
-        if(res=="right"){
-            dfs(node.left, temp+1, "left");
-            dfs(node.right, 1, "right");
-        }
-
-    }
 
 
 
