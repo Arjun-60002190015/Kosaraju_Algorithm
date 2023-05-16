@@ -31,24 +31,71 @@ public class treeees {
       }
     }
 
-    public ListNode swapPairs(ListNode head) {
-        ListNode prev = new ListNode(0);
-        prev.next = head;
-        ListNode newH = prev;
+    //Swapping values
+    public ListNode swapNode(ListNode head, int k) {
+        ListNode left = head;
+        ListNode right = head;
+        int count =0 ;
+        while(left!=null){
+            count++;
+            if(count==k)
+                break;
 
-        while(prev.next!=null && prev.next.next!=null){
-            ListNode node1 = prev.next;
-            ListNode node2 = node1.next;
-            ListNode next = node2.next;
-
-            prev.next = node2;
-            node2.next = node1;
-            node1.next = next;
-
-            prev = node1;
+            left = left.next;
         }
-        return newH.next;
 
+        ListNode p = left;
+        while(p.next!=null){
+            p = p.next;
+            right = right.next;
+        }
+
+        int temp = left.val;
+        left.val = right.val;
+        right.val = temp;
+
+        return head;
+
+    }
+
+    //swapping nodes
+    public ListNode swapNodes(ListNode head, int k) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode preLeft = dummy;
+        ListNode left = head;
+        ListNode preRight = dummy;
+        ListNode right = head;
+
+        for(int i = 1;i<k;i++){
+            preLeft = preLeft.next;
+            left = left.next;
+        }
+
+        ListNode curr = left;
+        while(curr.next!=null){
+            curr = curr.next;
+            preRight = preRight.next;
+            right = right.next;
+        }
+
+        ListNode temp = left.next;
+        if(preLeft==right){
+            preLeft.next = left;
+            left.next = right;
+            right.next = temp;
+        }
+        else if(left==preRight){
+            left.next = right.next;
+            preLeft.next = right;
+            right.next = left;
+        }else{
+            preLeft.next = right;
+            left.next = right.next;
+            preRight.next = left;
+            right.next = temp;
+        }
+        return dummy.next;
     }
 
 
