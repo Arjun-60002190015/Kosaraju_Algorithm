@@ -8,21 +8,33 @@ import java.util.*;
 
 
 public class Solutions {
-    public int maxUncrossedLines(int[] nums1, int[] nums2) {
-        int m = nums1.length;
-        int n = nums2.length;
-        int[][] dp = new int[m+1][n+1];
-        for(int i = 1;i<=m;i++){
-            for(int j = 1;j<=n;j++){
-                if(nums1[i-1]==nums2[j-1]){
-                    dp[i][j] = 1 + dp[i-1][j-1];
-                }else{
-                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
-                }
+    public int maximumTastiness(int[] price, int k) {
+        Arrays.sort(price);
+        int low = price[0];
+        int high = price[price.length-1] - price[0];
+        while(low<high){
+            int mid = 1+ low + (high-low)/2;
+            if(bs(mid, price, k)){
+                low = mid;
+            }else{
+                high = mid - 1;
             }
         }
-        return dp[m][n];
+        return low;
+    }
 
+    public boolean bs(int target, int[] price, int k){
+        int prev = price[0];
+        int count = 1;
+        for(int i = 1;i< price.length;i++){
+            if(price[i]-prev>=target){
+                count++;
+                prev = price[i];
+            }
+            if(count==k)
+                return true;
+        }
+        return false;
     }
 
 
