@@ -31,7 +31,24 @@ public class treeees {
       }
     }
 
-    //Swapping values
+    public int pairSum(ListNode head) {
+        List<Integer> res = new ArrayList<>();
+        ListNode curr = head;
+        while(curr!=null){
+            res.add(curr.val);
+            curr = curr.next;
+        }
+        int min = 0;
+        for(int i = 0;i<res.size()/2;i++){
+            int sum  = res.get(i) + res.get(res.size() - 1- i);
+            if(sum>min)
+                min = sum;
+        }
+        return min;
+
+
+    }
+
 
 
 
