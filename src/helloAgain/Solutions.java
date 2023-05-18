@@ -10,7 +10,7 @@ import java.util.*;
 public class Solutions {
 
 
-    public int[] sortArrayByParity(int[] nums) {
+    public int[] sortArrayByParityII(int[] nums) {
         List<Integer> odd = new ArrayList<>();
         List<Integer> even = new ArrayList<>();
 
@@ -19,16 +19,17 @@ public class Solutions {
                 odd.add(i);
             else even.add(i);
         }
-
-        for(int i = 0;i< even.size();i++){
-            nums[i] = even.get(i);
-        }
-        int index = 0;
-        for(int i = even.size();i< even.size()+ odd.size();i++){
-            nums[i] = odd.get(index);
-            index++;
+        int oIndex = 0;
+        int eIndex = 0;
+        int count = 0;
+        while(count< nums.length){
+            if(count%2!=0)
+                nums[count++] = odd.get(oIndex++);
+            else
+                nums[count++] = even.get(eIndex++);
         }
         return nums;
+
 
     }
 
