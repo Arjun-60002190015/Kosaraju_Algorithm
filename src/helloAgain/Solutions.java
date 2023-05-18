@@ -10,21 +10,25 @@ import java.util.*;
 public class Solutions {
 
 
-    public boolean searchMatrix(int[][] matrix, int target) {
-        int i = 0;
-        int j = matrix[0].length-1;
-        while(i< matrix.length && j>=0){
-            if(matrix[i][j]==target)
-                return true;
-            if(matrix[i][j]<target){
-                i++;
-            }
-            else {
-                j--;
-            }
+    public int[] sortArrayByParity(int[] nums) {
+        List<Integer> odd = new ArrayList<>();
+        List<Integer> even = new ArrayList<>();
 
+        for(int i:nums){
+            if(i%2!=0)
+                odd.add(i);
+            else even.add(i);
         }
-        return false;
+
+        for(int i = 0;i< even.size();i++){
+            nums[i] = even.get(i);
+        }
+        int index = 0;
+        for(int i = even.size();i< even.size()+ odd.size();i++){
+            nums[i] = odd.get(index);
+            index++;
+        }
+        return nums;
 
     }
 
