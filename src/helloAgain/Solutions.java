@@ -9,35 +9,24 @@ import java.util.*;
 
 public class Solutions {
 
-    //Recursion solution
-
-    public long mostPointsUsingRecursion(int[][] questions) {
-        return helper(0, questions);
+    public int robUsingRecursion(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n+1];
+        Arrays.fill(dp, -1);
+        return helper(nums,n-1, dp);
     }
 
-    public long helper(int index, int[][] questions){
-        if(index== questions.length)
-            return 0;
-        if(questions[index][1] + index+1> questions.length){
-            return Math.max(questions[index][0], helper(index+1, questions));
-        }else{
-            return Math.max(helper(index+1, questions), questions[index][0] + helper(index + questions[index][1] + 1, questions));
-        }
+    public int helper(int[] nums, int i, int[] dp){
+        if(i==0)
+            return nums[0];
+        if(i==1)
+            return Math.max(nums[0], nums[1]);
+        if(dp[i]!=-1)
+            return dp[i];
+        return dp[i] = Math.max(helper(nums, i-1, dp), nums[i]+ helper(nums, i-2, dp));
     }
-    //Using DP
 
-    public long mostPoints(int[][] questions) {
-        int n = questions.length;
-        long[] dp = new long[n+1];
-        dp[n] = 0;
-        for(int i = n-1;i>=0;i--){
-            if(questions[i][1]+i+1>n){
-                dp[i] = Math.max(dp[i+1], questions[i][0]);
-            }else dp[i] = Math.max(dp[i+1], questions[i][0]+dp[questions[i][1]+i+1]);
-        }
-        return dp[0];
 
-    }
 
 
 
