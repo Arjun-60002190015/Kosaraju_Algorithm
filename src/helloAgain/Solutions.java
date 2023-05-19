@@ -10,27 +10,28 @@ import java.util.*;
 public class Solutions {
 
 
-    public int[] sortArrayByParityII(int[] nums) {
-        List<Integer> odd = new ArrayList<>();
-        List<Integer> even = new ArrayList<>();
+    public boolean isBipartite(int[][] graph) {
+        int[] colors = new int[graph.length];
 
-        for(int i:nums){
-            if(i%2!=0)
-                odd.add(i);
-            else even.add(i);
+        for(int i = 0;i< graph.length;i++){
+            if(colors[i]==0 && helper(graph, colors, i, 1))
+                return false;
         }
-        int oIndex = 0;
-        int eIndex = 0;
-        int count = 0;
-        while(count< nums.length){
-            if(count%2!=0)
-                nums[count++] = odd.get(oIndex++);
-            else
-                nums[count++] = even.get(eIndex++);
+        return true;
+
+    }
+
+    public boolean helper(int[][] graph, int[] colors, int node, int c){
+        if(colors[node]!=0)
+            return colors[node]==c;
+
+        colors[node] = c;
+
+        for(int n:graph[node]){
+            if(!helper(graph, colors, n, -c))
+                return false;
         }
-        return nums;
-
-
+        return true;
     }
 
 
