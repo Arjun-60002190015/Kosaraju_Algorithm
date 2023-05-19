@@ -9,29 +9,34 @@ import java.util.*;
 
 public class Solutions {
 
+    //Recursion solution
 
-    public boolean isBipartite(int[][] graph) {
-        int[] colors = new int[graph.length];
-
-        for(int i = 0;i< graph.length;i++){
-            if(colors[i]==0 && helper(graph, colors, i, 1))
-                return false;
-        }
-        return true;
-
+    public long mostPointsUsingRecursion(int[][] questions) {
+        return helper(0, questions);
     }
 
-    public boolean helper(int[][] graph, int[] colors, int node, int c){
-        if(colors[node]!=0)
-            return colors[node]==c;
-
-        colors[node] = c;
-
-        for(int n:graph[node]){
-            if(!helper(graph, colors, n, -c))
-                return false;
+    public long helper(int index, int[][] questions){
+        if(index== questions.length)
+            return 0;
+        if(questions[index][1] + index+1> questions.length){
+            return Math.max(questions[index][0], helper(index+1, questions));
+        }else{
+            return Math.max(helper(index+1, questions), questions[index][0] + helper(index + questions[index][1] + 1, questions));
         }
-        return true;
+    }
+    //Using DP
+
+    public long mostPoints(int[][] questions) {
+        int n = questions.length;
+        long[] dp = new long[n+1];
+        dp[n] = 0;
+        for(int i = n-1;i>=0;i--){
+            if(questions[i][1]+i+1>n){
+                dp[i] = Math.max(dp[i+1], questions[i][0]);
+            }else dp[i] = Math.max(dp[i+1], questions[i][0]+dp[questions[i][1]+i+1]);
+        }
+        return dp[0];
+
     }
 
 
