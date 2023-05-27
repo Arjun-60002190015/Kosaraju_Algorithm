@@ -9,71 +9,61 @@ import java.util.*;
 
 public class Solutions {
     //Recursive Solution
-
-    public int stoneGameIIRecursive(int[] piles) {
-        int n = piles.length;
-        int[] prefix = new int[n];
-        prefix[n-1] = piles[n-1];
-        for(int i = n-2;i>=0;i--){
-            prefix[i] = piles[i] + prefix[i+1];
+    public String stoneGameIIIRecursive(int[] stoneValue) {
+        int n = stoneValue.length;
+        int diff = helperR(stoneValue, n, 0);
+        if(diff>0) {
+            return "Alice";
         }
-
-
-        return helper(piles, prefix, 0, 1);
+        else if(diff<0){
+            return "Bob";
+        }
+        return "Tie";
 
     }
 
-    public int helperR(int[] piles, int[] prefix, int i, int M) {
-        if (i == piles.length)
+    public int helperR(int[] nums, int n, int i){
+        if(i==n)
             return 0;
-
-        if(2*M>= piles.length-i){
-            return prefix[i];
+        int res = nums[i] - helperR(nums, n, i+1);
+        if(i+2 <= n){
+            res = Math.max(res, nums[i]+nums[i+1] - helperR(nums, n, i+2));
         }
-
-
-        int max = 0;
-        for(int j = 1;j<=2*M;j++){
-            int rem = prefix[i] - helperR(piles, prefix, i+j, Math.max(M, j));
-            max = Math.max(max, rem);
+        if(i+3 <=n){
+            res = Math.max(res, nums[i] + nums[i+1] + nums[i+2] - helperR(nums, n, i+3));
         }
-        return  max;
+        return res;
     }
 
-    //Memoized Solution
-    int[][] memo;
-    public int stoneGameII(int[] piles) {
-        int n = piles.length;
-        int[] prefix = new int[n];
-        prefix[n-1] = piles[n-1];
-        for(int i = n-2;i>=0;i--){
-            prefix[i] = piles[i] + prefix[i+1];
-        }
+    //Dp Solution
 
-        memo = new int[n][n];
-        for(int[] mem:memo){
-            Arrays.fill(mem, -1);
-        }
-        return helper(piles, prefix, 0, 1);
+    public String stoneGameIII(int[] stoneValue) {
+        int n = stoneValue.length;
+        int[] dp = new int[n];
+        Arrays.fill(dp, -1);
+        int diff = helper(stoneValue, dp, n, 0);
+        if(diff>0){
+            return "Alice";
+        }else if(diff<0)
+            return "Bob";
+        return "Tie";
 
     }
 
-    public int helper(int[] piles, int[] prefix, int i, int M) {
-        if (i >= piles.length)
+    public int helper(int[] nums, int[] dp, int n, int i){
+        if(i==n)
             return 0;
+        if(dp[i]!=-1)
+            return dp[i];
+        int res = nums[i] - helper(nums, dp, n, i+1);
+        if(i+1<n){
+            res = Math.max(res, nums[i]+nums[i+1] - helper(nums, dp, n, i+2));
 
-        if(2*M>= piles.length-i){
-            return prefix[i];
         }
-        if(memo[i][M]!=-1)
-            return memo[i][M];
-
-        int max = 0;
-        for(int j = 1;j<=2;j++){
-            int rem = prefix[i] - helper(piles, prefix, i+j, Math.max(M, j));
-            max = Math.max(max, rem);
+        if(i+2<n){
+            res = Math.max(res, nums[i]+nums[i+1]+nums[i+2] - helper(nums, dp, n, i+3));
         }
-        return memo[i][M] = max;
+        return dp[i] = res;
     }
 
 
