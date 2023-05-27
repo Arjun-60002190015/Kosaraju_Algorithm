@@ -8,27 +8,72 @@ import java.util.*;
 
 
 public class Solutions {
-    public boolean PredictTheWinner(int[] nums) {
-        int n = nums.length;
-        if(n==1)
-            return true;
-        int sum = 0;
-        for(int i:nums){
-            sum += i;
+    //Recursive Solution
+
+    public int stoneGameIIRecursive(int[] piles) {
+        int n = piles.length;
+        int[] prefix = new int[n];
+        prefix[n-1] = piles[n-1];
+        for(int i = n-2;i>=0;i--){
+            prefix[i] = piles[i] + prefix[i+1];
         }
-        int ans = predict(nums, 0, n-1);
-        if(ans<(sum - ans))
-            return false;
-        return true;
+
+
+        return helper(piles, prefix, 0, 1);
 
     }
 
-    public int predict(int[] nums, int start, int end){
-        if(start>end)
+    public int helperR(int[] piles, int[] prefix, int i, int M) {
+        if (i == piles.length)
             return 0;
-        int one = nums[start] + Math.min(predict(nums, start+2, end), predict(nums, start+1, end-1));
-        int two = nums[end] + Math.min(predict(nums, start+1, end-1), predict(nums, start, end-2));
-        return Math.max(one, two);
+
+        if(2*M>= piles.length-i){
+            return prefix[i];
+        }
+
+
+        int max = 0;
+        for(int j = 1;j<=2*M;j++){
+            int rem = prefix[i] - helperR(piles, prefix, i+j, Math.max(M, j));
+            max = Math.max(max, rem);
+        }
+        return  max;
+    }
+
+    //Memoized Solution
+    int[][] memo;
+    public int stoneGameII(int[] piles) {
+        int n = piles.length;
+        int[] prefix = new int[n];
+        prefix[n-1] = piles[n-1];
+        for(int i = n-2;i>=0;i--){
+            prefix[i] = piles[i] + prefix[i+1];
+        }
+
+        memo = new int[n][n];
+        for(int[] mem:memo){
+            Arrays.fill(mem, -1);
+        }
+        return helper(piles, prefix, 0, 1);
+
+    }
+
+    public int helper(int[] piles, int[] prefix, int i, int M) {
+        if (i >= piles.length)
+            return 0;
+
+        if(2*M>= piles.length-i){
+            return prefix[i];
+        }
+        if(memo[i][M]!=-1)
+            return memo[i][M];
+
+        int max = 0;
+        for(int j = 1;j<=2;j++){
+            int rem = prefix[i] - helper(piles, prefix, i+j, Math.max(M, j));
+            max = Math.max(max, rem);
+        }
+        return memo[i][M] = max;
     }
 
 
