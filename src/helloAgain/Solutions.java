@@ -9,35 +9,30 @@ import java.util.*;
 
 public class Solutions {
     int count = 0;
-    public int maximumDetonation(int[][] bombs) {
-        int n = bombs.length;
+    public int maxAreaOfIsland(int[][] grid) {
         int ans = 0;
-        for(int i = 0;i<n;i++){
-            count = 0;
-            dfs(i, new boolean[n], bombs);
-            ans = Math.max(ans, count);
-        }
-        return ans;
+        for(int i= 0 ;i< grid.length;i++){
+            for(int j = 0;j<grid[0].length;j++){
+                if(grid[i][j]==1){
+                    count = 0;
+                    dfs(i, j, grid);
 
-    }
-
-    public void dfs(int index, boolean[] v, int[][] bombs){
-        count++;
-        v[index] = true;
-        int n = bombs.length;
-        for(int i = 0;i<n;i++){
-            if(!v[i] && inRange(bombs[index], bombs[i])){
-                v[i] = true;
-                dfs(i, v, bombs);
+                }
+                ans = Math.max(ans, count);
             }
         }
+        return ans;
     }
 
-    public boolean inRange(int[] a, int[] b){
-        long x = a[0] - b[0];
-        long y = a[1] - b[1];
-        long r = a[2];
-        return x*x + y*y <= r*r;
+    public void dfs(int i, int j, int[][] grid){
+        if(i<0 || i>= grid.length || j<0 || j>=grid[0].length || grid[i][j]==0)
+            return;
+        count++;
+        grid[i][j] = 0;
+        dfs(i+1, j, grid);
+        dfs(i-1, j, grid);
+        dfs(i, j+1, grid);
+        dfs(i, j-1, grid);
     }
 
     public static void main(String[] args){
