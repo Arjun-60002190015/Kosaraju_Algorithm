@@ -8,31 +8,36 @@ import java.util.*;
 
 
 public class Solutions {
-    int count = 0;
-    public int maxAreaOfIsland(int[][] grid) {
-        int ans = 0;
-        for(int i= 0 ;i< grid.length;i++){
+    public int orangesRotting(int[][] grid) {
+        int l = 2;
+        for(int i = 0;i< grid.length;i++){
             for(int j = 0;j<grid[0].length;j++){
-                if(grid[i][j]==1){
-                    count = 0;
-                    dfs(i, j, grid);
-
+                if(grid[i][j]==2){
+                    dfs(i, j, 2, grid);
                 }
-                ans = Math.max(ans, count);
             }
         }
-        return ans;
+        for(int i = 0;i<grid.length;i++){
+            for(int j = 0;j<grid[0].length;j++){
+                if(grid[i][j]==1) {
+                    return -1;
+                }
+                l = Math.max(l, grid[i][j]);
+            }
+        }
+        return l-2;
+
     }
 
-    public void dfs(int i, int j, int[][] grid){
-        if(i<0 || i>= grid.length || j<0 || j>=grid[0].length || grid[i][j]==0)
+    public void dfs(int i, int j, int level, int[][] grid){
+        if(i<0 || i>= grid.length || j<0 || j>=grid[0].length || grid[i][j]==0
+         || grid[i][j]>1 && grid[i][j]<level)
             return;
-        count++;
-        grid[i][j] = 0;
-        dfs(i+1, j, grid);
-        dfs(i-1, j, grid);
-        dfs(i, j+1, grid);
-        dfs(i, j-1, grid);
+        grid[i][j] = level;
+        dfs(i+1, j, level+1, grid);
+        dfs(i-1, j, level+1, grid);
+        dfs(i, j+1, level+1, grid);
+        dfs(i, j-1, level+1, grid);
     }
 
     public static void main(String[] args){
