@@ -39,8 +39,10 @@ public class Solutions {
         while(!queue.isEmpty()){
             List<Integer> room = queue.poll();
             for(int r:room){
-                queue.offer(rooms.get(r));
-                set.add(r);
+                if(!set.contains(r)) {
+                    queue.offer(rooms.get(r));
+                    set.add(r);
+                }
             }
         }
         return set.size()== rooms.size();
