@@ -8,31 +8,46 @@ import java.util.*;
 
 
 public class Solutions {
-    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
-        List<List<Integer>> list = new ArrayList<>();
+    // DFS Solution
+    public boolean canVisitAllRoomsDFS(List<List<Integer>> rooms) {
+        int n = rooms.size();
+        boolean[] visited = new boolean[n];
+        helper(0, rooms, visited);
         for(int i = 0;i<n;i++){
-            list.add(new ArrayList<>());
+            if(!visited[i])
+                return false;
         }
-        for(int i = 0;i<n;i++){
-            if(manager[i]!=-1){
-                list.get(manager[i]).add(i);
+        return true;
+
+    }
+
+    public void helper(int index, List<List<Integer>> rooms, boolean[] visited){
+        if(visited[index] || index== visited.length)
+            return;
+        visited[index] = true;
+        for(int key:rooms.get(index))
+            helper(key, rooms, visited);
+    }
+
+    //BFS Solution
+
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        HashSet<Integer> set = new HashSet<>();
+        Queue<List<Integer>> queue = new LinkedList<>();
+        queue.offer(rooms.get(0));
+        set.add(0);
+        while(!queue.isEmpty()){
+            List<Integer> room = queue.poll();
+            for(int r:room){
+                queue.offer(rooms.get(r));
+                set.add(r);
             }
         }
-        return helper(headID, list, informTime);
-
+        return set.size()== rooms.size();
     }
 
-    public int helper(int i, List<List<Integer>> list, int[] time){
-        int max = 0;
-        for(int emp:list.get(i)){
-            int timex = helper(emp, list, time);
-            max = Math.max(max, timex);
-        }
 
-        return max + time [i];
-    }
-
-    public static void main(String[] args){
+        public static void main(String[] args){
         int[] nums = {0, -1};
         //System.out.println(maxStrength(nums));
 
