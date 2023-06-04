@@ -8,30 +8,41 @@ import java.util.*;
 
 
 public class Solutions {
-    public String arrangeWords(String text) {
-        String[] str = text.split(" ");
-        PriorityQueue<Integer> pq = new PriorityQueue<>((s1, s2)-> str[s1].length() - str[s2].length()==0?s1-s2:str[s1].length()-str[s2].length());
-        for(int i = 0;i< str.length;i++){
-            pq.add(i);
-        }
-        StringBuilder ans = new StringBuilder(text.length());
-        int i = 0;
-        while(!pq.isEmpty()){
-            int temp = pq.poll();
-            if(i==0){
-                ans.append(str[temp].substring(0, 1).toUpperCase()+str[temp].substring(1));
+    public int[] findDiagonalOrder(int[][] mat) {
+        int m = mat.length;
+        int n = mat[0].length;
+        int[] res = new int[m*n];
+        int index = 0;
+        int i, j = 0;
+        res[index++] = mat[i][j];
+        boolean isUp = true;
+        while(index!= res.length){
+            if(isUp){
+                j += 1;
+                while(j!=0 && i!= m-1){
+                    if(j<n){
+                        res[index++] = mat[i][j];
+                    }
+                    i++;
+                    j--;
+                }
+                res[index++] = mat[i][j];
+                isUp = false;
             }
             else{
-                ans.append(" ");
-                ans.append(str[temp].toLowerCase());
+                i+= 1;
+                while(i!=0 && j!=n-1){
+                    if(i<m){
+                        res[index++] = mat[i][j];
+                    }
+                    i--;
+                    j++;
+                }
+                res[index++] = mat[i][j];
+                isUp = true;
             }
-            i++;
         }
-
-        return ans.toString();
-
-
-
+        return res;
 
     }
 
