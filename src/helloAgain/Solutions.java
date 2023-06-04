@@ -8,48 +8,35 @@ import java.util.*;
 
 
 public class Solutions {
-    // DFS Solution
-    public boolean canVisitAllRoomsDFS(List<List<Integer>> rooms) {
-        int n = rooms.size();
-        boolean[] visited = new boolean[n];
-        helper(0, rooms, visited);
-        for(int i = 0;i<n;i++){
-            if(!visited[i])
-                return false;
+    public String arrangeWords(String text) {
+        String[] str = text.split(" ");
+        PriorityQueue<Integer> pq = new PriorityQueue<>((s1, s2)-> str[s1].length() - str[s2].length()==0?s1-s2:str[s1].length()-str[s2].length());
+        for(int i = 0;i< str.length;i++){
+            pq.add(i);
         }
-        return true;
-
-    }
-
-    public void helper(int index, List<List<Integer>> rooms, boolean[] visited){
-        if(visited[index] || index== visited.length)
-            return;
-        visited[index] = true;
-        for(int key:rooms.get(index))
-            helper(key, rooms, visited);
-    }
-
-    //BFS Solution
-
-    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
-        HashSet<Integer> set = new HashSet<>();
-        Queue<List<Integer>> queue = new LinkedList<>();
-        queue.offer(rooms.get(0));
-        set.add(0);
-        while(!queue.isEmpty()){
-            List<Integer> room = queue.poll();
-            for(int r:room){
-                if(!set.contains(r)) {
-                    queue.offer(rooms.get(r));
-                    set.add(r);
-                }
+        StringBuilder ans = new StringBuilder(text.length());
+        int i = 0;
+        while(!pq.isEmpty()){
+            int temp = pq.poll();
+            if(i==0){
+                ans.append(str[temp].substring(0, 1).toUpperCase()+str[temp].substring(1));
             }
+            else{
+                ans.append(" ");
+                ans.append(str[temp].toLowerCase());
+            }
+            i++;
         }
-        return set.size()== rooms.size();
+
+        return ans.toString();
+
+
+
+
     }
 
 
-        public static void main(String[] args){
+    public static void main(String[] args){
         int[] nums = {0, -1};
         //System.out.println(maxStrength(nums));
 
