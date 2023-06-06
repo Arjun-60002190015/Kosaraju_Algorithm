@@ -8,30 +8,24 @@ import java.util.*;
 
 
 public class Solutions {
-    public String smallestSubsequence(String s) {
-        int[] lastIndex = new int[26];
-        boolean[] vis = new boolean[26];
+    public boolean isIsomorphic(String s, String t) {
+        if(s.length()!=t.length())
+            return false;
+        boolean [] visited = new boolean[128];
+        HashMap<Character, Character> map = new HashMap<>();
         for(int i = 0;i<s.length();i++){
-            lastIndex[s.charAt(i) - 'a'] = i;
-        }
-        Stack<Integer> stack = new Stack<>();
-        for(int i = 0;i<s.length();i++){
-            int ch = s.charAt(i) - 'a';
-            if(vis[ch])
-                continue;
-            while(!stack.isEmpty() && stack.peek()>ch && i<lastIndex[stack.peek()]){
-                vis[stack.pop()] = false;
+            if(map.containsKey(s.charAt(i))){
+                if(map.get(s.charAt(i))!=t.charAt(i))
+                    return false;
+            }else{
+                if(visited[t.charAt(i)])
+                    return false;
+                visited[t.charAt(i)] = true;
+                map.put(s.charAt(i), t.charAt(i));
             }
-            stack.push(ch);
-            vis[ch] = true;
-
         }
-        StringBuilder sb = new StringBuilder();
-        while(!stack.isEmpty()){
-            sb.append((char)(stack.pop() +'a'));
+        return true;
 
-        }
-        return sb.reverse().toString();
 
     }
 
