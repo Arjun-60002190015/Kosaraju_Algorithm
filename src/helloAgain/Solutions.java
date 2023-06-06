@@ -8,24 +8,38 @@ import java.util.*;
 
 
 public class Solutions {
-    public boolean isIsomorphic(String s, String t) {
-        if(s.length()!=t.length())
-            return false;
-        boolean [] visited = new boolean[128];
-        HashMap<Character, Character> map = new HashMap<>();
-        for(int i = 0;i<s.length();i++){
-            if(map.containsKey(s.charAt(i))){
-                if(map.get(s.charAt(i))!=t.charAt(i))
-                    return false;
-            }else{
-                if(visited[t.charAt(i)])
-                    return false;
-                visited[t.charAt(i)] = true;
-                map.put(s.charAt(i), t.charAt(i));
+    public boolean exist(char[][] board, String word) {
+        boolean flag = false;
+        for(int i = 0;i< board.length;i++){
+            for(int j = 0;j< board[i].length;j++){
+                if(board[i][j]==word.charAt(0)){
+                    flag = helper(board, 0, i, j, word);
+
+                }
             }
         }
-        return true;
+        return flag;
 
+    }
+
+    public boolean helper(char[][] board, int length, int i, int j, String word){
+        if(i<0 || i>= board.length || j<0 || j>= board[0].length)
+            return false;
+        if(board[i][j]==word.charAt(length)){
+            char temp = board[i][j];
+            board[i][j] = '#';
+            if(length==word.length()-1) {
+                return true;
+            }
+            else if(helper(board, length+1, i-1, j, word)
+            || helper(board, length+1, i+1, j, word)
+            || helper(board, length+1, i, j+1, word)
+            || helper(board, length+1, i, j-1, word)){
+                return true;
+            }
+            board[i][j] = temp;
+        }
+        return false;
 
     }
 
