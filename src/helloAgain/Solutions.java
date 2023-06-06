@@ -8,15 +8,22 @@ import java.util.*;
 
 
 public class Solutions {
-    public int[][] transpose(int[][] matrix) {
-        int[][] res = new int[matrix[0].length][matrix.length];
-        for(int i = 0;i< matrix.length;i++){
-            for(int j = 0;j< matrix[i].length;j++){
-                res[i][j] = matrix[j][i];
-            }
-        }
-        return res;
+    long prod;
+    public long maxStrength(int[] nums) {
+        prod = Integer.MIN_VALUE;
+        helper(nums, 0, 1, 0);
+        return prod;
 
+    }
+
+    public void helper(int[] nums, int index, long product, int size){
+        if(index>= nums.length){
+            if(size!=0) prod = Math.max(prod, product);
+            return;
+        }
+
+        helper(nums, index+1, product*nums[index], size+1);
+        helper(nums, index+1, product, size);
     }
 
 
