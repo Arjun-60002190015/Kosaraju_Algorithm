@@ -8,22 +8,19 @@ import java.util.*;
 
 
 public class Solutions {
-    long prod;
-    public long maxStrength(int[] nums) {
-        prod = Integer.MIN_VALUE;
-        helper(nums, 0, 1, 0);
-        return prod;
-
-    }
-
-    public void helper(int[] nums, int index, long product, int size){
-        if(index>= nums.length){
-            if(size!=0) prod = Math.max(prod, product);
-            return;
+    public String longestCommonPrefix(String[] strs) {
+        String res = "";
+        Arrays.sort(strs);
+        int index = 0;
+        while(index<strs[0].length() && index<strs[strs.length-1].length()){
+            if(strs[0].charAt(index)==strs[strs.length-1].charAt(index)){
+                res += strs[0].charAt(index);
+                index++;
+            }else break;
         }
+        return res;
 
-        helper(nums, index+1, product*nums[index], size+1);
-        helper(nums, index+1, product, size);
+
     }
 
 
