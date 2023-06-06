@@ -8,18 +8,30 @@ import java.util.*;
 
 
 public class Solutions {
-    public String longestCommonPrefix(String[] strs) {
-        String res = "";
-        Arrays.sort(strs);
-        int index = 0;
-        while(index<strs[0].length() && index<strs[strs.length-1].length()){
-            if(strs[0].charAt(index)==strs[strs.length-1].charAt(index)){
-                res += strs[0].charAt(index);
-                index++;
-            }else break;
+    public String smallestSubsequence(String s) {
+        int[] lastIndex = new int[26];
+        boolean[] vis = new boolean[26];
+        for(int i = 0;i<s.length();i++){
+            lastIndex[s.charAt(i) - 'a'] = i;
         }
-        return res;
+        Stack<Integer> stack = new Stack<>();
+        for(int i = 0;i<s.length();i++){
+            int ch = s.charAt(i) - 'a';
+            if(vis[ch])
+                continue;
+            while(!stack.isEmpty() && stack.peek()>ch && i<lastIndex[stack.peek()]){
+                vis[stack.pop()] = false;
+            }
+            stack.push(ch);
+            vis[ch] = true;
 
+        }
+        StringBuilder sb = new StringBuilder();
+        while(!stack.isEmpty()){
+            sb.append((char)(stack.pop() +'a'));
+
+        }
+        return sb.reverse().toString();
 
     }
 
