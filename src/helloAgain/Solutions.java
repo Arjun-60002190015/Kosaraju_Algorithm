@@ -8,39 +8,45 @@ import java.util.*;
 
 
 public class Solutions {
-    public boolean exist(char[][] board, String word) {
-        boolean flag = false;
-        for(int i = 0;i< board.length;i++){
-            for(int j = 0;j< board[i].length;j++){
-                if(board[i][j]==word.charAt(0)){
-                    flag = helper(board, 0, i, j, word);
-
-                }
-            }
+    public int maxMoves(int[][] grid) {
+        int res = 0;
+        int[][] dp = new int[grid.length+1][grid[0].length+1];
+        for(int[] memo:dp){
+            Arrays.fill(memo, -1);
         }
-        return flag;
+        for(int i = 0;i<grid.length;i++){
+            res = Math.max(res, helper(grid, i, 0, dp));
+        }
+        return res;
 
     }
 
-    public boolean helper(char[][] board, int length, int i, int j, String word){
-        if(i<0 || i>= board.length || j<0 || j>= board[0].length)
+    public boolean move(int row, int col, int[][] grid){
+        if(row<0 || row==grid.length || col<0 || col==grid[0].length)
             return false;
-        if(board[i][j]==word.charAt(length)){
-            char temp = board[i][j];
-            board[i][j] = '#';
-            if(length==word.length()-1) {
-                return true;
-            }
-            else if(helper(board, length+1, i-1, j, word)
-            || helper(board, length+1, i+1, j, word)
-            || helper(board, length+1, i, j+1, word)
-            || helper(board, length+1, i, j-1, word)){
-                return true;
-            }
-            board[i][j] = temp;
-        }
-        return false;
+        return true;
+    }
 
+    public int helper(int[][] grid, int i, int col, int[][] dp){
+        if(!move(i, col, grid)) return 0;
+        if(dp[i][col] !=-1)
+            return dp[i][col];
+        int up = 0;
+        int right = 0;
+        int down = 0;
+        if(move(i-1, col+1, grid) && grid[i][col]<grid[i-1][col+1]){
+            up = 1 + helper(grid, i-1, col+1, dp);
+        }
+
+        if(move(i, col+1, grid) && grid[i][col] < grid[i][col+1]){
+            right = 1 + helper(grid, i, col+1, dp);
+        }
+
+        if(move(i+1, col+1, grid) && grid[i][col]<grid[i+1][col+1]){
+            down = 1 + helper(grid, i+1, col+1, dp);
+        }
+
+        return dp[i][col] = Math.max(right, Math.max(up, down));
     }
 
 
