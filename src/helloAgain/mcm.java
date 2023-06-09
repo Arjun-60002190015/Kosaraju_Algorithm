@@ -7,25 +7,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class mcm {
-    public int[] rowAndMaximumOnes(int[][] mat) {
-        int[] res = new int[2];
-        int index = 0;
-        int max = 0;
-        for(int i = 0;i< mat.length;i++){
-            int ones = 0;
-            for(int j = 0;j<mat[0].length;j++){
-                if(mat[i][j]==1){
-                    ones++;
-                }
-            }
-            if(ones>max){
-                max = ones;
-                index = i;
-            }
+    public char nextGreatestLetter(char[] letters, char target) {
+        int start = 0;
+        int end = letters.length-1;
+        while(start<=end){
+            int mid = start + (end - start)/2;
+            if(letters[mid]<=target){
+                start = mid+1;
+            }else end = mid-1;
         }
-        res[0] = index;
-        res[1] = max;
-        return res;
+        return start==letters.length? letters[0]:letters[start];
+
     }
 
 
