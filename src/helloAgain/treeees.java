@@ -30,42 +30,26 @@ public class treeees {
           next = null;
       }
     }
+    int level = 0;
 
-    public int pairSum(ListNode head) {
-        List<Integer> res = new ArrayList<>();
-        ListNode curr = head;
-        while(curr!=null){
-            res.add(curr.val);
-            curr = curr.next;
-        }
-        int min = 0;
-        for(int i = 0;i<res.size()/2;i++){
-            int sum  = res.get(i) + res.get(res.size() - 1- i);
-            if(sum>min)
-                min = sum;
-        }
-        return min;
+    public int diameterOfBinaryTree(TreeNode root) {
+        helper(root);
+        return level-1;
+    }
 
-
+    public int helper(TreeNode root){
+        if(root==null)
+            return 0;
+        int left = helper(root.left);
+        int right = helper(root.right);
+        level = Math.max(level, left+right+1);
+        return Math.max(left, right)+1;
     }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public static void main(String[] args){
+    public static void main(String[] args){
 
     }
 
