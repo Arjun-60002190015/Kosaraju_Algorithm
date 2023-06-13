@@ -9,32 +9,29 @@ import java.util.*;
 
 public class Solutions {
 
-    public long matrixSumQueries(int n, int[][] queries) {
-        boolean[] col = new boolean[n];
-        boolean[] row = new boolean[n];
-        int rowC = 0;
-        int colC = 0;
-        long sum = 0;
-        for(int i = queries.length-1;i>=0;i--){
-            int val = queries[i][2];
-            int type = queries[i][0];
-            int index = queries[i][1];
-
-            if(type==0 && !row[index]){
-                rowC++;
-                row[index] = true;
-                sum += (n-colC)*val;
-            }
-
-            if(type==1 && !col[index]){
-                colC++;
-                col[index] = true;
-                sum += (n-rowC)*val;
+    public int equalPairs(int[][] grid) {
+        Map<Integer, List<Integer>> row = new HashMap<>();
+        Map<Integer, List<Integer>> col = new HashMap<>();
+        for(int i = 0;i<grid.length;i++){
+            row.put(i, new ArrayList<>());
+        }
+        for(int i = 0;i< grid.length;i++){
+            col.put(i, new ArrayList<>());
+        }
+        for(int i = 0;i<grid.length;i++){
+            for(int j = 0;j<grid.length;j++){
+                row.get(i).add(grid[i][j]);
+                col.get(j).add(grid[i][j]);
             }
         }
-        return sum;
-
-
+        int count = 0;
+        for(int i = 0;i<grid.length;i++){
+            for(int j = 0;j< grid.length;j++){
+                if(row.get(i).equals(col.get(j)))
+                    count++;
+            }
+        }
+        return count;
 
     }
 
