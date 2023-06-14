@@ -30,20 +30,19 @@ public class treeees {
           next = null;
       }
     }
-    int level = 0;
+    int min = Integer.MAX_VALUE;
+    TreeNode parent = null;
+    public int getMinimumDifference(TreeNode root) {
+        if(root.left!=null) getMinimumDifference(root.left);
 
-    public int diameterOfBinaryTree(TreeNode root) {
-        helper(root);
-        return level-1;
-    }
+        if(parent!=null){
+            min = Math.min(root.val - parent.val, min);
+        }
+        parent = root;
 
-    public int helper(TreeNode root){
-        if(root==null)
-            return 0;
-        int left = helper(root.left);
-        int right = helper(root.right);
-        level = Math.max(level, left+right+1);
-        return Math.max(left, right)+1;
+        if(root.right!=null) getMinimumDifference(root.right);
+        return min;
+
     }
 
 
