@@ -30,19 +30,45 @@ public class treeees {
           next = null;
       }
     }
-    int min = Integer.MAX_VALUE;
-    TreeNode parent = null;
-    public int getMinimumDifference(TreeNode root) {
-        if(root.left!=null) getMinimumDifference(root.left);
+    List<Integer> res;
+    Map<Integer, List<Integer>> graph;
+    Set<Integer> visited;
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        graph = new HashMap<>();
+        buildGraph(root, null);
+        res = new ArrayList<>();
+        visited = new HashSet<>();
+        visited.add(target.val);
 
-        if(parent!=null){
-            min = Math.min(root.val - parent.val, min);
+        dfs(target.val, 0, k);
+
+        return res;
+    }
+
+    public void buildGraph(TreeNode curr, TreeNode parent){
+        if(curr!=null && parent!=null){
+            graph.computeIfAbsent(curr.val, k-> new ArrayList<>()).add(parent.val);
+            graph.computeIfAbsent(parent.val, k-> new ArrayList<>()).add(curr.val);
         }
-        parent = root;
+        if(curr.left!=null)
+            buildGraph(curr.left, curr);
+        if(curr.right!=null)
+            buildGraph(curr.right, curr);
 
-        if(root.right!=null) getMinimumDifference(root.right);
-        return min;
+    }
 
+    public void dfs(int curr, int level, int k) {
+        if (level == k){
+            res.add(curr);
+            return;
+        }
+
+        for(int i:graph.getOrDefault(curr, new ArrayList<>())){
+            if(!visited.contains(i)){
+                visited.add(i);
+                dfs(i, level+1, k);
+            }
+        }
     }
 
 
