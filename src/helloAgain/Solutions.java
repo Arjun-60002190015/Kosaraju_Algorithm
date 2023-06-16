@@ -8,30 +8,59 @@ import java.util.*;
 
 
 public class Solutions {
+    //Brute force
 
-    public int equalPairs(int[][] grid) {
-        Map<Integer, List<Integer>> row = new HashMap<>();
-        Map<Integer, List<Integer>> col = new HashMap<>();
-        for(int i = 0;i<grid.length;i++){
-            row.put(i, new ArrayList<>());
-        }
-        for(int i = 0;i< grid.length;i++){
-            col.put(i, new ArrayList<>());
-        }
-        for(int i = 0;i<grid.length;i++){
-            for(int j = 0;j<grid.length;j++){
-                row.get(i).add(grid[i][j]);
-                col.get(j).add(grid[i][j]);
+    public String longestNiceSubstringBruteForce(String s) {
+        String res = "";
+        for(int i = 0;i<s.length();i++){
+            for(int j = 0;j<s.length();j++){
+                String sub = s.substring(i, j+1);
+                if(isNice(sub)){
+                    if(sub.length()>res.length()){
+                        res = sub;
+                    }
+                }
             }
         }
-        int count = 0;
-        for(int i = 0;i<grid.length;i++){
-            for(int j = 0;j< grid.length;j++){
-                if(row.get(i).equals(col.get(j)))
-                    count++;
-            }
+        return res;
+
+
+    }
+
+    public boolean isNice(String sub){
+        HashSet<Character> set = new HashSet<>();
+        for(char ch:sub.toCharArray()){
+            set.add(ch);
         }
-        return count;
+
+        for(int i = 0;i<sub.length();i++){
+            char ch = sub.charAt(i);
+            if(!set.contains(Character.toLowerCase(ch))){
+                return false;
+            }
+            else if(!set.contains(Character.toUpperCase(ch))){
+                return false;
+            }
+
+        }
+        return true;
+    }
+
+    public String longestNiceSubstringOptimized(String s) {
+        HashSet<Character> set = new HashSet<>();
+        for(char ch:s.toCharArray()){
+            set.add(ch);
+        }
+        for(int i = 0;i<=s.length()-1;i++){
+            char ch = s.charAt(i);
+            if(set.contains(Character.toUpperCase(ch)) && set.contains(Character.toLowerCase(ch)))
+                continue;
+            String one = longestNiceSubstringOptimized(s.substring(0, i));
+            String two = longestNiceSubstringOptimized(s.substring(i+1));
+            return one.length()>=two.length()? one:two;
+        }
+        return s;
+
 
     }
 
