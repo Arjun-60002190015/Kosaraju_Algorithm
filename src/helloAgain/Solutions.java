@@ -9,22 +9,28 @@ import java.util.*;
 
 
 public class Solutions {
-    public int numberOfSubstrings(String s) {
-        int i = 0, j= 0, count = 0, temp = 0;
-        Map<Character, Integer> map = new HashMap<>();
-        while(j<s.length()){
-            char ch = s.charAt(j);
-            map.put(ch, map.getOrDefault(ch, 0)+1);
-            while(map.size()==3){
-                temp++;
-                ch = s.charAt(i);
-                map.put(ch, map.get(ch)-1);
-                if(map.get(ch)==0)
-                    map.remove(ch);
-                i++;
+    public int numberOfSubarrays(int[] nums, int k) {
+        int start = 0;
+        int odd = 0;
+        //Map<Integer, Integer> map = new HashMap<>();
+        int end = 0;
+        int count = 0;
+        int res = 0;
+        while(end<nums.length){
+            if(nums[end]%2!=0){
+                odd++;
+                count = 0;
             }
-            count += temp;
-            j++;
+            while(odd==k){
+                count++;
+                if(nums[start]%2!=0) {
+                    odd--;
+                }
+                start++;
+            }
+            res += count;
+            end++;
+
         }
         return count;
 
