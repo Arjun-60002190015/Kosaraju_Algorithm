@@ -9,30 +9,24 @@ import java.util.*;
 
 
 public class Solutions {
-    public int numberOfSubarrays(int[] nums, int k) {
+    public int longestSubarray(int[] nums) {
+        int k = 1;
+        int xero = 0;
         int start = 0;
-        int odd = 0;
-        //Map<Integer, Integer> map = new HashMap<>();
         int end = 0;
-        int count = 0;
-        int res = 0;
-        while(end<nums.length){
-            if(nums[end]%2!=0){
-                odd++;
-                count = 0;
-            }
-            while(odd==k){
-                count++;
-                if(nums[start]%2!=0) {
-                    odd--;
-                }
+        int max = 0;
+        while(end< nums.length){
+            if(nums[end]==0)
+                xero++;
+            if(xero>k){
+                if(nums[start]==0)
+                    xero--;
                 start++;
             }
-            res += count;
+            max = Math.max(max, end-start);
             end++;
-
         }
-        return count;
+        return max;
 
     }
 
