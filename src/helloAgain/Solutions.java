@@ -9,21 +9,22 @@ import java.util.*;
 
 
 public class Solutions {
-    public int numOfSubarrays(int[] arr, int k, int threshold) {
-        int count = 0;
-        int start = 0;
-        int end = 0;
-        int sum = 0;
-        while(end<arr.length){
-            sum += arr[end];
-            if(end-start+1==k){
-                if(sum/k>=threshold){
-                    count++;
-                }
-                sum -= arr[start];
-                start++;
+    public int numberOfSubstrings(String s) {
+        int i = 0, j= 0, count = 0, temp = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        while(j<s.length()){
+            char ch = s.charAt(j);
+            map.put(ch, map.getOrDefault(ch, 0)+1);
+            while(map.size()==3){
+                temp++;
+                ch = s.charAt(i);
+                map.put(ch, map.get(ch)-1);
+                if(map.get(ch)==0)
+                    map.remove(ch);
+                i++;
             }
-            end++;
+            count += temp;
+            j++;
         }
         return count;
 
