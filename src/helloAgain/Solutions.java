@@ -9,24 +9,29 @@ import java.util.*;
 
 
 public class Solutions {
-    public int maxConsecutiveAnswers(String answerKey, int k) {
-        int max = k;
-        HashMap<Character, Integer> map = new HashMap<>();
-        for(int i = 0;i<k;i++){
-            map.put(answerKey.charAt(i), map.getOrDefault(answerKey.charAt(i), 0)+1);
-        }
-        int left = 0;
-        int right = k;
-        while(right<answerKey.length()){
-            map.put(answerKey.charAt(right), map.getOrDefault(answerKey.charAt(right), 0)+1);
-            while(Math.min(map.getOrDefault('T', 0), map.getOrDefault('F', 0))>k){
-                map.put(answerKey.charAt(left), map.get(answerKey.charAt(left))-1);
-                left++;
+    public int maximumUniqueSubarray(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        int sum = 0;
+        int curr = 0;
+        for(int left = 0, right = 0;right< nums.length;right++){
+            curr += nums[right];
+            if(set.contains(nums[right])){
+                while(nums[left]!=nums[right]){
+                    curr -= nums[left];
+                    set.remove(nums[left]);
+                    left++;
+
+                }
+                if(nums[left]==nums[right]){
+                    curr -= nums[left];
+                    set.remove(nums[left]);
+                    left++;
+                }
             }
-            max = Math.max(max, right-left+1);
-            right++;
+            set.add(nums[right]);
+            sum = Math.max(sum, curr);
         }
-        return max;
+        return sum;
 
     }
 
