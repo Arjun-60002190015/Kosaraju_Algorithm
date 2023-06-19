@@ -9,27 +9,33 @@ import java.util.*;
 
 
 public class Solutions {
-    public int maximumUniqueSubarray(int[] nums) {
-        Set<Integer> set = new HashSet<>();
+    public int maxSatisfied(int[] customers, int[] grumpy, int minutes) {
         int sum = 0;
-        int curr = 0;
-        for(int left = 0, right = 0;right< nums.length;right++){
-            curr += nums[right];
-            if(set.contains(nums[right])){
-                while(nums[left]!=nums[right]){
-                    curr -= nums[left];
-                    set.remove(nums[left]);
-                    left++;
+        int curr= 0;
+        for(int i = 0;i< grumpy.length;i++){
+            if(grumpy[i]==0) {
+                curr += customers[i];
+                customers[i] = 0;
+            }
+        }
+        int start = 0;
+        int end = 0;
+
+        while(end< customers.length){
+
+            curr += customers[end];
+
+            if(end - start+1>minutes){
+                if(grumpy[start]==1){
+                    curr -= customers[start];
 
                 }
-                if(nums[left]==nums[right]){
-                    curr -= nums[left];
-                    set.remove(nums[left]);
-                    left++;
-                }
+                start++;
             }
-            set.add(nums[right]);
-            sum = Math.max(sum, curr);
+            sum = Math.max(curr, sum);
+            end++;
+
+
         }
         return sum;
 
