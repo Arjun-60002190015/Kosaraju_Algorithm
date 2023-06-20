@@ -9,36 +9,25 @@ import java.util.*;
 
 
 public class Solutions {
-    public int maxSatisfied(int[] customers, int[] grumpy, int minutes) {
-        int sum = 0;
-        int curr= 0;
-        for(int i = 0;i< grumpy.length;i++){
-            if(grumpy[i]==0) {
-                curr += customers[i];
-                customers[i] = 0;
-            }
+    public int[] getAverages(int[] nums, int k) {
+        int n = nums.length;
+        int [] ans = new int[n];
+        Arrays.fill(ans, -1);
+
+        long sum = 0;
+        int length = 2*k+1;
+        if(length>n) return ans;
+        for(int i = 0;i<length;i++){
+            sum+=nums[i];
         }
-        int start = 0;
-        int end = 0;
-
-        while(end< customers.length){
-
-            curr += customers[end];
-
-            if(end - start+1>minutes){
-                if(grumpy[start]==1){
-                    curr -= customers[start];
-
-                }
-                start++;
-            }
-            sum = Math.max(curr, sum);
-            end++;
-
-
+        ans[k] = (int)(sum/length);
+        int start = 0 ;
+        for(int last = length;last<n;last++){
+            sum = sum - nums[start]+ nums[last];
+            start++;
+            ans[last-k] = (int)(sum/length);
         }
-        return sum;
-
+        return ans;
     }
 
     public static void main(String[] args){
