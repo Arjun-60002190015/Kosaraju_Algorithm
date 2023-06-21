@@ -9,20 +9,24 @@ import java.util.*;
 
 
 public class Solutions {
-    public int maxScore(int[] cardPoints, int k) {
-        int n = cardPoints.length;
-        int total = 0;
-        int min = 0;
-        for(int i = 0, curr = 0;i<n;i++){
-            total += cardPoints[i];
-            curr += cardPoints[i];
-            if(i<n-k)min += cardPoints[i];
-            else{
-                curr -= cardPoints[i-(n-k)];
-                min = Math.min(min, curr);
+    public int characterReplacement(String s, int k) {
+        int[] freq = new int[26];
+        int max = 0;
+        int left = 0;
+        int most = 0;
+        for(int right = 0;right<s.length();right++){
+            freq[s.charAt(right) - 'A']++;
+            most = Math.max(freq[s.charAt(right) - 'A'], most);
+
+            int replace = right - left+1 - most;
+            if(replace>k){
+                freq[s.charAt(left) - 'A']--;
+                left++;
             }
+            max = Math.max(max, right-left+1);
         }
-        return total-min;
+        return max;
+
     }
 
     public static void main(String[] args){
