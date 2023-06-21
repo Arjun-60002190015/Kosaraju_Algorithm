@@ -9,23 +9,34 @@ import java.util.*;
 
 
 public class Solutions {
-    public int characterReplacement(String s, int k) {
+    public int maxFreq(String s, int maxLetters, int minSize, int maxSize) {
+        Map<String, Integer> map = new HashMap<>();
         int[] freq = new int[26];
-        int max = 0;
-        int left = 0;
-        int most = 0;
-        for(int right = 0;right<s.length();right++){
-            freq[s.charAt(right) - 'A']++;
-            most = Math.max(freq[s.charAt(right) - 'A'], most);
+        int uniq = 0;
+        int left =0 ;
+        int right = 0;
+        while(right<s.length()){
+            char r = s.charAt(right++);
+            freq[r-'a']++;
+            if(freq[r-'a']==1)
+                uniq++;
 
-            int replace = right - left+1 - most;
-            if(replace>k){
-                freq[s.charAt(left) - 'A']--;
-                left++;
+            while(right-left>=minSize && right-left<=maxSize){
+                if(uniq<=maxLetters){
+                    String sub = s.substring(left, right);
+                    map.put(sub, map.getOrDefault(sub, 0)+1);
+                }
+                char l = s.charAt(left++);
+                freq[l-'a']--;
+                if(freq[l-'a']==0)
+                    uniq--;
             }
-            max = Math.max(max, right-left+1);
         }
-        return max;
+        int res = 0;
+        for(int i:map.values()){
+            res = Math.max(res, i);
+        }
+        return res;
 
     }
 
