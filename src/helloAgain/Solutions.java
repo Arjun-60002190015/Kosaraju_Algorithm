@@ -9,25 +9,35 @@ import java.util.*;
 
 
 public class Solutions {
-    public int[] getAverages(int[] nums, int k) {
-        int n = nums.length;
-        int [] ans = new int[n];
-        Arrays.fill(ans, -1);
-
-        long sum = 0;
-        int length = 2*k+1;
-        if(length>n) return ans;
-        for(int i = 0;i<length;i++){
-            sum+=nums[i];
+    public long minCost(int[] nums, int[] cost) {
+        int left = nums[0];
+        int right = nums[0];
+        for(int i:nums){
+            left = Math.min(left, i);
+            right = Math.max(right, i);
         }
-        ans[k] = (int)(sum/length);
-        int start = 0 ;
-        for(int last = length;last<n;last++){
-            sum = sum - nums[start]+ nums[last];
-            start++;
-            ans[last-k] = (int)(sum/length);
+        long ans = 0;
+        while(left<right){
+            int mid = (left+right)/2;
+            long one = helper(nums, cost, mid);
+            long two = helper(nums, cost, mid+1);
+            if(one>two){
+                left = mid+1;
+                ans = two;
+            }else{
+                right = mid;
+                ans = one;
+            }
         }
         return ans;
+    }
+
+    public long helper(int[] nums, int[] cost, int mid){
+        long totalCost = 0L;
+        for(int i = 0;i<nums.length;i++){
+            totalCost += 1L * Math.abs(nums[i]-mid)*cost[i];
+        }
+        return totalCost;
     }
 
     public static void main(String[] args){
