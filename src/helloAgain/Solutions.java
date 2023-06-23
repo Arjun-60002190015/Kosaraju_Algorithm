@@ -9,23 +9,28 @@ import java.util.*;
 
 
 public class Solutions {
-    Integer[][] dp;
-    public int lengthOfLIS(int[] nums) {
-        dp = new Integer[nums.length][nums.length];
-        return helper(nums, 0, -1);
-    }
+    public int findLengthOfLCIS(int[] nums) {
+        int end = 1;
+        int curr = 1;
+        int start = 0;
+        int max = 1;
 
-    public int helper(int[] nums, int i, int prev){
-        if(i== nums.length)
-            return 0;
-        if(prev>-1 && dp[i][prev]!=null)
-            return dp[i][prev];
-        int pick = nums[i]>(prev==-1?Integer.MIN_VALUE:nums[prev])? 1+helper(nums, i+1, i):0;
-        int not = helper(nums, i+1, prev);
-        if(prev!=-1){
-            return dp[i][prev] = Math.max(pick, not);
+        while(end< nums.length){
+            if(nums[end]>nums[start]){
+                curr++;
+                end++;
+                start++:
+            }
+            else{
+                start = end;
+                end++;
+                curr = 1;
+            }
+            max = Math.max(curr, max);
+
         }
-        return Math.max(pick, not);
+        return max;
+
     }
 
     public static void main(String[] args){
