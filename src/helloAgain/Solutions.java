@@ -15,6 +15,7 @@ public class Solutions {
         int start = 0;
         int max = 1;
 
+
         while(end< nums.length){
             if(nums[end]>nums[start]){
                 curr++;
