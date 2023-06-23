@@ -9,19 +9,23 @@ import java.util.*;
 
 
 public class Solutions {
-    public int longestArithSeqLength(int[] nums) {
-        Map<Integer, Integer>[] map = new HashMap[nums.length];
-        int count = 2;
-        for(int i = 0;i< nums.length;i++){
-            map[i] = new HashMap<>();
-            for(int j = 0;j<i;j++){
-                int diff = nums[i] - nums[j];
-                map[i].put(diff, map[j].getOrDefault(diff, 1)+1);
-                count = Math.max(count, map[i].get(diff));
-            }
-        }
-        return count;
+    Integer[][] dp;
+    public int lengthOfLIS(int[] nums) {
+        dp = new Integer[nums.length][nums.length];
+        return helper(nums, 0, -1);
+    }
 
+    public int helper(int[] nums, int i, int prev){
+        if(i== nums.length)
+            return 0;
+        if(prev>-1 && dp[i][prev]!=null)
+            return dp[i][prev];
+        int pick = nums[i]>(prev==-1?Integer.MIN_VALUE:nums[prev])? 1+helper(nums, i+1, i):0;
+        int not = helper(nums, i+1, prev);
+        if(prev!=-1){
+            return dp[i][prev] = Math.max(pick, not);
+        }
+        return Math.max(pick, not);
     }
 
     public static void main(String[] args){
