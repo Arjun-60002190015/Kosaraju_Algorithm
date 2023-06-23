@@ -9,20 +9,26 @@ import java.util.*;
 
 
 public class Solutions {
-    public int findLength(int[] nums1, int[] nums2) {
-        int[][] dp = new int[nums1.length+1][nums2.length+1];
-        int ans = 0;
-        for(int i = 1;i<=nums1.length;i++){
-            for(int j = 1;j<= nums2.length;j++){
-                if(nums1[i-1]==nums2[j-1]){
-                    dp[i][j] = 1 + dp[i-1][j-1];
-                    ans = Math.max(dp[i][j], ans);
-                }else{
-                    dp[i][j] = 0;
-                }
-            }
+    public int equalSubstring(String s, String t, int maxCost) {
+        int[] diff = new int[s.length()];
+        for(int i = 0;i<s.length();i++){
+            char c = s.charAt(i);
+            char f = t.charAt(i);
+            diff[i] = Math.abs(c-f);
         }
-        return ans;
+        int max = 0;
+        int curr = 0;
+        int start = 0;
+        int end = 0;
+        while(end< diff.length){
+            curr += diff[end++];
+            while(curr>max){
+                curr -= diff[start++];
+            }
+            max = Math.max(max, end-start+1);
+        }
+        return max;
+
 
     }
 
