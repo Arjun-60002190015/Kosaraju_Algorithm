@@ -9,34 +9,20 @@ import java.util.*;
 
 
 public class Solutions {
-    public int findNumberOfLIS(int[] nums) {
-        int n = nums.length;
-        int[] dp = new int[n];
-        int[] count = new int[n];
-        int max = 0;
-        for(int i = 0;i<n;i++){
-            dp[i] = 1;
-            count[i] = 1;
-            for(int j = 0;j<i;j++){
-                if(nums[i]>nums[j]){
-                    if(dp[i]<dp[j]+1){
-                        dp[i] = dp[j]+1;
-                        count[i] = count[j];
-                    }else if(dp[i]==dp[j]+1){
-                        count[i] +=count[j];
-                    }
+    public int findLength(int[] nums1, int[] nums2) {
+        int[][] dp = new int[nums1.length+1][nums2.length+1];
+        int ans = 0;
+        for(int i = 1;i<=nums1.length;i++){
+            for(int j = 1;j<= nums2.length;j++){
+                if(nums1[i-1]==nums2[j-1]){
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                    ans = Math.max(dp[i][j], ans);
+                }else{
+                    dp[i][j] = 0;
                 }
             }
-            max = Math.max(max, dp[i]);
         }
-        int res = 0;
-        for(int i =0;i<n;i++){
-            if(dp[i]==max){
-                res += count[i];
-            }
-        }
-        return res;
-
+        return ans;
 
     }
 
