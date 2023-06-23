@@ -9,26 +9,35 @@ import java.util.*;
 
 
 public class Solutions {
-    public int equalSubstring(String s, String t, int maxCost) {
-        int[] diff = new int[s.length()];
-        for(int i = 0;i<s.length();i++){
-            char c = s.charAt(i);
-            char f = t.charAt(i);
-            diff[i] = Math.abs(c-f);
-        }
-        int max = 0;
-        int curr = 0;
-        int start = 0;
-        int end = 0;
-        while(end< diff.length){
-            curr += diff[end++];
-            while(curr>max){
-                curr -= diff[start++];
-            }
-            max = Math.max(max, end-start+1);
-        }
-        return max;
+    public int longestBeautifulSubstring(String word) {
+        HashSet<Character> set = new HashSet<>();
+        if(word.length()<5)
+            return 0;
 
+        int end = 1;
+        int curr = 1;
+        int max = 0;
+        set.add(word.charAt(0));
+        while(end<word.length()){
+            if(word.charAt(end)>=word.charAt(end-1)){
+                set.add(word.charAt(end));
+                curr++;
+            }else {
+                if(set.size()==5)
+                    max = Math.max(curr, max);
+                set.clear();
+                curr = 1;
+                set.add(word.charAt(end));
+
+
+            }
+            end++;
+
+
+        }
+        if(set.size()==5)
+            max = Math.max(curr, max);
+        return max;
 
     }
 
