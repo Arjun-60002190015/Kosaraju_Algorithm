@@ -9,28 +9,34 @@ import java.util.*;
 
 
 public class Solutions {
-    public int findLengthOfLCIS(int[] nums) {
-        int end = 1;
-        int curr = 1;
-        int start = 0;
-        int max = 1;
-
-
-        while(end< nums.length){
-            if(nums[end]>nums[start]){
-                curr++;
-                end++;
-                start++:
+    public int findNumberOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        int[] count = new int[n];
+        int max = 0;
+        for(int i = 0;i<n;i++){
+            dp[i] = 1;
+            count[i] = 1;
+            for(int j = 0;j<i;j++){
+                if(nums[i]>nums[j]){
+                    if(dp[i]<dp[j]+1){
+                        dp[i] = dp[j]+1;
+                        count[i] = count[j];
+                    }else if(dp[i]==dp[j]+1){
+                        count[i] +=count[j];
+                    }
+                }
             }
-            else{
-                start = end;
-                end++;
-                curr = 1;
-            }
-            max = Math.max(curr, max);
-
+            max = Math.max(max, dp[i]);
         }
-        return max;
+        int res = 0;
+        for(int i =0;i<n;i++){
+            if(dp[i]==max){
+                res += count[i];
+            }
+        }
+        return res;
+
 
     }
 
