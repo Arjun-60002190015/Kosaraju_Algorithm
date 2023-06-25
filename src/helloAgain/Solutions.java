@@ -10,20 +10,18 @@ import java.util.*;
 
 
 public class Solutions {
-    public int numSplits(String s) {
-        int n = s.length();
-        int[] count = new int[n];
-        HashSet<Character> set = new HashSet<>();
-        for(int i = n-1;i>=0;i--){
-            count[i] = set.size();
-            set.add(s.charAt(i));
-        }
+    public int lengthOfLastWord(String s) {
         int res = 0;
-        set.clear();
-        for(int i = 0;i<n;i++){
-            set.add(s.charAt(i));
-            if(set.size()==count[i])
+        int n = s.length();
+        boolean c = false;
+        for(int i = n-1;i>=0;i--){
+            if(s.charAt(i)==' '){
+                if(c)
+                    break;
+            }else{
+                c = true;
                 res++;
+            }
         }
         return res;
 
