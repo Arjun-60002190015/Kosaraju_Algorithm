@@ -10,27 +10,20 @@ import java.util.*;
 
 
 public class Solutions {
-    public long countGood(int[] nums, int k) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        long ans = 0;
-        long count = 0;
-        int start = 0;
-        int end = 0;
-        while(end< nums.length){
-            map.put(nums[end], map.getOrDefault(nums[end], 0)+1);
-            count += map.get(nums[end])-1;
-            while(count>=k){
-                ans += nums.length-end;
-                int f = map.get(nums[start]);
-                count -= f-1;
-                map.put(nums[start], map.get(nums[start])-1);
-                if(map.get(nums[start])==0)
-                    map.remove(nums[start]);
-                start++;
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        for(int i:nums){
+            int index = Math.abs(i);
+            if(nums[index-1]>0){
+                nums[index-1] *= -1;
             }
-            end++;
         }
-        return ans;
+
+        List<Integer> res = new ArrayList<>();
+        for(int i = 0;i< nums.length;i++){
+            if(nums[i]>0)
+                res.add(i+1);
+        }
+        return res;
 
     }
 
