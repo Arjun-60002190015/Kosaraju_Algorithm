@@ -10,22 +10,25 @@ import java.util.*;
 
 
 public class Solutions {
-    public List<Integer> findDisappearedNumbers(int[] nums) {
-        for(int i:nums){
-            int index = Math.abs(i);
-            if(nums[index-1]>0){
-                nums[index-1] *= -1;
-            }
+    public int numSplits(String s) {
+        int n = s.length();
+        int[] count = new int[n];
+        HashSet<Character> set = new HashSet<>();
+        for(int i = n-1;i>=0;i--){
+            count[i] = set.size();
+            set.add(s.charAt(i));
         }
-
-        List<Integer> res = new ArrayList<>();
-        for(int i = 0;i< nums.length;i++){
-            if(nums[i]>0)
-                res.add(i+1);
+        int res = 0;
+        set.clear();
+        for(int i = 0;i<n;i++){
+            set.add(s.charAt(i));
+            if(set.size()==count[i])
+                res++;
         }
         return res;
 
     }
+
 
 
 
