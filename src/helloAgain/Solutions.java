@@ -10,20 +10,13 @@ import java.util.*;
 
 
 public class Solutions {
-    public int lengthOfLastWord(String s) {
-        int res = 0;
-        int n = s.length();
-        boolean c = false;
-        for(int i = n-1;i>=0;i--){
-            if(s.charAt(i)==' '){
-                if(c)
-                    break;
-            }else{
-                c = true;
-                res++;
-            }
+    public long[] sumOfThree(long num) {
+        long[] res = new long[3];
+        if(num%3!=0){
+            return res;
         }
-        return res;
+        num/=3;
+        return new long[]{num-1, num, num+1};
 
     }
 
