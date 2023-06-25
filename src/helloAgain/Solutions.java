@@ -1,5 +1,6 @@
 package helloAgain;
 
+import com.sun.prism.shader.AlphaOne_Color_AlphaTest_Loader;
 import javafx.scene.layout.Priority;
 
 import javax.swing.tree.AbstractLayoutCache;
@@ -9,26 +10,31 @@ import java.util.*;
 
 
 public class Solutions {
-    public int longestSubarray(int[] nums, int limit) {
-        PriorityQueue<Integer> max = new PriorityQueue<>();
-        PriorityQueue<Integer> min = new PriorityQueue<>((a,b)-> Integer.compare(b,a));
-        int end = 0;
+    public long countGood(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        long ans = 0;
+        long count = 0;
         int start = 0;
-        int len = 0;
-        while (end< nums.length){
-            min.add(nums[end]);
-            max.add(nums[end]);
-            while(Math.abs(max.peek() - min.peek())>limit){
-                min.remove(nums[start]);
-                max.remove(nums[start]);
+        int end = 0;
+        while(end< nums.length){
+            map.put(nums[end], map.getOrDefault(nums[end], 0)+1);
+            count += map.get(nums[end])-1;
+            while(count>=k){
+                ans += nums.length-end;
+                int f = map.get(nums[start]);
+                count -= f-1;
+                map.put(nums[start], map.get(nums[start])-1);
+                if(map.get(nums[start])==0)
+                    map.remove(nums[start]);
                 start++;
             }
-            len = Math.max(len, end-start+1);
             end++;
         }
-        return len;
+        return ans;
 
     }
+
+
 
     public static void main(String[] args){
         int[] nums = {0, -1};
