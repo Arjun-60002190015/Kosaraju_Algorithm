@@ -1,5 +1,6 @@
 package helloAgain;
 
+import com.sun.deploy.security.CredentialManager;
 import com.sun.prism.shader.AlphaOne_Color_AlphaTest_Loader;
 import javafx.scene.layout.Priority;
 
@@ -10,13 +11,30 @@ import java.util.*;
 
 
 public class Solutions {
-    public long[] sumOfThree(long num) {
-        long[] res = new long[3];
-        if(num%3!=0){
-            return res;
+    public int longestConsecutive(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+        int max = 0;
+        for(int i:nums){
+            set.add(i);
         }
-        num/=3;
-        return new long[]{num-1, num, num+1};
+        for(int i:nums){
+
+            int left = i-1;
+            int right = i+1;
+            int count = 1;
+            while(set.contains(left)){
+                count++;
+                set.remove(left);
+                left = left-1;
+            }
+            while(set.contains(right)){
+                count++;
+                set.remove(right);
+                right++;
+            }
+            max = Math.max(count, max);
+        }
+        return max;
 
     }
 
