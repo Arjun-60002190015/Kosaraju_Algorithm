@@ -11,30 +11,41 @@ import java.util.*;
 
 
 public class Solutions {
-    public int longestConsecutive(int[] nums) {
-        HashSet<Integer> set = new HashSet<>();
-        int max = 0;
-        for(int i:nums){
-            set.add(i);
-        }
-        for(int i:nums){
+    public long totalCost(int[] costs, int k, int candidates) {
+        int n = costs.length;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)-> {
+            if(a[0]==b[0]){
+                return a[1] - b[1];
+            }
+            return a[0] - b[0];
+        });
 
-            int left = i-1;
-            int right = i+1;
-            int count = 1;
-            while(set.contains(left)){
-                count++;
-                set.remove(left);
-                left = left-1;
-            }
-            while(set.contains(right)){
-                count++;
-                set.remove(right);
-                right++;
-            }
-            max = Math.max(count, max);
+        for(int i = 0;i<candidates;i++){
+            pq.offer(new int[]{costs[i], 0});
         }
-        return max;
+        for(int i = Math.max(candidates, n - candidates);i<costs.length;i++){
+            pq.offer(new int[]{costs[i], 1});
+        }
+        long asnwer = 0;
+        int head = candidates;
+        int tail = n-1-candidates;
+        for(int i = -0;i<k;i++){
+            int[] curr = pq.poll();
+            int cost = curr[0];
+            int sec = curr[1];
+            asnwer += cost;
+            if(head<=tail){
+                if(sec==0){
+                    pq.offer(new int[]{costs[head], 0});
+                    head++;
+                }else{
+                    pq.offer(new int[]{costs[tail], 1});
+                    tail--;
+                }
+            }
+        }
+        return asnwer;
+
 
     }
 
