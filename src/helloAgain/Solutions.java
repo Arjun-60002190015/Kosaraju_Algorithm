@@ -11,44 +11,60 @@ import java.util.*;
 
 
 public class Solutions {
+    //Recursion and Memoization
+    int max = 0;
+    Integer[][] dp;
+    public int maximalSquareR(char[][] matrix) {
 
-    public int orderOfLargestPlusSign(int n, int[][] mines) {
-        int[][] grid = new int[n][n];
-        for(int i =0 ;i<n;i++){
+
+        int m = matrix.length;
+        int n = matrix[0].length;
+        dp = new Integer[m+1][n+1];
+
+        for(int i = 0;i<m;i++){
             for(int j = 0;j<n;j++){
-                grid[i][j] = 1;
-            }
-        }
-        for(int[] i:mines){
-            grid[i[0]][i[1]] = 0;
-        }
-        int max = 0;
-        for(int i = 0;i<n;i++){
-            for(int j = 0;j<n;j++){
-                if(grid[i][j]==1){
-                    max = Math.max(max, helper(grid, i, j));
+                if(matrix[i][j]=='1'){
+                    helper(matrix, i, j);
+
                 }
             }
         }
-        return max;
+        return max*max;
     }
 
-    public int helper(int[][] grid, int i, int j){
-
-        int order = 0;
-        int left = 0, right = 0, up = 0, down = 0;
-        while(i-left>=0 && grid[i-left][j]==1){
-            left++;
+    public int helper(char[][] matrix, int i, int j){
+        if(i<0 || i>= matrix.length || j<0 || j>=matrix[0].length || matrix[i][j]=='0')
+            return 0;
+        int ans = 0;
+        if(dp[i][j]!=null){
+            return dp[i][j];
         }
-        while(i+ right<grid.length && grid[i+right][j]==1){
-            right++;
+        ans =  1 + Math.min(helper(matrix, i+1, j), Math.min(helper(matrix, i, j+1), helper(matrix, i+1, j+1)));
+        max = Math.max(ans, max);
+        return dp[i][j] = ans;
+    }
+    //DP
+    public int maximalSquare(char[][] matrix) {
+        int n = matrix[0].length;
+        int m = matrix.length;
+        int max = 0;
+        int[][] dp = new int[m+1][n+1];
+        for(int i = 0;i<=m;i++){
+            for(int j = 0;j<=n;j++){
+                if(i==0 || j==0){
+                    dp[i][j] = 0;
+                }
+            }
         }
-        while(j-up>=0 && grid[i][j-up]==1)
-            up++;
-        while(j+down<grid.length && grid[i][j+down]==1){
-            down++;
+        for(int i = 1;i<=m;i++){
+            for(int j = 1;j<=n;j++){
+                if(matrix[i-1][j-1]=='1'){
+                    dp[i][j] = 1+ Math.min(dp[i-1][j], Math.min(dp[i-1][j-1], dp[i][j-1]));
+                    max = Math.max(max, dp[i][j]);
+                }
+            }
         }
-        return order = Math.min(down, Math.min(up, Math.min(left, right)));
+        return max*max;
 
     }
 
