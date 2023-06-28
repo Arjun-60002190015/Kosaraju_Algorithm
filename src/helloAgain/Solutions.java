@@ -11,60 +11,34 @@ import java.util.*;
 
 
 public class Solutions {
-    //Recursion and Memoization
-    int max = 0;
-    Integer[][] dp;
-    public int maximalSquareR(char[][] matrix) {
+    public int largestRectangleArea(int[] heights) {
+        int n = heights.length;
+        int[] right = new int[n];
+        int[] left = new int[n];
+        left[0] = -1;
+        right[n-1] = n;
 
-
-        int m = matrix.length;
-        int n = matrix[0].length;
-        dp = new Integer[m+1][n+1];
-
-        for(int i = 0;i<m;i++){
-            for(int j = 0;j<n;j++){
-                if(matrix[i][j]=='1'){
-                    helper(matrix, i, j);
-
-                }
+        for(int i = 1;i<n;i++){
+            int prev= i-1;
+            while(prev>=0 && heights[prev]>=heights[i]){
+                prev = left[prev];
             }
+            left[i] = prev;
         }
-        return max*max;
-    }
+        for(int i=  n-2;i>=0;i--){
+            int prev=  i+1;
+            while(prev<n && heights[prev]>=heights[i]){
+                prev = right[prev];
+            }
+            right[i] = prev;
+        }
 
-    public int helper(char[][] matrix, int i, int j){
-        if(i<0 || i>= matrix.length || j<0 || j>=matrix[0].length || matrix[i][j]=='0')
-            return 0;
-        int ans = 0;
-        if(dp[i][j]!=null){
-            return dp[i][j];
+        int max= 0 ;
+        for(int i=  0;i<n;i++){
+            int curr = right[i] - left[i] - 1;
+            max = Math.max(curr*heights[i], max);
         }
-        ans =  1 + Math.min(helper(matrix, i+1, j), Math.min(helper(matrix, i, j+1), helper(matrix, i+1, j+1)));
-        max = Math.max(ans, max);
-        return dp[i][j] = ans;
-    }
-    //DP
-    public int maximalSquare(char[][] matrix) {
-        int n = matrix[0].length;
-        int m = matrix.length;
-        int max = 0;
-        int[][] dp = new int[m+1][n+1];
-        for(int i = 0;i<=m;i++){
-            for(int j = 0;j<=n;j++){
-                if(i==0 || j==0){
-                    dp[i][j] = 0;
-                }
-            }
-        }
-        for(int i = 1;i<=m;i++){
-            for(int j = 1;j<=n;j++){
-                if(matrix[i-1][j-1]=='1'){
-                    dp[i][j] = 1+ Math.min(dp[i-1][j], Math.min(dp[i-1][j-1], dp[i][j-1]));
-                    max = Math.max(max, dp[i][j]);
-                }
-            }
-        }
-        return max*max;
+        return max;
 
     }
 
