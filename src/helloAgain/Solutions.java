@@ -11,22 +11,28 @@ import java.util.*;
 
 
 public class Solutions {
-    public int maximumProduct(int[] nums, int k) {
-        int mod = (int) 1e9+7;
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-        for(int i:nums)
-            pq.add(i);
-        long prod = 1;
-        while(k!=0){
-            int i = pq.poll();
-            pq.add(i+1);
-            k--;
-        }
-        while(!pq.isEmpty()){
-            prod = (prod*pq.poll())%mod;
-        }
-        return (int) prod;
+    int res = Integer.MAX_VALUE;
+    public int distributeCookies(int[] cookies, int k) {
+        helper(cookies, 0, k, new int[k]);
+        return res;
 
+    }
+
+    public void helper(int[] cookies, int index, int k, int[] h){
+        if(index==cookies.length){
+            int max = 0;
+            for(int i:h){
+                max = Math.max(i, max);
+            }
+            res = Math.min(res, max);
+            return;
+        }
+
+        for(int i = 0;i<k;i++){
+            h[i] += cookies[index];
+            helper(cookies, index+1, k, h);
+            h[i] -= cookies[index];
+        }
     }
 
 
