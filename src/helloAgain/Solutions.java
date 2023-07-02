@@ -12,26 +12,23 @@ import java.util.*;
 
 public class Solutions {
 
-    public int numTilePossibilities(String tiles) {
-        HashSet<String> set = new HashSet<>();
-        boolean[] vis = new boolean[tiles.length()];
-        helper(tiles, "", set, vis);
-        return set.size()-1;
-
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        helper(0, res, nums, new ArrayList<>());
+        return res;
     }
 
-    public void helper(String tiles, String curr,  HashSet<String> set, boolean[] vis){
-        set.add(curr);
-
-        for(int i = 0;i<tiles.length();i++){
-            if(!vis[i]){
-                vis[i] = true;
-                helper(tiles, curr+ tiles.charAt(i), set, vis);
-                vis[i] = false;
-            }
+    public void helper(int start, List<List<Integer>> res, int[] nums, List<Integer> temp){
+        res.add(new ArrayList<>(temp));
+        for(int i = start;i< nums.length;i++){
+            temp.add(nums[i]);
+            helper(start+1, res, nums, temp);
+            temp.remove(temp.size()-1);
         }
-
     }
+
+
+
 
 
     public static void main(String[] args){
