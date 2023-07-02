@@ -12,24 +12,27 @@ import java.util.*;
 
 public class Solutions {
 
-    public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> res = new ArrayList<>();
-        helper(0, res, nums, new ArrayList<>());
+    public List<String> letterCasePermutation(String s) {
+        List<String> res = new ArrayList<>();
+        helper(0, s.length(), new String(""), res, s);
         return res;
     }
 
-    public void helper(int start, List<List<Integer>> res, int[] nums, List<Integer> temp){
-        res.add(new ArrayList<>(temp));
-        for(int i = start;i< nums.length;i++){
-            temp.add(nums[i]);
-            helper(start+1, res, nums, temp);
-            temp.remove(temp.size()-1);
+    public void helper(int i, int end, String p, List<String> res, String s){
+        if(i==end){
+            res.add(p);
+            return;
         }
+        char ch = s.charAt(i);
+        if(!Character.isDigit(ch)){
+            if(Character.isUpperCase(ch)){
+                helper(i+1, end, p+Character.toLowerCase(ch), res, s);
+            }else{
+                helper(i+1, end, p+Character.toUpperCase(ch), res, s);
+            }
+        }
+        helper(i+1, end, p+ch, res, s);
     }
-
-
-
-
 
     public static void main(String[] args){
         int[] nums = {0, -1};
