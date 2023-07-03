@@ -1,10 +1,6 @@
 package helloAgain;
 
-import com.sun.deploy.security.CredentialManager;
-import com.sun.prism.shader.AlphaOne_Color_AlphaTest_Loader;
-import javafx.scene.layout.Priority;
 
-import javax.swing.tree.AbstractLayoutCache;
 import java.sql.Array;
 import java.util.*;
 
@@ -12,31 +8,28 @@ import java.util.*;
 
 public class Solutions {
 
-    public List<String> letterCasePermutation(String s) {
-        List<String> res = new ArrayList<>();
-        helper(0, s.length(), new String(""), res, s);
-        return res;
+    public static List<String> generateParenthesis(int n) {
+        List<String> list = new ArrayList<String>();
+        backtrack(list, "", 0, 0, n);
+        return list;
     }
 
-    public void helper(int i, int end, String p, List<String> res, String s){
-        if(i==end){
-            res.add(p);
+    public static void backtrack(List<String> list, String str, int open, int close, int max){
+
+        if(str.length() == max*2){
+            list.add(str);
             return;
         }
-        char ch = s.charAt(i);
-        if(!Character.isDigit(ch)){
-            if(Character.isUpperCase(ch)){
-                helper(i+1, end, p+Character.toLowerCase(ch), res, s);
-            }else{
-                helper(i+1, end, p+Character.toUpperCase(ch), res, s);
-            }
-        }
-        helper(i+1, end, p+ch, res, s);
+
+        if(open < max)
+            backtrack(list, str+"(", open+1, close, max);
+        if(close < open)
+            backtrack(list, str+")", open, close+1, max);
     }
 
     public static void main(String[] args){
-        int[] nums = {0, -1};
-        //System.out.println(maxStrength(nums));
+        int n = 3;
+        System.out.println(generateParenthesis(n));
 
     }
 
