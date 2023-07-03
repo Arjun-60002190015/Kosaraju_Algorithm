@@ -7,30 +7,36 @@ import java.util.*;
 
 
 public class Solutions {
-    public String findDifferentBinaryString(String[] nums) {
-        Set<String> set = new HashSet<>(Arrays.asList(nums));
-        int n = nums[0].length();
-        String res = "";
-        return helper(res, n, set);
+    public List<List<String>> partition(String s) {
+        List<List<String>> res = new ArrayList<>();
+        helper( 0, s, res, new ArrayList<>());
+        return res;
     }
 
-    public String helper(String res, int n, Set<String> set){
-        if(res.length()==n){
-            if(!set.contains(res)){
-                return res;
-            }
-            else{
-                return null;
+    public void helper(int start, String s, List<List<String>> res, List<String> temp){
+        if(start==s.length()){
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        for(int i = start;i<s.length();i++){
+            if(isPalin(s, start, i)){
+                temp.add(s.substring(start, i+1));
+                helper(i+1, s, res, temp);
+                temp.remove(temp.size()-1);
             }
         }
-        String r = helper(res+"1", n, set);
-        if(r!=null)
-            return r;
-        r = helper(res+"0", n, set);
-        if(r!=null)
-            return r;
-        return null;
 
+    }
+
+    public boolean isPalin(String s, int i, int j){
+
+        while(i<=j){
+            if(s.charAt(i)==s.charAt(j)){
+                i++;
+                j--;
+            }else return false;
+        }
+        return true;
     }
 
     public static void main(String[] args){
