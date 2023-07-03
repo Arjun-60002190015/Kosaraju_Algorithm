@@ -7,29 +7,36 @@ import java.util.*;
 
 
 public class Solutions {
+    StringBuilder sb = new StringBuilder();
+    public String getHappyString(int n, int k) {
+        List<String> res = new ArrayList<>();
+        helper(n, res, ' ');
+        Collections.sort(res);
+        if(res.size()>=k)
+            return res.get(k-1);
+        return "";
 
-    public static List<String> generateParenthesis(int n) {
-        List<String> list = new ArrayList<String>();
-        backtrack(list, "", 0, 0, n);
-        return list;
+
     }
 
-    public static void backtrack(List<String> list, String str, int open, int close, int max){
-
-        if(str.length() == max*2){
-            list.add(str);
+    public void helper(int n, List<String> res, char prev){
+        if(sb.length()==n) {
+            res.add(sb.toString());
             return;
         }
+        for(char ch = 'a';ch<='c';ch++){
+            if(ch!=prev){
+                sb.append(ch);
+                helper(n, res, ch );
+                sb.delete(sb.length()-1, sb.length());
 
-        if(open < max)
-            backtrack(list, str+"(", open+1, close, max);
-        if(close < open)
-            backtrack(list, str+")", open, close+1, max);
+            }
+        }
     }
 
     public static void main(String[] args){
         int n = 3;
-        System.out.println(generateParenthesis(n));
+        //System.out.println(generateParenthesis(n));
 
     }
 
