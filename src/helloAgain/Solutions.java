@@ -7,23 +7,30 @@ import java.util.*;
 
 
 public class Solutions {
-    public List<List<Integer>> combine(int n, int k) {
-        List<List<Integer>> res = new ArrayList<>();
-        helper(n, k ,1 ,  new ArrayList<>(), res);
-        return res;
-
+    public String findDifferentBinaryString(String[] nums) {
+        Set<String> set = new HashSet<>(Arrays.asList(nums));
+        int n = nums[0].length();
+        String res = "";
+        return helper(res, n, set);
     }
 
-    public void helper(int n, int k, int start,  List<Integer> temp, List<List<Integer>> res){
-        if(temp.size()==k){
-            res.add(new ArrayList<>(temp));
-            return;
+    public String helper(String res, int n, Set<String> set){
+        if(res.length()==n){
+            if(!set.contains(res)){
+                return res;
+            }
+            else{
+                return null;
+            }
         }
-        for(int i = start;i<=n;i++){
-            temp.add(i);
-            helper(n, k, i+1, temp, res);
-            temp.remove(temp.size()-1);
-        }
+        String r = helper(res+"1", n, set);
+        if(r!=null)
+            return r;
+        r = helper(res+"0", n, set);
+        if(r!=null)
+            return r;
+        return null;
+
     }
 
     public static void main(String[] args){
