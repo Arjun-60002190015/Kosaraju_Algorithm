@@ -7,28 +7,33 @@ import java.util.*;
 
 
 public class Solutions {
-    public List<List<Integer>> findSubsequences(int[] nums) {
-        Set<List<Integer>> res = new HashSet<List<Integer>>();
-        helper(res, 0, Integer.MIN_VALUE, nums, new ArrayList<>());
-        List r = new ArrayList<>(res);
-        return r;
-    }
-
-    public void helper(Set<List<Integer>> res, int index, int prev, int[] nums, List<Integer> temp){
-        if(temp.size()>1){
-
-            res.add(new ArrayList<>(temp));
-
+    List<Integer> res = new ArrayList<>();
+    public int[] numsSameConsecDiff(int n, int k) {
+        for(int i = 1;i<=9;i++){
+            helper(n-1, k, i);
         }
 
+        int[] nums = new int[res.size()];
+        for(int i = 0;i< res.size();i++){
+            nums[i] = res.get(i);
+        }
+        return  nums;
 
 
-        for(int i = index;i< nums.length;i++){
-            if(nums[i]>=prev){
-                temp.add(nums[i]);
-                helper(res, i+1, nums[i],nums, temp );
-                temp.remove(temp.size()-1);
-            }
+
+    }
+
+    public void helper(int n, int k, int num){
+        if(n==0){
+            res.add(num);
+            return;
+        }
+        int digit = num%10;
+        if(digit-k>=0){
+            helper(n-1, k, num*10 + (digit-k));
+        }
+        if(digit+k<=9 && digit+k!=digit-k){
+            helper(n-1, k, num*10 + (digit+k));
         }
     }
 
