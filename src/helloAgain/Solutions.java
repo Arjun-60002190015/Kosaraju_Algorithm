@@ -7,33 +7,26 @@ import java.util.*;
 
 
 public class Solutions {
-    List<Integer> res = new ArrayList<>();
-    public int[] numsSameConsecDiff(int n, int k) {
-        for(int i = 1;i<=9;i++){
-            helper(n-1, k, i);
-        }
+    int max  = 0;
 
-        int[] nums = new int[res.size()];
-        for(int i = 0;i< res.size();i++){
-            nums[i] = res.get(i);
-        }
-        return  nums;
-
-
-
+    public int maxUniqueSplit(String s) {
+        helper(0, s, new HashSet<String>());
+        return max;
     }
 
-    public void helper(int n, int k, int num){
-        if(n==0){
-            res.add(num);
+    public void helper(int start, String s, HashSet<String> set){
+        if(start==s.length()){
+            max = Math.max(set.size(), max);
             return;
         }
-        int digit = num%10;
-        if(digit-k>=0){
-            helper(n-1, k, num*10 + (digit-k));
-        }
-        if(digit+k<=9 && digit+k!=digit-k){
-            helper(n-1, k, num*10 + (digit+k));
+
+        for(int i = start+1; i<=s.length();i++){
+            String newS = s.substring(start, i);
+            if(!set.contains(newS)){
+                set.add(newS);
+                helper(i, s, set);
+                set.remove(newS);
+            }
         }
     }
 
