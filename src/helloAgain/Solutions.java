@@ -7,71 +7,46 @@ import java.util.*;
 
 
 public class Solutions {
-    //Recursion Solution -
-    int max = 0;
-
-    public int maxProductRecursion(String s) {
-        char[] c = s.toCharArray();
-        helper(c, 0, "", "");
-        return max;
+    HashMap<List<Integer>, Integer> map = new HashMap<>();
+    public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
+        return helper(price, special, needs);
     }
 
-    public void helper(char[] c, int i, String s1, String s2){
-        if(i>=c.length){
-            if(isPalin(s1) && isPalin(s2)){
-                max = Math.max(max, s1.length()*s2.length());
-                return;
+    public int helper(List<Integer> price, List<List<Integer>> special, List<Integer> needs){
+        int min = getPrice(needs, price);
+        if(map.get(needs)!=null){
+            return map.get(needs);
+        }
+
+        for(int i = 0;i< special.size();i++){
+            boolean flag = true;
+            List<Integer> offer = special.get(i);
+            List<Integer> newNeeds = new ArrayList<>();
+            for(int k = 0;k<offer.size()-1;k++){
+                if(needs.get(k)<offer.get(k)){
+                    flag = false;
+                    break;
+                }
+                newNeeds.add(needs.get(k) - offer.get(k));
             }
-        }
-
-        helper(c, i+1, s1+c[i], s2);
-        helper(c, i+1, s1, s2+c[i]);
-        helper(c, i+1, s1, s2);
-    }
-
-    public boolean isPalin(String s){
-        int i = 0;
-        int j = s.length()-1;
-        while(i<j){
-            if(s.charAt(i)!=s.charAt(j)){
-                return false;
+            if(!flag){
+                continue;
             }
-            i++;
-            j--;
+            min = Math.min(min, offer.get(offer.size()-1) + helper(price, special, newNeeds));
         }
-        return true;
+        map.put(needs, min);
+        return min;
     }
 
-    //Memoization -
-    int ans = 0;
-
-    Integer[][] dp;
-
-    public int maxProduct(String s) {
-        dp = new Integer[s.length()+1][s.length()+1];
-        char[] c = s.toCharArray();
-        helperM(0, c, "", "");
-        return ans;
-
+    public int getPrice(List<Integer> needs, List<Integer> price){
+        int min = 0;
+        for(int i = 0;i<needs.size();i++){
+            min += needs.get(i)*price.get(i);
+        }
+        return min;
     }
 
-    public int helperM(int i, char[] c, String s1, String s2){
 
-        if(isPalin(s1) && isPalin(s2)){
-                ans = Math.max(ans, s1.length()*s2.length());
-        }
-
-        if(i>=c.length){
-            return dp[s1.length()][s2.length()];
-        }
-
-        dp[s1.length()][s2.length()] = ans;
-        int one = helperM(i+1, c, s1+c[i], s2);
-        int two = helperM(i+1, c, s1, s2+c[i]);
-        int three = helperM(i+1, c, s1, s2);
-        return dp[s1.length()][s2.length()];
-
-    }
 
 
 
