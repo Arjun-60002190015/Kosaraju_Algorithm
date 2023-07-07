@@ -7,44 +7,36 @@ import java.util.*;
 
 
 public class Solutions {
-    HashMap<List<Integer>, Integer> map = new HashMap<>();
-    public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
-        return helper(price, special, needs);
+    int max = Integer.MIN_VALUE;
+    public int maxLength(List<String> arr) {
+        helper(0, "", arr);
+        return max;
     }
 
-    public int helper(List<Integer> price, List<List<Integer>> special, List<Integer> needs){
-        int min = getPrice(needs, price);
-        if(map.get(needs)!=null){
-            return map.get(needs);
-        }
+    public void helper(int index, String s, List<String> arr){
+        max = Math.max(max, s.length());
 
-        for(int i = 0;i< special.size();i++){
-            boolean flag = true;
-            List<Integer> offer = special.get(i);
-            List<Integer> newNeeds = new ArrayList<>();
-            for(int k = 0;k<offer.size()-1;k++){
-                if(needs.get(k)<offer.get(k)){
-                    flag = false;
-                    break;
-                }
-                newNeeds.add(needs.get(k) - offer.get(k));
-            }
-            if(!flag){
-                continue;
-            }
-            min = Math.min(min, offer.get(offer.size()-1) + helper(price, special, newNeeds));
+        for(int i = index;i< arr.size();i++){
+            if(!isValid(s, arr.get(i))) continue;
+            helper(i+1, s+arr.get(i), arr);
         }
-        map.put(needs, min);
-        return min;
     }
 
-    public int getPrice(List<Integer> needs, List<Integer> price){
-        int min = 0;
-        for(int i = 0;i<needs.size();i++){
-            min += needs.get(i)*price.get(i);
+    public boolean isValid(String s, String p){
+        HashSet<Character> set = new HashSet<>();
+        for(char i:s.toCharArray()){
+            if(set.contains(i))
+                return false;
+            set.add(i);
         }
-        return min;
+        for(char i:p.toCharArray()){
+            if(set.contains(i))
+                return false;
+            set.add(i);
+        }
+        return true;
     }
+
 
 
 
