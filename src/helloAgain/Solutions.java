@@ -7,40 +7,15 @@ import java.util.*;
 
 
 public class Solutions {
-    int max = Integer.MIN_VALUE;
-    public int maxLength(List<String> arr) {
-        helper(0, "", arr);
-        return max;
-    }
-
-    public void helper(int index, String s, List<String> arr){
-        max = Math.max(max, s.length());
-
-        for(int i = index;i< arr.size();i++){
-            if(!isValid(s, arr.get(i))) continue;
-            helper(i+1, s+arr.get(i), arr);
+    public int findValueOfPartition(int[] nums) {
+        Arrays.sort(nums);
+        int min = Integer.MAX_VALUE;
+        for(int i = 1;i< nums.length;i++){
+            min = Math.min(nums[i]-nums[i-1], min);
         }
+        return min;
+
     }
-
-    public boolean isValid(String s, String p){
-        HashSet<Character> set = new HashSet<>();
-        for(char i:s.toCharArray()){
-            if(set.contains(i))
-                return false;
-            set.add(i);
-        }
-        for(char i:p.toCharArray()){
-            if(set.contains(i))
-                return false;
-            set.add(i);
-        }
-        return true;
-    }
-
-
-
-
-
 
 
     public static void main(String[] args){
