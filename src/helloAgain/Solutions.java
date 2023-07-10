@@ -7,13 +7,13 @@ import java.util.*;
 
 
 public class Solutions {
-    public int minPairSum(int[] nums) {
-        Arrays.sort(nums);
+    public int getLastMoment(int n, int[] left, int[] right) {
         int max = 0;
-        int end = nums.length-1;
-        for(int i = 0;i< nums.length;i++){
-            max = Math.max(max, nums[i]+nums[end]);
-            end--;
+        for(int i = 0;i< left.length;i++){
+            max = Math.max(max, left[i] - 0);
+        }
+        for(int i = 0;i<right.length;i++){
+            max = Math.max(max, n - right[i]);
         }
         return max;
 
