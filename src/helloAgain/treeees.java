@@ -30,45 +30,40 @@ public class treeees {
           next = null;
       }
     }
-    List<Integer> res;
-    Map<Integer, List<Integer>> graph;
-    Set<Integer> visited;
-    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-        graph = new HashMap<>();
-        buildGraph(root, null);
-        res = new ArrayList<>();
-        visited = new HashSet<>();
-        visited.add(target.val);
-
-        dfs(target.val, 0, k);
-
-        return res;
-    }
-
-    public void buildGraph(TreeNode curr, TreeNode parent){
-        if(curr!=null && parent!=null){
-            graph.computeIfAbsent(curr.val, k-> new ArrayList<>()).add(parent.val);
-            graph.computeIfAbsent(parent.val, k-> new ArrayList<>()).add(curr.val);
-        }
-        if(curr.left!=null)
-            buildGraph(curr.left, curr);
-        if(curr.right!=null)
-            buildGraph(curr.right, curr);
-
-    }
-
-    public void dfs(int curr, int level, int k) {
-        if (level == k){
-            res.add(curr);
-            return;
-        }
-
-        for(int i:graph.getOrDefault(curr, new ArrayList<>())){
-            if(!visited.contains(i)){
-                visited.add(i);
-                dfs(i, level+1, k);
+    public int minDepth(TreeNode root) {
+        if(root==null)
+            return 0;
+        int res = 0;
+        Queue<TreeNode> q = new ArrayDeque<>();
+        q.add(root);
+        while(!q.isEmpty()){
+            res++;
+            int size = q.size();
+            while(size-->0){
+                TreeNode curr = q.poll();
+                if(curr.left==null && curr.right==null)
+                    return res;
+                if(curr.right!=null)
+                    q.add(curr.right);
+                if(curr.left!=null)
+                    q.add(curr.left);
             }
         }
+        return 0;
+
+    }
+
+    public int minDepth(TreeNode root) {
+        if(root==null)
+            return 0;
+        if(root.left==null)
+            return minDepth(root.right)+1;
+        else if (root.right==null) {
+            return minDepth(root.left)+1;
+
+        }
+
+        return Math.min(minDepth(root.right), minDepth(root.left))+1;
     }
 
 
