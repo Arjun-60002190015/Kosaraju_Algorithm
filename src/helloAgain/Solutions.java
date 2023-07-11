@@ -7,50 +7,36 @@ import java.util.*;
 
 
 public class Solutions {
-    //Recursion
-    public int findTargetSumWaysRecursion(int[] nums, int target) {
-        return helper(nums, 0, 0, target);
-
-    }
-
-    public int helper(int[] nums, int sum, int index, int target){
-        if(index== nums.length){
-            if(sum==target)
-                return 1;
-            else return 0;
-        }
-
-        int curr = helper(nums, sum+nums[index], index+1, target);
-        int cur = helper(nums, sum-nums[index], index+1, target);
-        return curr+cur;
-    }
-
-    Integer[][] dp;
-
-    public int findTargetSumWays(int[] nums, int target) {
+    public boolean canPartitionKSubsets(int[] nums, int k) {
         int sum = 0;
         for(int i:nums){
             sum += i;
         }
-
-        dp = new Integer[nums.length+1][2009];
-        return memo(nums, 0, 0, target);
-
+        if(sum%k!=0)
+            return false;
+        boolean[] vis = new boolean[nums.length];
+        Arrays.fill(vis, false);
+        boolean flag = false;
+        flag = helper(nums, sum/k, 0, vis, 0, k);
+        return flag;
     }
 
-    public int memo(int[] nums, int index, int curr, int target){
-        if(index== nums.length){
-            if(curr==target){
-                return 1;
-            }
-            return 0;
+    public boolean helper(int[] nums, int limit, int index, boolean[] vis, int curr, int k){
+        if(curr==limit){
+            return helper(nums, limit, 0, vis, 0, k-1);
         }
-        if(dp[index][curr+1001]!=null)
-            return dp[index][curr+1001];
-        int pos = memo(nums, index+1, curr+nums[index], target);
-        int neg = memo(nums, index+1, curr-nums[index], target);
-        return dp[index][curr+1001] = pos+neg;
 
+        if(k==1)
+            return true;
+
+        for(int i = index;i< nums.length;i++){
+            if(vis[i] || curr+nums[i]>limit) continue;
+            vis[i] = true;
+            if(helper(nums, limit, i+1, vis, curr+nums[i], k))
+                return true;
+            vis[i] = false;
+        }
+        return false;
     }
 
     public static void main(String[] args){
