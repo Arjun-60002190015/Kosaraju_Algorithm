@@ -7,29 +7,50 @@ import java.util.*;
 
 
 public class Solutions {
-    int max = Integer.MAX_VALUE;
-    int totDiff = Integer.MAX_VALUE;
-    public int closestCost(int[] baseCosts, int[] toppingCosts, int target) {
-        for(int i = 0;i< baseCosts.length;i++) {
-            helper(baseCosts[i], toppingCosts,0,  target);
-        }
-        return max;
+    //Recursion
+    public int findTargetSumWaysRecursion(int[] nums, int target) {
+        return helper(nums, 0, 0, target);
 
     }
 
-    public void helper(int base, int[] topping, int index, int target){
-        int diff = Math.abs(target-base);
-        if(diff<totDiff || (diff==totDiff && base<max)){
-            totDiff = diff;
-            max = base;
+    public int helper(int[] nums, int sum, int index, int target){
+        if(index== nums.length){
+            if(sum==target)
+                return 1;
+            else return 0;
         }
 
-        if(index== topping.length || base>target)
-            return;
+        int curr = helper(nums, sum+nums[index], index+1, target);
+        int cur = helper(nums, sum-nums[index], index+1, target);
+        return curr+cur;
+    }
 
-        helper(base, topping, index+1, target);
-        helper(base+ topping[index], topping, index+1, target);
-        helper(base+2* topping[index], topping, index+1, target);
+    Integer[][] dp;
+
+    public int findTargetSumWays(int[] nums, int target) {
+        int sum = 0;
+        for(int i:nums){
+            sum += i;
+        }
+
+        dp = new Integer[nums.length+1][2009];
+        return memo(nums, 0, 0, target);
+
+    }
+
+    public int memo(int[] nums, int index, int curr, int target){
+        if(index== nums.length){
+            if(curr==target){
+                return 1;
+            }
+            return 0;
+        }
+        if(dp[index][curr+1001]!=null)
+            return dp[index][curr+1001];
+        int pos = memo(nums, index+1, curr+nums[index], target);
+        int neg = memo(nums, index+1, curr-nums[index], target);
+        return dp[index][curr+1001] = pos+neg;
+
     }
 
     public static void main(String[] args){
