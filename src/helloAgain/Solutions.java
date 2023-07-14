@@ -7,14 +7,19 @@ import java.util.*;
 
 
 public class Solutions {
-    public boolean asteroidsDestroyed(int mass, int[] asteroids) {
-        Arrays.sort(asteroids);
-        long sum = mass;
-        for(int i = 0;i<asteroids.length;i++){
-            if(sum<asteroids[i]) return false;
-            sum += asteroids[i];
+    public int longestSubsequence(int[] arr, int difference) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int max = 0;
+        for(int i = 0;i<arr.length;i++){
+            int num = arr[i];
+            if(map.containsKey(num-difference)){
+                map.put(num, map.get(num)+1);
+            }else{
+                map.put(num, 1);
+            }
+            max = Math.max(max, map.get(num));
         }
-        return true;
+        return max;
 
     }
 
