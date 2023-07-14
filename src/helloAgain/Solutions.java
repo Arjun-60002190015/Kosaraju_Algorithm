@@ -7,18 +7,21 @@ import java.util.*;
 
 
 public class Solutions {
-    public int fillCups(int[] amount) {
-        Arrays.sort(amount);
-        if(amount[2]==0)
-            return 0;
-        if(amount[1]==0)
-            return amount[2];
-        else {
-            amount[1]--;
-            amount[2]--;
-            return 1 + fillCups(amount);
-
+    public String frequencySort(String s) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        for(int i = 0;i<s.length();i++){
+            map.put(s.charAt(i), map.getOrDefault(s.charAt(i), 0)+1);
         }
+        List<Character> temp = new ArrayList<>(map.keySet());
+        Collections.sort(temp, (a, b)-> map.get(b)-map.get(a));
+        String res = "";
+        for(Object i:temp){
+            for(int j = 0;j<map.get(i);j++){
+                res += i;
+            }
+        }
+        return res;
+
     }
 
     public static void main(String[] args){
