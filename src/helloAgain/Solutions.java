@@ -7,19 +7,25 @@ import java.util.*;
 
 
 public class Solutions {
-    public int longestSubsequence(int[] arr, int difference) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        int max = 0;
-        for(int i = 0;i<arr.length;i++){
-            int num = arr[i];
-            if(map.containsKey(num-difference)){
-                map.put(num, map.get(num)+1);
-            }else{
-                map.put(num, 1);
-            }
-            max = Math.max(max, map.get(num));
+    public long pickGifts(int[] gifts, int k) {
+        long sum = 0;
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b)-> b-a);
+        for(int i:gifts){
+            pq.offer(i);
+
         }
-        return max;
+        long rem = 0;
+        while(k>0){
+            int x = pq.poll();
+            x = (int)Math.sqrt(x);
+            pq.offer(x);
+            k--;
+
+        }
+        while(!pq.isEmpty()){
+            sum += pq.poll();
+        }
+        return sum;
 
     }
 
