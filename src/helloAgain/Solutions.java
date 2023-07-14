@@ -7,21 +7,24 @@ import java.util.*;
 
 
 public class Solutions {
-    public String frequencySort(String s) {
-        HashMap<Character, Integer> map = new HashMap<>();
-        for(int i = 0;i<s.length();i++){
-            map.put(s.charAt(i), map.getOrDefault(s.charAt(i), 0)+1);
-        }
-        List<Character> temp = new ArrayList<>(map.keySet());
-        Collections.sort(temp, (a, b)-> map.get(b)-map.get(a));
-        String res = "";
-        for(Object i:temp){
-            for(int j = 0;j<map.get(i);j++){
-                res += i;
-            }
-        }
-        return res;
+    public int maximumScore(int a, int b, int c) {
+        int[] res = new int[3];
+        res[0] = a;
+        res[1] = b;
+        res[2] = c;
+        return helper(res);
 
+    }
+
+    public int helper(int[] nums){
+        Arrays.sort(nums);
+        if(nums[1]==0)
+            return 0;
+        else {
+            nums[2]--;
+            nums[1]--;
+            return 1 + helper(nums);
+        }
     }
 
     public static void main(String[] args){
