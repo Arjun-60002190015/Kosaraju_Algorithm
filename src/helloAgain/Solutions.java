@@ -7,26 +7,18 @@ import java.util.*;
 
 
 public class Solutions {
-    public long pickGifts(int[] gifts, int k) {
-        long sum = 0;
-        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b)-> b-a);
-        for(int i:gifts){
-            pq.offer(i);
+    public int fillCups(int[] amount) {
+        Arrays.sort(amount);
+        if(amount[2]==0)
+            return 0;
+        if(amount[1]==0)
+            return amount[2];
+        else {
+            amount[1]--;
+            amount[2]--;
+            return 1 + fillCups(amount);
 
         }
-        long rem = 0;
-        while(k>0){
-            int x = pq.poll();
-            x = (int)Math.sqrt(x);
-            pq.offer(x);
-            k--;
-
-        }
-        while(!pq.isEmpty()){
-            sum += pq.poll();
-        }
-        return sum;
-
     }
 
     public static void main(String[] args){
