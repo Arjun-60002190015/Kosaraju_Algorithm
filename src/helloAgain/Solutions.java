@@ -7,24 +7,20 @@ import java.util.*;
 
 
 public class Solutions {
-    public int maximumScore(int a, int b, int c) {
-        int[] res = new int[3];
-        res[0] = a;
-        res[1] = b;
-        res[2] = c;
-        return helper(res);
-
-    }
-
-    public int helper(int[] nums){
-        Arrays.sort(nums);
-        if(nums[1]==0)
-            return 0;
-        else {
-            nums[2]--;
-            nums[1]--;
-            return 1 + helper(nums);
+    public int nearestValidPoint(int x, int y, int[][] points) {
+        int min = -1;
+        int dist = Integer.MAX_VALUE;
+        for(int i = 0;i<points.length;i++){
+            if(points[i][0]==x ||
+                    points[i][1]==y){
+                if((Math.abs(points[i][0]-x)+Math.abs(points[i][1]-y))<dist){
+                    dist = (Math.abs(points[i][0]-x)+Math.abs(points[i][1]-y));
+                    min = i;
+                }
+            }
         }
+        return min;
+
     }
 
     public static void main(String[] args){
