@@ -1,25 +1,30 @@
 package helloAgain;
 
 
+import javafx.scene.layout.Priority;
+
 import java.sql.Array;
 import java.util.*;
 
 
 
 public class Solutions {
-    public int nearestValidPoint(int x, int y, int[][] points) {
-        int min = -1;
-        int dist = Integer.MAX_VALUE;
-        for(int i = 0;i<points.length;i++){
-            if(points[i][0]==x ||
-                    points[i][1]==y){
-                if((Math.abs(points[i][0]-x)+Math.abs(points[i][1]-y))<dist){
-                    dist = (Math.abs(points[i][0]-x)+Math.abs(points[i][1]-y));
-                    min = i;
-                }
-            }
+    public int minStoneSum(int[] piles, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        for(int i:piles){
+            pq.offer(i);
         }
-        return min;
+        while(k>0){
+            int res = pq.poll();
+            res = res - (int)Math.floor(res/2);
+            pq.offer(res);
+            k--;
+        }
+        int sum = 0;
+        for(int i=0;i< piles.length;i++){
+            sum += pq.poll();
+        }
+        return sum;
 
     }
 
