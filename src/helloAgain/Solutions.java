@@ -9,39 +9,22 @@ import java.util.*;
 
 
 public class Solutions {
-    public int kthSmallest(int[][] matrix, int k) {
-        int n = matrix.length;
-        int start = matrix[0][0];
-        int end = matrix[n-1][n-1];
-        while(start<end){
-            int mid = start + (end-start)/2;
-            int count=  helper(matrix, mid);
-            if(count<k){
-                start = mid+1;
-            }else{
-                end = mid;
-            }
+    public boolean carPooling(int[][] trips, int capacity) {
+        int[] len = new int[1001];
+        for(int[] trip:trips){
+            len[trip[1]] += trip[0];
+            len[trip[2]] -= trip[0];
         }
-        return start;
+        int sum = 0;
+        for(int i = 0;i<1001;i++){
+            sum += len[i];
+            if(sum>capacity)
+                return false;
+
+        }
+        return true;
 
     }
-
-    public int helper(int[][] matrix, int mid){
-        int j = 0;
-        int len = matrix.length;
-        int i = len-1;
-        int count = 0;
-        while(j<len && i>=0){
-            if(matrix[i][j]>mid){
-                i--;
-            }else{
-                count += i+1;
-                j++;
-            }
-        }
-        return count;
-    }
-
     public static void main(String[] args){
         int[] n = {2, 2, 3, 4, 4, 5, 5};
         //System.out.println(singleNumber(n));
