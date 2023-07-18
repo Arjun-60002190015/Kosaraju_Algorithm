@@ -9,21 +9,40 @@ import java.util.*;
 
 
 public class Solutions {
-    public boolean isPerfectSquare(int num) {
-        if(num==1)
-            return true;
-        long start = 0;
-        long end = num/2;
-        while(start<=end){
-            long mid = start + (end-start)/2;
-            if(mid*mid>num){
-                end = mid-1;
-            }else if(mid*mid<num){
-                start = mid+1;
-            }else return true;
+    public int shipWithinDays(int[] weights, int days) {
+        int start = 0;
+        int end = 0;
+        for(int i:weights){
+            start = Math.max(start, i);
+            end += i;
         }
-        return false;
 
+
+        while(start<=end){
+            int mid = start + (end-start)/2;
+            if(helper(weights, mid, days)){
+                end = mid-1;
+            }else
+                start = mid + 1;
+        }
+        return start;
+    }
+
+    public boolean helper(int[] weights, int target, int days){
+        int count = 1;
+        int sum =  0;
+        for(int i = 0;i<weights.length;i++){
+            if(count>days) return false;
+            if(sum+weights[i]>target){
+                sum = 0;
+                count++;
+
+            }
+            //else {
+                sum += weights[i];
+
+        }
+        return count<=days;
     }
 
 
