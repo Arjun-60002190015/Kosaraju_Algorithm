@@ -9,35 +9,20 @@ import java.util.*;
 
 
 public class Solutions {
-    //Brute Force
-
-    public static int arrangeCoinsBF(int n) {
-        if(n==1)
-            return 1;
-        int count = 0;
-        int sum = n;
-        for(int i = 1;i<n;i++){
-            if((sum -i)>0){
-                sum -= i;
-                count++;
-            }else break;
-        }
-        return count;
-
-    }
-
-    public int arrangeCoins(int n) {
-        long start  = 0;
-        long end = n;
+    public boolean isPerfectSquare(int num) {
+        if(num==1)
+            return true;
+        long start = 0;
+        long end = num/2;
         while(start<=end){
             long mid = start + (end-start)/2;
-            if((mid*(mid+1))/2>n){
+            if(mid*mid>num){
                 end = mid-1;
-            }else if((mid*(mid+1))/2<n){
+            }else if(mid*mid<num){
                 start = mid+1;
-            }else return (int)mid;
+            }else return true;
         }
-        return (int)end;
+        return false;
 
     }
 
