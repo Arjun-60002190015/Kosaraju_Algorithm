@@ -9,60 +9,23 @@ import java.util.*;
 
 
 public class Solutions {
-    //BruteForce
-    public int[] fairCandySwapBF(int[] aliceSizes, int[] bobSizes) {
-        int bob = 0;
-        int alice = 0;
-        for(int i:bobSizes){
-            bob += i;
-        }
-        for(int i:aliceSizes){
-            alice +=i;
-        }
-        for(int i = 0;i<aliceSizes.length;i++){
-            for(int j = 0;j<bobSizes.length;j++){
-                if(bob - bobSizes[j]+aliceSizes[i]==alice - aliceSizes[i]+bobSizes[j])
-                    return new int[]{aliceSizes[i], bobSizes[j]};
+
+    public int longestArithSeqLength(int[] nums) {
+        Map<Integer, Integer>[] map = new HashMap[nums.length];
+        int count = 2;
+        for(int i = 0;i< nums.length;i++){
+            map[i] = new HashMap<>();
+            for(int j = 0;j<i;j++){
+                int diff = nums[i] - nums[j];
+                map[i].put(diff, map[j].getOrDefault(diff, 1)+1);
+                count = Math.max(count, map[i].get(diff));
             }
         }
-        return new int[]{};
+        return count;
+
     }
 
-    //BinarySearch
 
-    public int[] fairCandySwap(int[] aliceSizes, int[] bobSizes) {
-        int aliceTotal = 0;
-        int bobTotal = 0;
-        for (int candies : aliceSizes)
-            aliceTotal += candies;
-        for (int candies : bobSizes)
-            bobTotal += candies;
-
-        Arrays.sort(bobSizes);
-
-        int m = aliceSizes.length, n = bobSizes.length;
-        for (int i = 0; i < m; i++) {
-            int target = (bobTotal + 2 * aliceSizes[i] - aliceTotal) / 2;
-            if (binarySearch(bobSizes, target))
-                return new int[] { aliceSizes[i], target };
-        }
-
-        return new int[0];
-    }
-
-    private boolean binarySearch(int[] arr, int target) {
-        int l = 0, r = arr.length - 1;
-        while (l <= r) {
-            int m = l + (r - l) / 2;
-            if (target < arr[m])
-                r = m - 1;
-            else if (target > arr[m])
-                l = m + 1;
-            else
-                return true;
-        }
-        return false;
-    }
 
 
     public static void main(String[] args){
