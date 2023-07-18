@@ -9,45 +9,44 @@ import java.util.*;
 
 
 public class Solutions {
+    //Brute Force
 
-    public int getCommon(int[] nums1, int[] nums2) {
-        int min = Integer.MAX_VALUE;
-        for(int i = 0;i<nums1.length;i++){
-            if(helper(nums2, nums1[i])) {
-                min = Math.min(min, nums1[i]);
-                break;
-            }
+    public static int arrangeCoinsBF(int n) {
+        if(n==1)
+            return 1;
+        int count = 0;
+        int sum = n;
+        for(int i = 1;i<n;i++){
+            if((sum -i)>0){
+                sum -= i;
+                count++;
+            }else break;
         }
-        for(int i = 0;i<nums2.length;i++){
-            if(helper(nums1, nums2[i])) {
-                min = Math.min(min, nums2[i]);
-                break;
-            }
-        }
-        return min==Integer.MAX_VALUE?-1:min;
+        return count;
 
     }
 
-    public boolean helper(int[] nums, int target){
-        int start = 0;
-        int end = nums.length-1;
+    public int arrangeCoins(int n) {
+        long start  = 0;
+        long end = n;
         while(start<=end){
-            int mid = start+ (end-start)/2;
-            if(nums[mid]>target){
+            long mid = start + (end-start)/2;
+            if((mid*(mid+1))/2>n){
                 end = mid-1;
-            }else if(nums[mid]<target){
+            }else if((mid*(mid+1))/2<n){
                 start = mid+1;
-            }else return true;
+            }else return (int)mid;
         }
-        return false;
+        return (int)end;
+
     }
 
 
 
 
     public static void main(String[] args){
-        int[] n = {2, 2, 3, 4, 4, 5, 5};
-        //System.out.println(singleNumber(n));
+
+        //System.out.println(arrangeCoins(3));
 
     }
 
