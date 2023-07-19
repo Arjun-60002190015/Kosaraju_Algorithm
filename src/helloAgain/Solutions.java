@@ -9,19 +9,16 @@ import java.util.*;
 
 
 public class Solutions {
-    public int findMinArrowShots(int[][] points) {
-        int count = 1;
-        Arrays.sort(points, Comparator.comparingInt(a -> a[1]));
-        int prev = points[0][1];
-        for(int i = 1;i< points.length;i++){
-            if(points[i][0]<=prev){
-                continue;
-            }else {
-                prev = points[i][1];
-                count++;
-            }
+    public int singleNonDuplicate(int[] nums) {
+        int start = 0;
+        int end = nums.length-1;
+        while(start<end){
+            int mid = start + (end-start)/2;
+            if(mid%2==0 && nums[mid]!=nums[mid+1] || mid%2!=0 && nums[mid]!=nums[mid-1])
+                end = mid;
+            else start = mid+1;
         }
-        return count;
+        return nums[start];
 
     }
 
