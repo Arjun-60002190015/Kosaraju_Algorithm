@@ -9,36 +9,19 @@ import java.util.*;
 
 
 public class Solutions {
-    public int maxDistance(int[] position, int m) {
-        Arrays.sort(position);
-        int start = Integer.MAX_VALUE;
-        int end = position[position.length-1]-position[0];
-        for(int i = 1;i<position.length;i++){
-            start = Math.min(start, position[i]-position[i-1]);
-        }
-
-        int ans = -1;
-        while(start<=end){
-            int mid = start + (end-start)/2;
-            if(helper(mid, position, m)){
-                ans = mid;
-                start = mid+1;
-            }else end = mid-1;
-        }
-        return ans;
-
-    }
-
-    public boolean helper(int max, int[] position, int m){
-        int count = 1;
-        int prev = position[0];
-        for(int i = 1;i<position.length;i++){
-            if(position[i]-prev>=max){
-                prev = position[i];
-                count++;
+    public long minimumPerimeter(long neededApples) {
+        long low = 0;
+        long high = 1664510;
+        while(high-low>1){
+            long mid = low + (high-low)/2;
+            long val = 2*mid*(mid+1)*(2*mid+1);
+            if(val>=neededApples){
+                high = mid;
             }
+            else low = mid;
         }
-        return count>=m;
+        return 8 * high;
+
     }
 
 
