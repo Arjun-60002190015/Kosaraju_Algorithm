@@ -9,20 +9,23 @@ import java.util.*;
 
 
 public class Solutions {
-    public int maxDistance(int[] nums1, int[] nums2) {
-        int max = 0;
-        for(int i = 0;i< nums1.length;i++){
-            int start = i;
-            int end = nums2.length-1;
-            while(start<=end){
-                int mid = start + (end-start)/2;
-                if(nums2[mid]>=nums1[i] && mid>=i){
-                    max=  Math.max(max, mid-i);
-                    start = mid+1;
-                }else end = mid-1;
+    public int minimumDeletions(String s) {
+        int index = -1;
+        for(int i = 0;i<s.length();i++){
+            if(s.charAt(i)=='b'){
+                index = i;
+                break;
             }
         }
-        return max;
+        if(index==-1) return 0;
+        int count = 0;
+        int b=  0;
+        for(int i = index;i<s.length();i++){
+            if(s.charAt(i)=='b') b++;
+            else count++;
+            count = Math.min(count, b);
+        }
+        return count;
 
     }
 
