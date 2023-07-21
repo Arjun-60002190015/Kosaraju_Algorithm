@@ -9,38 +9,19 @@ import java.util.*;
 
 
 public class Solutions {
-    public int minDays(int[] bloomDay, int m, int k) {
-        //Arrays.sort(bloomDay);
-        int start = 1;
-        int end = 1;
-        for(int i:bloomDay){
-            start = Math.min(start, i);
-            end = Math.max(end, i);
-        }
-        int ans = -1;
-        while(start<=end){
-            int mid = start + (end-start)/2;
-            if(helper(bloomDay, mid, k, m)){
-                ans = mid;
-                end = mid-1;
-            }else start = mid+1;
-        }
-        return ans;
-    }
+    public int findPeakElement(int[] nums) {
+        int start = 0;
 
-    public boolean helper(int[] bloomday, int mid, int k, int m){
-        int count = 0;
-        int mC = 0;
-        for(int i:bloomday){
-            if(i<=mid){
-                count++;
-            }else count = 0;
-            if(count==k) {
-                mC++;
-                count = 0;
-            }
+        int end = nums.length-1;
+        while(start<end){
+            int mid = start + (end-start)/2;
+            if(nums[mid]<nums[mid+1] )
+                start = mid+1;
+            else if(nums[mid]>nums[mid+1] )
+                end = mid;
         }
-        return mC>= m;
+        return start;
+
     }
 
 
