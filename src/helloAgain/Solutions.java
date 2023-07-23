@@ -3,34 +3,39 @@ package helloAgain;
 
 import javafx.scene.layout.Priority;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.sql.Array;
 import java.util.*;
 
 
 
 public class Solutions {
-    public int findPeakElement(int[] nums) {
-        int start = 0;
+    public List<String> splitWordsBySeparator(List<String> words, char separator) {
+        List<String> res = new ArrayList<>();
+        for(int i = 0;i< words.size();i++){
+            String temp = words.get(i);
+            String[] arr = temp.split("["+ separator+ "]");
+            for(int j = 0;j< arr.length;j++){
+                if(arr[j].length()>0){
+                    res.add(arr[j]);
+                }
+            }
 
-        int end = nums.length-1;
-        while(start<end){
-            int mid = start + (end-start)/2;
-            if(nums[mid]<nums[mid+1] )
-                start = mid+1;
-            else if(nums[mid]>nums[mid+1] )
-                end = mid;
         }
-        return start;
 
-    }
+        return res;
+
+}
+
+
 
 
 
 
     public static void main(String[] args){
-        int[] nums = {2, 2, 2, 2, 2};
+        int[] nums = {2, 3, 7, 9, 3};
 
-        //System.out.println(findLengthOfLCIS(nums));
+        System.out.println(maxArrayValue(nums));
 
     }
 
