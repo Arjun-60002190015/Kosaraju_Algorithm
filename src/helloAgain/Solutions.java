@@ -10,33 +10,20 @@ import java.util.*;
 
 
 public class Solutions {
-    public List<String> splitWordsBySeparator(List<String> words, char separator) {
-        List<String> res = new ArrayList<>();
-        for(int i = 0;i< words.size();i++){
-            String temp = words.get(i);
-            String[] arr = temp.split("["+ separator+ "]");
-            for(int j = 0;j< arr.length;j++){
-                if(arr[j].length()>0){
-                    res.add(arr[j]);
-                }
-            }
-
+    public double myPow(double x, int n) {
+        if(n>=0){
+            return helper(x, n);
+        }else{
+            return 1/helper(x, n);
         }
+    }
 
-        return res;
-
-}
-
-
-
-
-
-
-    public static void main(String[] args){
-        int[] nums = {2, 3, 7, 9, 3};
-
-        System.out.println(maxArrayValue(nums));
-
+    public double helper(double x, int n){
+        if(n==0) return 1;
+        double res = helper(x, n/2);
+        if(n%2!=0)
+            return res*res*x;
+        return res*res;
     }
 
 }
