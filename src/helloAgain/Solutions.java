@@ -10,17 +10,33 @@ import java.util.*;
 
 
 public class Solutions {
-    public String shiftingLetters(String s, int[] shifts) {
-        char[] arr = s.toCharArray();
-        for(int i = shifts.length-1;i>0;i--){
-            shifts[i-1] += shifts[i];
-            shifts[i-1] %= 26;
+    public int minimumMountainRemovals(int[] nums) {
+        int[] left = new int[nums.length];
+        for(int i = 0;i< nums.length;i++){
+            left[i] = 1;
+            for(int j = 0;j<i;j++){
+                if(nums[j]<nums[i]){
+                    left[i] = Math.max(left[i], left[j]+1);
+                }
+            }
         }
+        int[] right = new int[nums.length];
+        for(int i = nums.length-1;i>=0;i--){
+            right[i] = 1;
+            for(int j = nums.length-1;j>i;j--){
+                if(nums[j]<nums[i]){
+                    right[i] = Math.max(right[i], right[j]+1);
+                }
+            }
+        }
+        int len = 0;
+        for(int i = 0;i< nums.length;i++){
+            if(right[i]>=2 && left[i]>=2) {
+                len = Math.max(len, right[i] + left[i] - 1);
+            }
+        }
+        return nums.length-len;
 
-        for(int i = 0;i< arr.length;i++){
-            arr[i] = (char)('a' + (arr[i]-'a' + shifts[i])%26);
-        }
-        return String.valueOf(arr);
     }
     public static void main(String[] args){
 
