@@ -10,36 +10,31 @@ import java.util.*;
 
 
 public class Solutions {
-    public int minimumMountainRemovals(int[] nums) {
-        int[] left = new int[nums.length];
-        for(int i = 0;i< nums.length;i++){
-            left[i] = 1;
-            for(int j = 0;j<i;j++){
-                if(nums[j]<nums[i]){
-                    left[i] = Math.max(left[i], left[j]+1);
-                }
+    public static boolean validMountainArray(int[] arr) {
+        if(arr.length<=2) return false;
+        int max = arr[0];
+        int index = 0;
+        for(int i = 0;i< arr.length;i++){
+            if(arr[i]>max){
+                max = arr[i];
+                index = i;
             }
         }
-        int[] right = new int[nums.length];
-        for(int i = nums.length-1;i>=0;i--){
-            right[i] = 1;
-            for(int j = nums.length-1;j>i;j--){
-                if(nums[j]<nums[i]){
-                    right[i] = Math.max(right[i], right[j]+1);
-                }
-            }
+        if(index==0 || index==arr.length-1) return false;
+        int i = 0;
+        while(i<index){
+            if(arr[i]>=arr[i+1]) return false;
+            i++;
         }
-        int len = 0;
-        for(int i = 0;i< nums.length;i++){
-            if(right[i]>=2 && left[i]>=2) {
-                len = Math.max(len, right[i] + left[i] - 1);
-            }
+        while(index< arr.length-1){
+            if(arr[index]<=arr[index+1]) return false;
+            index++;
         }
-        return nums.length-len;
+        return true;
 
     }
     public static void main(String[] args){
-
+        System.out.println(validMountainArray(new int[]{0, 3, 2, 1}));
     }
 
 }
