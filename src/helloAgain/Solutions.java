@@ -10,35 +10,31 @@ import java.util.*;
 
 
 public class Solutions {
-    public static int minSpeedOnTime(int[] dist, double hour) {
-        int start = 1;
-        int end = (int)1e7;
-        int ans = -1;
-        while(start<=end){
-            int mid = start + (end-start)/2;
-            if(helper(mid, hour, dist)){
-                ans = mid;
-                end = mid-1;
-            }else start = mid+1;
-        }
-        return ans;
-    }
+    public int reductionOperations(int[] nums) {
+        Arrays.sort(nums);
 
-    public static boolean helper(int given, double target, int[] dist){
-        double sum = 0;
-        for(int i = 0;i< dist.length;i++){
-            double f = dist[i]*1.0/given;
-            if(i!=dist.length-1){
-                sum += Math.ceil(f);
-            }else sum += f;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int x = 0;
+        for(int i:nums){
+            if(map.containsKey(i)) continue;
+            else{
+                map.put(i, x);
+                x++;
+            }
         }
-        return sum<=target;
+        int count = 0;
+        for(int i = 1;i<nums.length;i++){
+            if(nums[i]>nums[0]){
+                count += map.get(nums[i]);
+            }
+        }
+        return count;
     }
 
 
     public static void main(String[] args){
 
-        System.out.println(minSpeedOnTime(new int[]{1, 3, 2}, 1.9));
+        //System.out.println(minSpeedOnTime(new int[]{1, 3, 2}, 1.9));
     }
 
 }
