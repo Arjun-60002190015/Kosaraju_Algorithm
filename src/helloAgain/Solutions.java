@@ -10,31 +10,35 @@ import java.util.*;
 
 
 public class Solutions {
-    public static boolean validMountainArray(int[] arr) {
-        if(arr.length<=2) return false;
-        int max = arr[0];
-        int index = 0;
-        for(int i = 0;i< arr.length;i++){
-            if(arr[i]>max){
-                max = arr[i];
-                index = i;
-            }
+    public static int minSpeedOnTime(int[] dist, double hour) {
+        int start = 1;
+        int end = (int)1e7;
+        int ans = -1;
+        while(start<=end){
+            int mid = start + (end-start)/2;
+            if(helper(mid, hour, dist)){
+                ans = mid;
+                end = mid-1;
+            }else start = mid+1;
         }
-        if(index==0 || index==arr.length-1) return false;
-        int i = 0;
-        while(i<index){
-            if(arr[i]>=arr[i+1]) return false;
-            i++;
-        }
-        while(index< arr.length-1){
-            if(arr[index]<=arr[index+1]) return false;
-            index++;
-        }
-        return true;
-
+        return ans;
     }
+
+    public static boolean helper(int given, double target, int[] dist){
+        double sum = 0;
+        for(int i = 0;i< dist.length;i++){
+            double f = dist[i]*1.0/given;
+            if(i!=dist.length-1){
+                sum += Math.ceil(f);
+            }else sum += f;
+        }
+        return sum<=target;
+    }
+
+
     public static void main(String[] args){
-        System.out.println(validMountainArray(new int[]{0, 3, 2, 1}));
+
+        System.out.println(minSpeedOnTime(new int[]{1, 3, 2}, 1.9));
     }
 
 }
