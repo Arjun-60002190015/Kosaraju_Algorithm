@@ -11,27 +11,38 @@ import java.util.*;
 
 public class Solutions {
 
-    public int maxAscendingSum(int[] nums) {
-        int curr = nums[0];
-        int max = curr;
-
-        for(int i = 1;i< nums.length;i++){
-            if(nums[i]>nums[i-1]){
-                curr += nums[i];
-            }else{
-                if(max>curr){
-                    max = curr;
-                }
-                curr = nums[i];
+    public long maxRunTime(int n, int[] batteries) {
+        long start = 1;
+        long end = 0;
+        for(int i:batteries){
+            end += i;
+        }
+        long ans = 0;
+        while(start<=end){
+            long mid = start + (end-start)/2;
+            if(helper(n, batteries, mid)){
+                ans = mid;
+                start = mid+1;
+            }else {
+                end = mid-1;
             }
         }
-        if(max<curr){
-            max = curr;
-        }
-        return max;
+        return ans;
 
     }
 
+    public boolean helper(int n, int[] batteries, long mid){
+        long sum = 0;
+        for(int i=  0;i< batteries.length;i++){
+            if(batteries[i]<=mid){
+                sum += batteries[i];
+            }else{
+                sum += mid;
+            }
+
+        }
+        return sum >=mid*n;
+    }
 
     public static void main(String[] args){
 
