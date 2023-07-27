@@ -10,19 +10,26 @@ import java.util.*;
 
 
 public class Solutions {
-    public boolean checkPossibility(int[] nums) {
-        int count = 0;
-        for(int i = 0;i< nums.length-1;i++){
-            if(nums[i]>nums[i+1]){
-                count++;
-                if(count>1) return false;
-                if(i>0 && nums[i-1]>nums[i+1]){
-                    nums[i+1] = nums[i];
-                }
-            }
-        }
-        return true;
 
+    public int minHeightShelves(int[][] books, int shelfWidth) {
+        int[] memo = new int[books.length];
+        return helper(books, shelfWidth, 0, memo);
+
+    }
+
+    public int helper(int[][] books, int shelfWidth, int index, int[] memo){
+        if(index== books.length) return 0;
+        if(memo[index]!=0) return memo[index];
+        int ans = Integer.MAX_VALUE;
+        int height = 0;
+        int width = 0;
+        for(int i = index;i< books.length;i++){
+            width += books[i][0];
+            if(width>shelfWidth) break;
+            height = Math.max(height, books[i][1]);
+            ans = Math.min(ans, height + helper(books, shelfWidth,i+1, memo));
+        }
+        return memo[index] = ans;
     }
 
 
