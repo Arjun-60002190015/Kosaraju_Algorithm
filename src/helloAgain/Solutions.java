@@ -11,25 +11,25 @@ import java.util.*;
 
 public class Solutions {
 
-    public int minHeightShelves(int[][] books, int shelfWidth) {
-        int[] memo = new int[books.length];
-        return helper(books, shelfWidth, 0, memo);
+    public int maxAscendingSum(int[] nums) {
+        int curr = nums[0];
+        int max = curr;
 
-    }
-
-    public int helper(int[][] books, int shelfWidth, int index, int[] memo){
-        if(index== books.length) return 0;
-        if(memo[index]!=0) return memo[index];
-        int ans = Integer.MAX_VALUE;
-        int height = 0;
-        int width = 0;
-        for(int i = index;i< books.length;i++){
-            width += books[i][0];
-            if(width>shelfWidth) break;
-            height = Math.max(height, books[i][1]);
-            ans = Math.min(ans, height + helper(books, shelfWidth,i+1, memo));
+        for(int i = 1;i< nums.length;i++){
+            if(nums[i]>nums[i-1]){
+                curr += nums[i];
+            }else{
+                if(max>curr){
+                    max = curr;
+                }
+                curr = nums[i];
+            }
         }
-        return memo[index] = ans;
+        if(max<curr){
+            max = curr;
+        }
+        return max;
+
     }
 
 
