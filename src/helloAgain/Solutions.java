@@ -1,47 +1,60 @@
 package helloAgain;
 
 
-import javafx.scene.layout.Priority;
-
-import java.nio.file.attribute.UserPrincipalNotFoundException;
-import java.sql.Array;
 import java.util.*;
 
 
 
 public class Solutions {
-    int max = 0;
-    public int findMaxFish(int[][] grid) {
-        for(int i = 0;i< grid.length;i++){
-            for(int j = 0;j<grid[0].length;j++){
-                if(grid[i][j]!=0){
-                    max = Math.max(max, helper(i, j, grid));
-                }
+    Integer[][] dp;
+    int max = 1;
+    public int longestIncreasingPath(int[][] matrix) {
 
+        int m = matrix.length;
+        int n = matrix[0].length;
+        dp = new Integer[m][n];
+        for(int i = 0;i<m;i++){
+            for(int j = 0;j<n;j++){
+                int path =
+                        helper(matrix, i, j, -1);
+                max = Math.max(max, path);
             }
         }
         return max;
+
     }
 
-    public int helper(int i, int j, int[][] grid){
-        if(i<0 || j<0 || i>= grid.length || j>=grid[0].length || grid[i][j]==0){
+    public int helper(int[][] matrix, int i, int j, int prev){
+        if(i<0 || i>= matrix.length || j<0 || j>= matrix[0].length || matrix[i][j]<=prev)
             return 0;
-        }
-        int curr = grid[i][j];
-        grid[i][j] = 0;
+        if(dp[i][j]!=null) return dp[i][j];
+        int max = 1;
+        int up = 1+
+                helper(matrix, i-1, j, matrix[i][j]);
+        int down = 1+
+                helper(matrix, i+1, j, matrix[i][j]);
 
-        int up = helper(i+1, j, grid);
-        int down = helper(i-1, j, grid);
-        int right = helper(i, j+1, grid);
-        int left = helper(i, j-1, grid);
-        return curr + up+ down+left+right;
-
+        int left =  1+helper(matrix, i, j-1,matrix[i][j]);
+        int right = 1+
+                helper(matrix, i, j+1, matrix[i][j]);
+        return dp[i][j] = Math.max(max,Math.max(up, Math.max(down, Math.max(left, right))));
 
     }
+
+
 
     public static void main(String[] args){
+        /*
+        Scanner sc = new Scanner(System.in);
+        int res = 0;
+        int t = sc.nextInt();
+        for(int i = 0;i<t;i++){
+            long n = sc.nextLong();
+            //System.out.println(helper(n));
+            }
 
-        //System.out.println(checkPossibility(new int[]{3, 4, 2, 3}));
+         */
+
     }
 
 }
