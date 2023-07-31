@@ -6,41 +6,38 @@ import java.util.*;
 
 
 public class Solutions {
-    public static String longestCommonSubsequence(String text1, String text2) {
-        int[][] dp = new int[text1.length()+1][text2.length()+1];
-        for(int i = 0;i<text1.length();i++){
-            for(int j = 0;j<text2.length();j++){
-                if(text1.charAt(i)==text2.charAt(j)){
-                    dp[i+1][j+1] = 1 + dp[i][j];
-                }else{
-                    dp[i+1][j+1] = Math.max(dp[i+1][j], dp[i][j+1]);
-                }
-            }
+    Integer[][] dp;
+    public int minimumDeleteSum(String s1, String s2) {
+        int m = s1.length();
+        int n = s2.length();
+        dp = new Integer[m][n];
+        return helper(m-1, n-1, s1, s2);
+    }
+
+    public int helper(int i, int j, String s1, String s2){
+        if(i<0 && j<0) return 0;
+        if(j<0) return help(s1, i);
+        if(i<0) return help(s2, j);
+        if(dp[i][j]!=null) return dp[i][j];
+        if(s1.charAt(i)==s2.charAt(j))
+            return helper(i-1, j-1, s2, s2);
+        int remove1 = helper(i-1, j, s1, s2) + s1.charAt(i);
+        int remove2 = helper(i, j-1, s1, s2) + s2.charAt(j);
+        return dp[i][j] = Math.min(remove1, remove2);
+    }
+
+    public int help(String s, int i){
+        int sum = 0;
+        for(int j = 0;j<=i;j++){
+            sum += s.charAt(j);
         }
-        StringBuilder res = new StringBuilder();
-        int i = text1.length();
-        int j = text2.length();
-        while(i>0 && j>0){
-            if(text1.charAt(i-1)==text2.charAt(j-1)){
-                res.append(text1.charAt(i-1));
-                i--;
-                j--;
-            }
-            else{
-                if(dp[i][j-1]>dp[i-1][j]){
-                    j--;
-                }else{
-                    i--;
-                }
-            }
-        }
-        return res.reverse().toString();
+        return sum;
     }
 
 
 
     public static void main(String[] args){
-        System.out.println(longestCommonSubsequence(new String("bca"), new String("aaa")));
+        //System.out.println(longestCommonSubsequence(new String("delete"), new String("leet")));
 
     }
 
