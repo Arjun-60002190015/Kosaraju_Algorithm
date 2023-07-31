@@ -6,25 +6,26 @@ import java.util.*;
 
 
 public class Solutions {
-    public List<List<String>> groupAnagrams(String[] strs) {
-        Map<String, List<String>> map = new HashMap<>();
-        for(String s:strs){
-            char[] c = s.toCharArray();
-            Arrays.sort(c);
-            String sorted = String.valueOf(c);
-            if(!map.containsKey(sorted)){
-                map.put(sorted, new ArrayList<>());
+    public static int maxCount(int[] banned, int n, int maxSum) {
+        int count = 0;
+        int sum = 0;
+        Set<Integer> set = new HashSet<>();
+        for(int i:banned) set.add(i);
+        for(int i = 1;i<=n;i++){
+            if(!set.contains(i)){
+                sum += i;
+                count++;
             }
-            map.get(sorted).add(s);
+            if(sum>maxSum) break;
         }
-        return new ArrayList<>(map.values());
+        return count;
 
     }
 
 
 
     public static void main(String[] args){
-        //System.out.println(helper(new String("sea"), new String("eat")));
+        System.out.println(maxCount(new int[]{1, 6, 5}, 5, 6));
 
     }
 
