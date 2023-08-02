@@ -6,27 +6,41 @@ import java.util.*;
 
 
 public class Solutions {
-    public List<List<Integer>> permute(int[] nums) {
-        List<List<Integer>> res = new ArrayList<>();
-        boolean[] vis = new boolean[nums.length];
-        helper(nums, vis, new ArrayList<>(), res);
-        return res;
-
-    }
-
-    public void helper(int[] nums, boolean[] vis, List<Integer> temp, List<List<Integer>> res){
-        if(temp.size()== nums.length){
-            res.add(new ArrayList<>(temp));
+    public void nextPermutation(int[] nums) {
+        int index = -1;
+        int n = nums.length;
+        for(int i = n-2;i>=0;i--){
+            if(nums[i]<nums[i+1]){
+                index = i;
+                break;
+            }
+        }
+        if(index==-1){
+            reverse(0, n-1, nums);
             return;
         }
-        for(int i = 0;i< nums.length;i++){
-            if(vis[i]==true) continue;
-            vis[i] = true;
-            temp.add(nums[i]);
-            helper(nums, vis, temp, res);
-            temp.remove(temp.size()-1);
-            vis[i] = false;
+        for(int i = n-1;i>index;i--){
+            if(nums[i]>nums[index]){
+                swap(index, i, nums);
+                break;
+            }
         }
+
+        reverse(index+1, n-1, nums);
+    }
+
+    public void reverse(int start, int end, int[] nums){
+        while(start<end){
+            swap(start, end, nums);
+            start++;
+            end--;
+        }
+    }
+
+    public void swap(int index, int i, int[] nums){
+        int temp = nums[index];
+        nums[index] = nums[i];
+        nums[i] = temp;
     }
 
 
