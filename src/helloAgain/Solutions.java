@@ -6,47 +6,27 @@ import java.util.*;
 
 
 public class Solutions {
-    public void nextPermutation(int[] nums) {
-        int index = -1;
-        int n = nums.length;
-        for(int i = n-2;i>=0;i--){
-            if(nums[i]<nums[i+1]){
-                index = i;
-                break;
-            }
+    //int index = -1;
+    public int appendCharacters(String s, String t) {
+        int i = 0;
+        int j = 0;
+        while(i<s.length() && j<t.length()){
+            if(s.charAt(i)==t.charAt(j)){
+                i++;
+                j++;
+            }else i++;
         }
-        if(index==-1){
-            reverse(0, n-1, nums);
-            return;
-        }
-        for(int i = n-1;i>index;i--){
-            if(nums[i]>nums[index]){
-                swap(index, i, nums);
-                break;
-            }
-        }
+        return t.length()-j;
 
-        reverse(index+1, n-1, nums);
     }
 
-    public void reverse(int start, int end, int[] nums){
-        while(start<end){
-            swap(start, end, nums);
-            start++;
-            end--;
-        }
-    }
 
-    public void swap(int index, int i, int[] nums){
-        int temp = nums[index];
-        nums[index] = nums[i];
-        nums[i] = temp;
-    }
+
 
 
 
     public static void main(String[] args){
-        //System.out.println(dividePlayers(new int[]{3, 2, 5, 1, 3, 4}));
+        //System.out.println(pivotInteger(8));
 
     }
 
