@@ -6,23 +6,26 @@ import java.util.*;
 
 
 public class Solutions {
-    //int index = -1;
-    public int appendCharacters(String s, String t) {
-        int i = 0;
-        int j = 0;
-        while(i<s.length() && j<t.length()){
-            if(s.charAt(i)==t.charAt(j)){
-                i++;
-                j++;
-            }else i++;
-        }
-        return t.length()-j;
+    public List<String> letterCombinations(String digits) {
+        if(digits.isEmpty()) return new ArrayList<>();
+        String[] arr = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        List<String> res=  new ArrayList<>();
+        helper("", digits, res, arr);
+        return res;
 
     }
 
+    public void helper(String temp, String digits, List<String> res, String[] arr){
+        if(digits.isEmpty()){
+            res.add(temp);
+            return;
+        }
+        String letters = arr[digits.charAt(0)-'2'];
+        for(char letter:letters.toCharArray()){
+            helper(temp + letter, digits.substring(1), res, arr);
+        }
 
-
-
+    }
 
 
     public static void main(String[] args){
