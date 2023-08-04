@@ -6,25 +6,26 @@ import java.util.*;
 
 
 public class Solutions {
-    public boolean wordBreak(String s, List<String> wordDict) {
-        HashMap<String, Boolean> map = new HashMap<>();
-
-        Set<String> set = new HashSet<>(wordDict);
-        return helper(s, set, map);
-
+    public int minExtraChar(String s, String[] dictionary) {
+        Integer[] dp = new Integer[s.length()+1];
+        Set<String> set = new HashSet<>();
+        for(String j:dictionary) set.add(j);
+        return helper(s, set, 0, dp);
+        //return s.length()-taken;
     }
 
-    public boolean helper(String s, Set<String> set, Map<String, Boolean> map){
-        if(map.containsKey(s)) return map.get(s);
-        if(set.contains(s)) return true;
-        for(int i = 0;i<s.length();i++) {
-            if (set.contains(s.substring(0, i)) && helper(s.substring(i), set, map)) {
-                map.put(s, true);
-                return true;
+    public int helper(String s, Set<String> set, int index, Integer[] dp){
+        if(index==s.length()) return 0;
+        if(dp[index]!=null) return dp[index];
+        int min = Integer.MAX_VALUE;
+        for(int i = index+1;i<=s.length();i++){
+            if(set.contains(s.substring(index, i))){
+                min = Math.min(min, 0 + helper(s, set, i, dp));
+            }else{
+                min = Math.min(min, i-index+ helper(s, set, i, dp));
             }
         }
-        map.put(s, false);
-        return false;
+        return dp[index] = min;
     }
 
 
