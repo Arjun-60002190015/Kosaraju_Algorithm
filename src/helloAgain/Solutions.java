@@ -6,25 +6,25 @@ import java.util.*;
 
 
 public class Solutions {
-    public List<String> letterCombinations(String digits) {
-        if(digits.isEmpty()) return new ArrayList<>();
-        String[] arr = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-        List<String> res=  new ArrayList<>();
-        helper("", digits, res, arr);
-        return res;
+    public boolean wordBreak(String s, List<String> wordDict) {
+        HashMap<String, Boolean> map = new HashMap<>();
+
+        Set<String> set = new HashSet<>(wordDict);
+        return helper(s, set, map);
 
     }
 
-    public void helper(String temp, String digits, List<String> res, String[] arr){
-        if(digits.isEmpty()){
-            res.add(temp);
-            return;
+    public boolean helper(String s, Set<String> set, Map<String, Boolean> map){
+        if(map.containsKey(s)) return map.get(s);
+        if(set.contains(s)) return true;
+        for(int i = 0;i<s.length();i++) {
+            if (set.contains(s.substring(0, i)) && helper(s.substring(i), set, map)) {
+                map.put(s, true);
+                return true;
+            }
         }
-        String letters = arr[digits.charAt(0)-'2'];
-        for(char letter:letters.toCharArray()){
-            helper(temp + letter, digits.substring(1), res, arr);
-        }
-
+        map.put(s, false);
+        return false;
     }
 
 
