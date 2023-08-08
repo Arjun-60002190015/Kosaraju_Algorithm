@@ -8,15 +8,22 @@ import java.util.*;
 
 
 public class Solutions {
-    public long maxKelements(int[] nums, int k) {
-        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
-        for(int i:nums) pq.add(i);
-        long sum = 0;
-        while(k-->0){
-            int num = pq.poll();
-            sum += num;
-            num = (int)Math.ceil(num/3.0);
-            pq.add(num);
+    public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i= 0;i< difficulty.length;i++){
+            map.put(difficulty[i], Math.max(map.getOrDefault(difficulty[i],0),profit[i]));
+        }
+        Arrays.sort(difficulty);
+        Arrays.sort(worker);
+        int sum = 0;
+        int start = 0;
+        int max = 0;
+        for(int i = 0;i< worker.length;i++){
+            while(start< difficulty.length && worker[i]>=difficulty[start]){
+                max = Math.max(max, map.getOrDefault(difficulty[start], 0));
+                start++;
+            }
+            sum += max;
         }
         return sum;
 
