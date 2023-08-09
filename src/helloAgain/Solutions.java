@@ -8,27 +8,28 @@ import java.util.*;
 
 
 public class Solutions {
-    public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for(int i= 0;i< difficulty.length;i++){
-            map.put(difficulty[i], Math.max(map.getOrDefault(difficulty[i],0),profit[i]));
-        }
-        Arrays.sort(difficulty);
-        Arrays.sort(worker);
-        int sum = 0;
-        int start = 0;
-        int max = 0;
-        for(int i = 0;i< worker.length;i++){
-            while(start< difficulty.length && worker[i]>=difficulty[start]){
-                max = Math.max(max, map.getOrDefault(difficulty[start], 0));
-                start++;
+    public int[] successfulPairs(int[] spells, int[] potions, long success) {
+        Arrays.sort(potions);
+        int[] res = new int[spells.length];
+        int n = potions.length;
+        for(int i = 0;i< spells.length;i++){
+            int start = 0;
+            int end = n;
+            while(start<end){
+                int mid = start + (end-start)/2;
+                if((long)potions[mid]*spells[i]>=success){
+                    end = mid;
+                }else{
+                    start = mid+1;
+                }
+
             }
-            sum += max;
+            res[i] = n-start;
         }
-        return sum;
+        return res;
+
 
     }
-
 
 
 
@@ -39,7 +40,8 @@ public class Solutions {
         res.add(3);
         res.add(2);
         res.add(3);
-        //System.out.println(canSplitArray(res, 6));
+        int[] nums = {2, 3, 4};
+        //System.out.println(subarrayLCM(nums, 7));
 
     }
 
