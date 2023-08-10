@@ -8,41 +8,41 @@ import java.util.*;
 
 
 public class Solutions {
-    public int[] successfulPairs(int[] spells, int[] potions, long success) {
-        Arrays.sort(potions);
-        int[] res = new int[spells.length];
-        int n = potions.length;
-        for(int i = 0;i< spells.length;i++){
-            int start = 0;
-            int end = n;
-            while(start<end){
-                int mid = start + (end-start)/2;
-                if((long)potions[mid]*spells[i]>=success){
-                    end = mid;
-                }else{
-                    start = mid+1;
-                }
-
+    public int minimizeMax(int[] nums, int p) {
+        Arrays.sort(nums);
+        int start = 0;
+        int n = nums.length;
+        int end = nums[n-1]-nums[0];
+        int ans = 0;
+        while(start<=end){
+            int mid = start + (end-start)/2;
+            if(helper(mid, nums, p)){
+                ans = mid;
+                end = mid-1;
             }
-            res[i] = n-start;
+            else{
+                start = mid+1;
+            }
         }
-        return res;
+        return ans;
 
+    }
 
+    // Take care of distinct pairs - indices should not be repeated
+
+    public boolean helper(int diff, int[] nums, int p){
+        int count= 0;
+        for(int i = 1;i<nums.length;i++){
+            if(nums[i]-nums[i-1]<=diff){
+                count++;
+                i++;
+            }
+        }
+        return count>=p;
     }
 
 
 
-    public static void main(String[] args){
-        List<Integer> res = new ArrayList<>();
-        res.add(2);
-        res.add(3);
-        res.add(3);
-        res.add(2);
-        res.add(3);
-        int[] nums = {2, 3, 4};
-        //System.out.println(subarrayLCM(nums, 7));
 
-    }
 
 }
