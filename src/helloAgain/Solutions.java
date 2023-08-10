@@ -8,37 +8,17 @@ import java.util.*;
 
 
 public class Solutions {
-    public int minimizeMax(int[] nums, int p) {
-        Arrays.sort(nums);
-        int start = 0;
+    public int minDifference(int[] nums) {
         int n = nums.length;
-        int end = nums[n-1]-nums[0];
-        int ans = 0;
-        while(start<=end){
-            int mid = start + (end-start)/2;
-            if(helper(mid, nums, p)){
-                ans = mid;
-                end = mid-1;
-            }
-            else{
-                start = mid+1;
-            }
-        }
-        return ans;
+        if(n<=4) return 0;
+        Arrays.sort(nums);
+        //return Math.min(nums[n-1]-nums[0], Math.min(nums[n-2] - nums[]))
+        int one = nums[n-4]-nums[0];
+        int two = nums[n-3] - nums[1];
+        int three = nums[n-2] - nums[2];
+        int four = nums[n-1] - nums[3];
+        return Math.min(one, Math.min(two, Math.min(three, four)));
 
-    }
-
-    // Take care of distinct pairs - indices should not be repeated
-
-    public boolean helper(int diff, int[] nums, int p){
-        int count= 0;
-        for(int i = 1;i<nums.length;i++){
-            if(nums[i]-nums[i-1]<=diff){
-                count++;
-                i++;
-            }
-        }
-        return count>=p;
     }
 
 
