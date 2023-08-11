@@ -8,38 +8,33 @@ import java.util.*;
 
 
 public class Solutions {
-    public int minimizedMaximum(int n, int[] quantities) {
-    int start = 0;
-    int max = 0;
-    int sum = 0;
-    Arrays.sort(quantities);
-    for(int i:quantities){
-        max = Math.max(max, i);
-        sum += i;
+    int mod = (int)1e9+7;
+    Integer[][] dp;
+    public int numRollsToTarget(int n, int k, int target) {
+        dp = new Integer[n+1][target+1];
+        return helper(n, k, target);
+
     }
-    int ans = 0;
-    int end = max;
-    while(start<=end){
-        int mid = start + (end-start)/2;
-        if(helper(quantities, mid, n)){
-            ans = mid;
-            end = mid-1;
+
+    public int helper(int n, int k, int target){
+        if(target<1) return 0;
+        if(n==1){
+            if(target<=k) return 1;
+            else return 0;
         }
-        else start = mid+1;
+        if(dp[n][target]!=null) return dp[n][target];
+        int num = 0;
+        for(int i = 1;i<=k;i++){
+            num = (num + helper(n-1, k, target-i))%mod;
+        }
+        return dp[n][target] = num;
     }
-    return ans;
 
-}
 
-    public boolean helper(int[] nums, int mid, int n){
-        for(int i = 0;i<nums.length;i++){
-            int prod = nums[i];
-            n -= Math.ceil(prod/(mid*1.0));
-            if(n<0)     // means it requires more than n shops to distribute all products
-                return false;
-
-        }
-        return true;
+    public static void main(String[] args){
+        int[] nums = {4, 5, 2, 1};
+        int[] quesries = {3, 10, 21};
+        //System.out.println()
     }
 
 }
