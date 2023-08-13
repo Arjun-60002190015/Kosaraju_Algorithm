@@ -8,26 +8,18 @@ import java.util.*;
 
 
 public class Solutions {
-    int mod = (int)1e9+7;
-    Integer[][] dp;
-    public int numRollsToTarget(int n, int k, int target) {
-        dp = new Integer[n+1][target+1];
-        return helper(n, k, target);
-
-    }
-
-    public int helper(int n, int k, int target){
-        if(target<1) return 0;
-        if(n==1){
-            if(target<=k) return 1;
-            else return 0;
+    public int minAbsoluteDifference(List<Integer> nums, int x) {
+        TreeSet<Integer> set = new TreeSet<>();
+        int min = Integer.MAX_VALUE;
+        for(int i = x;i<nums.size();i++){
+            set.add(nums.get(i-x));
+            Integer ceil = set.ceiling(nums.get(i));
+            if(ceil!=null) min = Math.min(min, Math.abs(ceil - nums.get(i)));
+            Integer floor = set.floor(nums.get(i));
+            if(floor!=null) min = Math.min(min, Math.abs(floor- nums.get(i)));
         }
-        if(dp[n][target]!=null) return dp[n][target];
-        int num = 0;
-        for(int i = 1;i<=k;i++){
-            num = (num + helper(n-1, k, target-i))%mod;
-        }
-        return dp[n][target] = num;
+        return min;
+
     }
 
 
