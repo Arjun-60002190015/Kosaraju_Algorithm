@@ -9,20 +9,32 @@ import java.util.*;
 
 public class Solutions {
 
-    public int findPairs(int[] nums, int k) {
-        HashSet<Integer> set = new HashSet<>();
-        HashSet<Integer> rep = new HashSet<>();
-        int count = 0;
-        for(int i:nums)
-            if(set.contains(i)) rep.add(i);
-            else set.add(i);
-        for(int i:set){
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int[] res = new int[nums.length-k+1];
+        Deque<Integer> pq = new ArrayDeque<>();
+        int start = 0;
+        int end = 0;
+        while(end< nums.length){
+            if(pq.isEmpty()){
+                pq.add(nums[end]);
+            }
+            else{
+                while(!pq.isEmpty() && nums[end]>pq.peekLast()){
+                    pq.pollLast();
+                }
+                pq.add(nums[end]);
+            }
 
-            if(set.contains(i-k)) count++;
-            //if(set.contains(nums[i]+k)) count++;
+            if(end-start+1==k){
+                res[start] = pq.peek();
+                if(nums[start]==pq.peek()){
+                    pq.pollFirst();
+                }
+                start++;
+            }
+            end++;
         }
-        if(k==0) return rep.size();
-        return count;
+        return res;
 
     }
 
