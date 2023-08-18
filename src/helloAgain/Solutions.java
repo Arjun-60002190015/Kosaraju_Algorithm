@@ -8,33 +8,27 @@ import java.util.*;
 
 
 public class Solutions {
-
-    public int[] maxSlidingWindow(int[] nums, int k) {
-        int[] res = new int[nums.length-k+1];
-        Deque<Integer> pq = new ArrayDeque<>();
-        int start = 0;
-        int end = 0;
-        while(end< nums.length){
-            if(pq.isEmpty()){
-                pq.add(nums[end]);
-            }
-            else{
-                while(!pq.isEmpty() && nums[end]>pq.peekLast()){
-                    pq.pollLast();
-                }
-                pq.add(nums[end]);
-            }
-
-            if(end-start+1==k){
-                res[start] = pq.peek();
-                if(nums[start]==pq.peek()){
-                    pq.pollFirst();
-                }
-                start++;
-            }
-            end++;
+    public int maximalNetworkRank(int n, int[][] roads) {
+        HashMap<Integer, HashSet<Integer>> graph = new HashMap<>();
+        for(int i = 0;i<n;i++){
+            graph.put(i, new HashSet<>());
         }
-        return res;
+        int m = roads.length;
+        for(int i = 0;i<m;i++){
+            graph.get(roads[i][0]).add(roads[i][1]);
+            graph.get(roads[i][1]).add(roads[i][0]);
+        }
+        int max = 0;
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<n;j++){
+                if(i==j) continue;
+                int temp = 0;
+                if(graph.get(i).contains(j)) temp--;
+                temp += graph.get(i).size() + graph.get(j).size();
+                max = Math.max(temp, max);
+            }
+        }
+        return max;
 
     }
 
