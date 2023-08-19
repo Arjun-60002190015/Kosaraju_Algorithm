@@ -8,30 +8,28 @@ import java.util.*;
 
 
 public class Solutions {
-    public int maximalNetworkRank(int n, int[][] roads) {
-        HashMap<Integer, HashSet<Integer>> graph = new HashMap<>();
+    public int rangeSum(int[] nums, int n, int left, int right) {
+        int[] sub = new int[n*(n+1)/2];
+        int k = 0;
         for(int i = 0;i<n;i++){
-            graph.put(i, new HashSet<>());
-        }
-        int m = roads.length;
-        for(int i = 0;i<m;i++){
-            graph.get(roads[i][0]).add(roads[i][1]);
-            graph.get(roads[i][1]).add(roads[i][0]);
-        }
-        int max = 0;
-        for(int i = 0;i<n;i++){
-            for(int j = 0;j<n;j++){
-                if(i==j) continue;
-                int temp = 0;
-                if(graph.get(i).contains(j)) temp--;
-                temp += graph.get(i).size() + graph.get(j).size();
-                max = Math.max(temp, max);
+            int curr = 0;
+            for(int j = i;j<n;j++){
+                curr += nums[j];
+                sub[k++] = curr;
+
             }
+
         }
-        return max;
+
+        Arrays.sort(sub);
+        int mod = (int)1e9+7;
+        int sum = 0;
+        for(int i = left-1;i<right;i++){
+            sum = (sum+sub[i])%mod;
+        }
+        return sum;
 
     }
-
 
 
     public static void main(String[] args){
