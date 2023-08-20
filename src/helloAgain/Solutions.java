@@ -8,34 +8,35 @@ import java.util.*;
 
 
 public class Solutions {
-    public int rangeSum(int[] nums, int n, int left, int right) {
-        int[] sub = new int[n*(n+1)/2];
-        int k = 0;
-        for(int i = 0;i<n;i++){
-            int curr = 0;
-            for(int j = i;j<n;j++){
-                curr += nums[j];
-                sub[k++] = curr;
+    int mod = (int)1e9+7;
+    public int minAbsoluteSumDiff(int[] nums1, int[] nums2) {
+        TreeSet<Integer> set = new TreeSet<>();
+        int res = 0;
+        int reduce = 0;
+        for(int i:nums1) set.add(i);
 
+        for(int i = 0;i< nums2.length;i++){
+            int diff = Math.abs(nums1[i] - nums2[i]);
+
+            res = (res + diff)%mod;
+            Integer low = set.floor(nums2[i]);
+            if(low!=null){
+                reduce = Math.max(reduce, diff - Math.abs(nums2[i] - low));
             }
-
+            Integer high = set.ceiling(nums2[i]);
+            if(high!=null){
+                reduce = Math.max(reduce, diff - Math.abs(nums2[i] - high));
+            }
         }
-
-        Arrays.sort(sub);
-        int mod = (int)1e9+7;
-        int sum = 0;
-        for(int i = left-1;i<right;i++){
-            sum = (sum+sub[i])%mod;
-        }
-        return sum;
-
+        return (res - reduce+mod)%mod;
     }
+
 
 
     public static void main(String[] args){
         int[] nums = {4, 5, 2, 1};
         int[] quesries = {3, 10, 21};
-        //System.out.println()
+        //System.out.println(minimumSum(27, 49));
     }
 
 }
