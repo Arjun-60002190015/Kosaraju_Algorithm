@@ -5,6 +5,7 @@ import sun.reflect.generics.tree.Tree;
 
 import javax.print.DocFlavor;
 import javax.transaction.TransactionRequiredException;
+
 import java.util.*;
 
 public class treeees {
@@ -31,78 +32,22 @@ public class treeees {
           next = null;
       }
     }
-    //Map<Integer, List<Integer>> map = new HashMap<>();
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        if(root==null || subRoot==null) return false;
+        if(root.val==subRoot.val && check(root, subRoot)) return true;
 
-    public int minimumOperations(TreeNode root) {
-        Queue<TreeNode> nm=new LinkedList<>();
-        nm.offer(root);
-        int s=0;
-        while(!nm.isEmpty())
-        {
-            int m=0,l=nm.size();
-            List<Integer> kk=new ArrayList<>();
-            for(int i=0;i<l;i++)
-            {
-                if(nm.peek().left!=null)
-                {
-                    nm.add(nm.peek().left);
-                }
-                if(nm.peek().right!=null)
-                {
-                    nm.add(nm.peek().right);
-                }
-                int f=nm.poll().val;
-                kk.add(f);
-            }
-            s+=task(kk);
-        }
-        return s;
+        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+
     }
-    public int task(List<Integer> nm)
-    {
-        Map<Integer,Integer> kk=new HashMap<>();
-        for(int i=0;i<nm.size();i++)
-        {
-            kk.put(nm.get(i),i);
-        }
-        Collections.sort(nm);
-        boolean k[]=new boolean[nm.size()];
-        int s=0;
-        for(int i=0;i<nm.size();i++)
-        {
-            if(k[i] || kk.get(nm.get(i))==i)
-            {
-                continue;
-            }
-            int j=i,m=0;
-            while(!k[j])
-            {
-                k[j]=true;
-                j=kk.get(nm.get(j));
-                m++;
-            }
-            if(m>0)
-            {
-                s+=m-1;
-            }
-        }
-        return s;
+
+    public boolean check(TreeNode root, TreeNode com){
+        if(root==null && com==null) return true;
+        if(root==null || com==null|| root.val!=com.val) return false;
+        return check(root.left, com.left) && check(root.right, com.right);
     }
 
 
 
-
-
-
-
-
-
-
-
-
-    public static void main(String[] args){
-
-    }
 
 
 
