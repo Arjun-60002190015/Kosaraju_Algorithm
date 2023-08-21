@@ -8,27 +8,23 @@ import java.util.*;
 
 
 public class Solutions {
-    int mod = (int)1e9+7;
-    public int minAbsoluteSumDiff(int[] nums1, int[] nums2) {
-        TreeSet<Integer> set = new TreeSet<>();
-        int res = 0;
-        int reduce = 0;
-        for(int i:nums1) set.add(i);
+    public boolean rotateString(String s, String goal) {
+        if(s==null || goal==null) return false;
+        if(goal.length()!=s.length()) return false;
+        if(s==null) return true;
 
-        for(int i = 0;i< nums2.length;i++){
-            int diff = Math.abs(nums1[i] - nums2[i]);
-
-            res = (res + diff)%mod;
-            Integer low = set.floor(nums2[i]);
-            if(low!=null){
-                reduce = Math.max(reduce, diff - Math.abs(nums2[i] - low));
-            }
-            Integer high = set.ceiling(nums2[i]);
-            if(high!=null){
-                reduce = Math.max(reduce, diff - Math.abs(nums2[i] - high));
-            }
+        for(int i = 0;i<s.length();i++){
+            if(check(s, goal, i)) return true;
         }
-        return (res - reduce+mod)%mod;
+        return false;
+
+    }
+
+    public boolean check(String s, String goal, int i){
+        for(int j = 0;j<s.length();j++){
+            if(s.charAt(j)!=goal.charAt((j+i)%goal.length())) return false;
+        }
+        return true;
     }
 
 
