@@ -32,18 +32,36 @@ public class treeees {
           next = null;
       }
     }
-    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
-        if(root==null || subRoot==null) return false;
-        if(root.val==subRoot.val && check(root, subRoot)) return true;
+    int max = 0;
+    HashMap<Integer, Integer> map = new HashMap<>();
+    public int[] findFrequentTreeSum(TreeNode root) {
 
-        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+        helper(root);
+        List<Integer> res = new ArrayList<>();
+        for(int i: map.keySet()){
+            if(map.get(i)==max){
+                res.add(i);
+            }
+        }
+        int index = 0;
+        int[] re = new int[res.size()];
+        for(int i:res){
+            re[index++] = i;
+        }
+        return re;
 
     }
 
-    public boolean check(TreeNode root, TreeNode com){
-        if(root==null && com==null) return true;
-        if(root==null || com==null|| root.val!=com.val) return false;
-        return check(root.left, com.left) && check(root.right, com.right);
+    public int helper(TreeNode root){
+        if(root==null) return 0;
+        int left = helper(root.left);
+        int right = helper(root.right);
+        int sum = left+right+root.val;
+
+        map.put(sum, map.getOrDefault(sum, 0)+1);
+        max = Math.max(max, map.get(sum));
+        return sum;
+
     }
 
 
