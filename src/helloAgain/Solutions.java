@@ -8,23 +8,31 @@ import java.util.*;
 
 
 public class Solutions {
-    public boolean rotateString(String s, String goal) {
-        if(s==null || goal==null) return false;
-        if(goal.length()!=s.length()) return false;
-        if(s==null) return true;
-
-        for(int i = 0;i<s.length();i++){
-            if(check(s, goal, i)) return true;
+    public String reorganizeString(String s) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        for(char c:s.toCharArray()){
+            map.put(c, map.getOrDefault(c, 0)+1);
         }
-        return false;
+        PriorityQueue<Character> pq = new PriorityQueue<>((a, b)-> map.get(b)-map.get(a));
+        pq.addAll(map.keySet());
+        StringBuilder sb = new StringBuilder();
+        while(pq.size()>1){
+            char first = pq.poll();
+            char second = pq.poll();
+            sb.append(first);
+            sb.append(second);
+            map.put(first, map.getOrDefault(first, 0)-1);
+            map.put(second, map.getOrDefault(second, 0)-1);
+            if(map.get(first)>0) pq.offer(first);
+            if(map.get(second)>0) pq.offer(second);
 
-    }
-
-    public boolean check(String s, String goal, int i){
-        for(int j = 0;j<s.length();j++){
-            if(s.charAt(j)!=goal.charAt((j+i)%goal.length())) return false;
         }
-        return true;
+        if(!pq.isEmpty()){
+            if(map.get(pq.peek())>1) return "";
+            else sb.append(pq.poll());
+        }
+        return sb.toString();
+
     }
 
 
