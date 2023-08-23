@@ -8,18 +8,23 @@ import java.util.*;
 
 
 public class Solutions {
-    public int leastInterval(char[] tasks, int n) {
-        int[] chars = new int[26];
-        for(char c:tasks){
-            chars[c-'A']++;
+    public long taskSchedulerII(int[] tasks, int space) {
+        Map<Integer, Long> map = new HashMap<>();
+        long res = 1;
+        int i=  0;
+        while(i<tasks.length){
+            if(!map.containsKey(tasks[i]) || res>=map.get(tasks[i])){
+                map.put(tasks[i], res+space+1);
+                res++; i++;
+            }
+            else{
+                res = map.get(tasks[i]);
+                map.put(tasks[i], res + space+1);
+                res++;
+                i++;
+            }
         }
-        Arrays.sort(chars);
-        int max = chars[25]-1;
-        int val = max*n;
-        for(int i = 24;i>=0;i--){
-            val -= Math.min(chars[i], max);
-        }
-        return val>0? tasks.length+val : tasks.length;
+        return res-1;
 
     }
 
