@@ -8,37 +8,37 @@ import java.util.*;
 
 
 public class Solutions {
-    long ans = 0;
-    public long minimumFuelCost(int[][] roads, int seats) {
-        List<List<Integer>> graph = new ArrayList<>();
-        for(int i = 0;i< roads.length;i++){
-            graph.add(new ArrayList<>());
-        }
-        for(int[] r:roads){
-            graph.get(r[0]).add(r[1]);
-            graph.get(r[1]).add(r[0]);
-        }
-        dfs(0, -1, graph, seats);
-        return ans;
+    int mod = (int)1e9+7;
+    HashMap<String, Integer> map;
+    public int numWays(int steps, int arrLen) {
+        //Integer[][] dp = new Integer[arrLen+1][steps+1];
+        map = new HashMap<>();
+        return helper(0, steps, arrLen);
 
     }
 
-    public int dfs(int i, int prev, List<List<Integer>> graph, int seats){
-        int res = 1;
-        for(int j:graph.get(i)){
-            if(j==prev) continue;
-            res += dfs(j, i, graph, seats);
+    public int helper(int i, int k, int len){
+        if(i<0 || i>=len) return 0;
+        if(k==0){
+            return i==0?1:0;
         }
-
-        ans += Math.ceil((double)(res/seats));
-        return res;
+        String res = i+","+k;
+        if(map.containsKey(res)) return map.get(res);
+        int ways = 0;
+        ways = (ways+ helper(i-1, k-1, len))%mod;
+        ways = (ways + helper(i+1, k-1, len))%mod;
+        ways = (ways + helper(i, k-1, len))%mod;
+        map.put(res, ways);
+        return ways;
     }
+
+
 
 
 
     public static void main(String[] args){
         int[] nums = {3, 4, 9, 1, 3, 9, 5};
-        //System.out.println(findKDistantIndices(nums, 9, 1));
+        //System.out.println(canBeEqual("cmpr", "rmcp"));
     }
 
 }
