@@ -2,6 +2,7 @@ package helloAgain;
 
 
 import com.sun.java.swing.plaf.windows.WindowsDesktopIconUI;
+import netscape.security.UserTarget;
 
 import java.util.*;
 
@@ -9,27 +10,32 @@ import java.util.*;
 
 public class Solutions {
 
-    public boolean isCyclic(int v, int[][] graph){
-        int[] vis = new int[v];
-        int[] path = new int[v];
-        for(int i = 0;i<v;i++){
+    public static int[] topoSort(int[][] graph){
+        int n = graph.length;
+
+        int[] vis = new int[n];
+        Stack<Integer> st = new Stack<>();
+        for(int i = 0;i<n;i++){
             if(vis[i]==0){
-                if(helper(i, graph, vis, path)) return true;
+                helper(graph, i, vis, st);
             }
         }
-        return false;
+        int[] res = new int[n];
+        int i = 0;
+        while(!st.isEmpty()){
+            res[i++] = st.peek();
+            st.pop();
+        }
+        return res;
     }
 
-    public boolean helper(int i, int[][] graph, int[] vis, int[] path){
-        path[i] = 1;
+    public void helper(int[][] graph, int i, int[] vis, Stack<Integer> st){
         vis[i] = 1;
-
         for(int j:graph[i]){
-            if(vis[j]==0){
-                if(helper(j, graph, vis, path)) return true;
-            }else if(path[j]==1) return true;
+            if(vis[j]==0)
+                helper(graph, j, vis, st);
         }
-        return false;
+        st.push(i);
     }
 
 
