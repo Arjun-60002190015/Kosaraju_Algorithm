@@ -9,31 +9,27 @@ import java.util.*;
 
 public class Solutions {
 
-    public boolean isBipartite(int[][] graph) {
-        int n = graph.length;
-
-        int[] col = new int[n];
-        Arrays.fill(col, -1);
-
-        for(int i = 0;i<n;i++){
-            if(col[i]==-1){
-                if(!helper(graph, i, 0, col)) return false;
+    public boolean isCyclic(int v, int[][] graph){
+        int[] vis = new int[v];
+        int[] path = new int[v];
+        for(int i = 0;i<v;i++){
+            if(vis[i]==0){
+                if(helper(i, graph, vis, path)) return true;
             }
         }
-        return true;
-
+        return false;
     }
 
-    public boolean helper(int[][] graph, int i, int color, int[] col){
-        col[i] = color;
+    public boolean helper(int i, int[][] graph, int[] vis, int[] path){
+        path[i] = 1;
+        vis[i] = 1;
 
-        for(int j:graph[i]) {
-            if(col[j]==-1){
-                if(!helper(graph, j, 1-color, col)) return false;
-            }else if(col[j]==color) return false;
+        for(int j:graph[i]){
+            if(vis[j]==0){
+                if(helper(j, graph, vis, path)) return true;
+            }else if(path[j]==1) return true;
         }
-        return true;
-
+        return false;
     }
 
 
