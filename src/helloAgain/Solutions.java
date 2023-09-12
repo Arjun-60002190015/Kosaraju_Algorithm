@@ -10,32 +10,36 @@ import java.util.*;
 
 public class Solutions {
 
-    public static int[] topoSort(int[][] graph){
+    public int[] kahnAlgo(int[][] graph){
         int n = graph.length;
-
-        int[] vis = new int[n];
-        Stack<Integer> st = new Stack<>();
+        int[] inDegree = new int[n];
         for(int i = 0;i<n;i++){
-            if(vis[i]==0){
-                helper(graph, i, vis, st);
+            for(int j:graph[i]){
+                inDegree[j]++;
             }
         }
-        int[] res = new int[n];
+        Queue<Integer> q = new LinkedList<>();
+        for(int i = 0;i<n;i++){
+            if(inDegree[i]==0){
+                q.add(i);
+            }
+        }
+        int[] topo = new int[n];
         int i = 0;
-        while(!st.isEmpty()){
-            res[i++] = st.peek();
-            st.pop();
-        }
-        return res;
-    }
+        while(!q.isEmpty()){
+            int node = q.peek();
+            q.remove();
+            topo[i++] = node;
 
-    public void helper(int[][] graph, int i, int[] vis, Stack<Integer> st){
-        vis[i] = 1;
-        for(int j:graph[i]){
-            if(vis[j]==0)
-                helper(graph, j, vis, st);
+            for(int j:graph[node]){
+                inDegree[j]--;
+                if(inDegree[j]==0){
+                    q.add(j);
+                }
+            }
         }
-        st.push(i);
+        return topo;
+
     }
 
 
@@ -43,8 +47,8 @@ public class Solutions {
 
     public static void main(String[] args){
         //int[][] dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-        int[] nums = {3, 4, 9, 1, 3, 9, 5};
-        //System.out.println(canBeEqual("cmpr", "rmcp"));
+        int[] nums = {1, 1, 2, 3, 5};
+        //System.out.println(minDeletion(nu));
     }
 
 }
