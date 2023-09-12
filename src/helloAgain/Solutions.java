@@ -10,35 +10,34 @@ import java.util.*;
 
 public class Solutions {
 
-    public int[] kahnAlgo(int[][] graph){
+    public static boolean kahnAlgo(int[][] graph){
         int n = graph.length;
-        int[] inDegree = new int[n];
+        int count = 0;
+        int[] inDeg = new int[n];
         for(int i = 0;i<n;i++){
-            for(int j:graph[i]){
-                inDegree[j]++;
-            }
+            inDeg[i]++;
         }
         Queue<Integer> q = new LinkedList<>();
-        for(int i = 0;i<n;i++){
-            if(inDegree[i]==0){
+        for(int i =0;i<n;i++){
+            if(inDeg[i]==0){
                 q.add(i);
             }
         }
-        int[] topo = new int[n];
-        int i = 0;
         while(!q.isEmpty()){
             int node = q.peek();
-            q.remove();
-            topo[i++] = node;
+            q.poll();
+            count++;
 
             for(int j:graph[node]){
-                inDegree[j]--;
-                if(inDegree[j]==0){
+                inDeg[j]--;
+                if(inDeg[j]==0){
                     q.add(j);
                 }
             }
         }
-        return topo;
+        return count==n;
+
+
 
     }
 
@@ -47,8 +46,8 @@ public class Solutions {
 
     public static void main(String[] args){
         //int[][] dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-        int[] nums = {1, 1, 2, 3, 5};
-        //System.out.println(minDeletion(nu));
+        int[][] nums = {{2}, {3},  {4, 5}, {2}, {}};
+        System.out.println(kahnAlgo(nums));
     }
 
 }
