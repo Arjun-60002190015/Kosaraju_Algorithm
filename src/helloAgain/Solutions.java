@@ -10,53 +10,37 @@ import java.util.*;
 
 public class Solutions {
 
-    public String alienDict(String[] dict, int n, int k){
+    public int[] shortestPath(int[][] edges, int n, int m, int src) {
         List<List<Integer>> graph = new ArrayList<>();
-        for(int i = 0;i<k;i++){
-            graph.add(new ArrayList<>());
+        for(int i = 0;i<n;i++) graph.add(new ArrayList<>());
+        for(int i= 0;i<m;i++){
+            graph.get(edges[i][0]).add(edges[i][1]);
+            graph.get(edges[i][1]).add(edges[i][0]);
         }
 
-        for(int i = 0;i<n-1;i++){
-            String s1 = dict[i];
-            String s2 = dict[i+1];
-            int len = Math.min(s1.length(), s2.length());
-            for(int j = 0;j<len;j++){
-                if(s1.charAt(j)!=s2.charAt(j)){
-                    graph.get(s1.charAt(j)-'a').add(s2.charAt(j)-'a');
-                    break;
+        int[] dist = new int[n];
+        for(int i = 0;i<n;i++){
+            dist[i] = (int)1e9;
+        }
+        dist[src] = 0;
+        Queue<Integer> q = new LinkedList<>();
+        q.add(src);
+        while(!q.isEmpty()){
+            int node = q.poll();
+            for(int i:graph.get(node)){
+                if(dist[node] + 1<dist[i]){
+                    dist[i] = dist[node]+1;
+                    q.add(i);
                 }
             }
         }
+        //below code only to return -1:
+        for(int i = 0;i<n;i++){
+            if(dist[i]==1e9) dist[i] = -1;
+        }
+        return dist;
 
-        List<Integer> res = helper(graph, k);
-        String result = "";
-        for(int i = 0;i< res.size();i++){
-            result += (char)(res.get(i)-'0');
-        }
-        return result;
-    }
 
-    public List<Integer> helper(List<List<Integer>> graph, int k){
-        int[] inDeg = new int[k];
-        for(int i = 0;i<k;i++){
-            for(int j: graph.get(i)){
-                inDeg[j]++;
-            }
-        }
-        Queue<Integer> q = new LinkedList<>();
-        List<Integer> res = new ArrayList<>();
-        for(int i = 0;i<k;i++){
-            if(inDeg[i]==0) q.add(i);
-        }
-        while(!q.isEmpty()){
-            int node = q.poll();
-            res.add(node);
-            for(int i:graph.get(node)){
-                inDeg[i]--;
-                if(inDeg[i]==0) q.add(i);
-            }
-        }
-        return res;
     }
 
 
